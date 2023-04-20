@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Costanza.Lucas.PPLabII/1.0.0": {
+        "dependencies": {
+          "Entidades.PPLabII": "1.0.0"
+        },
+        "runtime": {
+          "Costanza.Lucas.PPLabII.dll": {}
+        }
+      },
+      "Entidades.PPLabII/1.0.0": {
+        "runtime": {
+          "Entidades.PPLabII.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Costanza.Lucas.PPLabII/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Entidades.PPLabII/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
