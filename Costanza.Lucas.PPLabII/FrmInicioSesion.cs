@@ -10,36 +10,57 @@ namespace Costanza.Lucas.PPLabII
             InitializeComponent();
             listaUsuarios = new List<Usuarios>();
             listaUsuarios = miAerolinea.CargarUsuariosJson();
+            lblMail.Visible = false;
+            lblContrasenia.Visible = false;
+            txtContrasenia.Visible = false;
+            txtMail.Visible = false;
+            btnLogearse.Visible = false;
         }
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            FrmMenuPrincipal formMenu;
+            pbFotoAvion.Image = System.Drawing.Image.FromFile("FotoAvionEditada.png");
+            
+            lblMail.Visible = true;
+            lblContrasenia.Visible = true;
+            txtContrasenia.Visible = true;
+            txtMail.Visible = true;
+            btnLogearse.Visible = true;
+        }
+
+        private void btnLogearse_Click(object sender, EventArgs e)
+        {
+            List<Usuarios> copiaLista = listaUsuarios.ToList();
             DateTime fecha = DateTime.Now;
             string fechaSinHora = fecha.ToString("dd/MM/yyyy");
-            foreach(Usuarios miUsuario in listaUsuarios)
+            foreach (Usuarios miUsuario in copiaLista)
             {
-                if(miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
+                if (miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
                 {
-                    switch(miUsuario.Perfil)
+                    switch (miUsuario.Perfil)
                     {
                         case "vendedor":
-                            formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, miUsuario.Perfil, fechaSinHora);
-                            formMenu.ShowDialog();
+                            FrmVendedor formVendedor = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora);
+                            formVendedor.ShowDialog();
                             break;
 
                         case "supervisor":
-                            formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, miUsuario.Perfil, fechaSinHora);
-                            formMenu.ShowDialog();
+                           
                             break;
 
                         case "administrador":
-                            formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, miUsuario.Perfil, fechaSinHora);
-                            formMenu.ShowDialog();
+                            
                             break;
                     }
                 }
             }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show("¿Seguro que desea salir?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(resultado == DialogResult.Yes)
+            Application.Exit();
         }
     }
 }
