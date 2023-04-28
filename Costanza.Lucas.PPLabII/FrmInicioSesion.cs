@@ -40,8 +40,10 @@ namespace Costanza.Lucas.PPLabII
                     switch (miUsuario.Perfil)
                     {
                         case "vendedor":
-                            FrmVendedor formVendedor = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora);
-                            formVendedor.ShowDialog();
+                            //FrmVendedor formVendedor = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora);
+                            //formVendedor.ShowDialog();
+                            FrmMenuPrincipal formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                            formMenu.ShowDialog();
                             break;
 
                         case "supervisor":
@@ -52,6 +54,9 @@ namespace Costanza.Lucas.PPLabII
                             
                             break;
                     }
+                    this.txtContrasenia.Text = null;
+                    this.txtMail.Text = null;
+                    this.Close();
                 }
             }
         }

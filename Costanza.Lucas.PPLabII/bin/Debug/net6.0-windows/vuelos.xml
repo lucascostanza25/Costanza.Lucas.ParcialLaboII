@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfVuelosNacionales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VuelosNacionales>
+    <pasajeros>
+      <nombre>Major</nombre>
+      <apellido>Fulk</apellido>
+      <dni>34223715</dni>
+      <edad>0</edad>
+      <peso_equipaje>27.22</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Shep</nombre>
+      <apellido>Milland</apellido>
+      <dni>38979627</dni>
+      <edad>0</edad>
+      <peso_equipaje>15.67</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Stephana</nombre>
+      <apellido>Stelle</apellido>
+      <dni>31116893</dni>
+      <edad>0</edad>
+      <peso_equipaje>2.4</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Gray</nombre>
+      <apellido>Sturge</apellido>
+      <dni>20690900</dni>
+      <edad>0</edad>
+      <peso_equipaje>0.51</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Marjory</nombre>
+      <apellido>Pickerill</apellido>
+      <dni>16881789</dni>
+      <edad>0</edad>
+      <peso_equipaje>14.08</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Ester</nombre>
+      <apellido>Shillaker</apellido>
+      <dni>15073856</dni>
+      <edad>0</edad>
+      <peso_equipaje>17.8</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Yasmeen</nombre>
+      <apellido>Dyter</apellido>
+      <dni>46351361</dni>
+      <edad>0</edad>
+      <peso_equipaje>8.66</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Paulo</nombre>
+      <apellido>Tranfield</apellido>
+      <dni>13729217</dni>
+      <edad>0</edad>
+      <peso_equipaje>31.08</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Jacobo</nombre>
+      <apellido>Cofax</apellido>
+      <dni>18953403</dni>
+      <edad>0</edad>
+      <peso_equipaje>26.19</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Murry</nombre>
+      <apellido>Kleeborn</apellido>
+      <dni>46932525</dni>
+      <edad>0</edad>
+      <peso_equipaje>9.64</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Sybila</nombre>
+      <apellido>Shearmer</apellido>
+      <dni>40755134</dni>
+      <edad>0</edad>
+      <peso_equipaje>31.7</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Adaline</nombre>
+      <apellido>Olyfat</apellido>
+      <dni>40591275</dni>
+      <edad>0</edad>
+      <peso_equipaje>13.53</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Theodore</nombre>
+      <apellido>Scibsey</apellido>
+      <dni>27797087</dni>
+      <edad>0</edad>
+      <peso_equipaje>14.09</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Haze</nombre>
+      <apellido>Allwood</apellido>
+      <dni>11407486</dni>
+      <edad>0</edad>
+      <peso_equipaje>21.8</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Basilio</nombre>
+      <apellido>Winman</apellido>
+      <dni>16788603</dni>
+      <edad>0</edad>
+      <peso_equipaje>21.89</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Chris</nombre>
+      <apellido>Feedham</apellido>
+      <dni>11602886</dni>
+      <edad>0</edad>
+      <peso_equipaje>6.14</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Zach</nombre>
+      <apellido>Janas</apellido>
+      <dni>36589279</dni>
+      <edad>0</edad>
+      <peso_equipaje>10.65</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Gregor</nombre>
+      <apellido>Meegan</apellido>
+      <dni>45460958</dni>
+      <edad>0</edad>
+      <peso_equipaje>28.84</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Jae</nombre>
+      <apellido>Stallebrass</apellido>
+      <dni>39159119</dni>
+      <edad>0</edad>
+      <peso_equipaje>11.51</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Welsh</nombre>
+      <apellido>Fairchild</apellido>
+      <dni>32268107</dni>
+      <edad>0</edad>
+      <peso_equipaje>3.28</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Marc</nombre>
+      <apellido>Labeuil</apellido>
+      <dni>36418561</dni>
+      <edad>0</edad>
+      <peso_equipaje>0.64</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Trina</nombre>
+      <apellido>Horsfield</apellido>
+      <dni>23113712</dni>
+      <edad>0</edad>
+      <peso_equipaje>31.56</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Tomlin</nombre>
+      <apellido>Winfindale</apellido>
+      <dni>19626776</dni>
+      <edad>0</edad>
+      <peso_equipaje>21.37</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Cortie</nombre>
+      <apellido>Searles</apellido>
+      <dni>28000066</dni>
+      <edad>0</edad>
+      <peso_equipaje>11.93</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Amble</nombre>
+      <apellido>Valerius</apellido>
+      <dni>18890367</dni>
+      <edad>0</edad>
+      <peso_equipaje>2.91</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Vincenz</nombre>
+      <apellido>Dowbekin</apellido>
+      <dni>15477574</dni>
+      <edad>0</edad>
+      <peso_equipaje>23.64</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Annissa</nombre>
+      <apellido>Mayow</apellido>
+      <dni>19739260</dni>
+      <edad>0</edad>
+      <peso_equipaje>13.33</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Monika</nombre>
+      <apellido>Shreenan</apellido>
+      <dni>35033670</dni>
+      <edad>0</edad>
+      <peso_equipaje>16.67</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Tad</nombre>
+      <apellido>Priestnall</apellido>
+      <dni>47637421</dni>
+      <edad>0</edad>
+      <peso_equipaje>31.67</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Dene</nombre>
+      <apellido>Mountstephen</apellido>
+      <dni>44175737</dni>
+      <edad>0</edad>
+      <peso_equipaje>6</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Yulma</nombre>
+      <apellido>Heinig</apellido>
+      <dni>15381097</dni>
+      <edad>0</edad>
+      <peso_equipaje>30.94</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Kirstyn</nombre>
+      <apellido>Clucas</apellido>
+      <dni>19458717</dni>
+      <edad>0</edad>
+      <peso_equipaje>18.19</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Rad</nombre>
+      <apellido>Husher</apellido>
+      <dni>18404804</dni>
+      <edad>0</edad>
+      <peso_equipaje>2.56</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Kirbie</nombre>
+      <apellido>Haugg</apellido>
+      <dni>40334338</dni>
+      <edad>0</edad>
+      <peso_equipaje>14.44</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Kain</nombre>
+      <apellido>Warrell</apellido>
+      <dni>30952279</dni>
+      <edad>0</edad>
+      <peso_equipaje>9.91</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Viv</nombre>
+      <apellido>Leathwood</apellido>
+      <dni>49947727</dni>
+      <edad>0</edad>
+      <peso_equipaje>8.6</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Jedd</nombre>
+      <apellido>Sedgebeer</apellido>
+      <dni>46857855</dni>
+      <edad>0</edad>
+      <peso_equipaje>9.65</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Nathanael</nombre>
+      <apellido>Stapele</apellido>
+      <dni>19244028</dni>
+      <edad>0</edad>
+      <peso_equipaje>23.85</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Merill</nombre>
+      <apellido>Gunney</apellido>
+      <dni>42870318</dni>
+      <edad>0</edad>
+      <peso_equipaje>7.4</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Maximilianus</nombre>
+      <apellido>Paoloni</apellido>
+      <dni>43368687</dni>
+      <edad>0</edad>
+      <peso_equipaje>9.31</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Mickey</nombre>
+      <apellido>Westmarland</apellido>
+      <dni>47058686</dni>
+      <edad>0</edad>
+      <peso_equipaje>22.19</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Raine</nombre>
+      <apellido>Bernocchi</apellido>
+      <dni>32966017</dni>
+      <edad>0</edad>
+      <peso_equipaje>31.65</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Marysa</nombre>
+      <apellido>Musgrave</apellido>
+      <dni>12696177</dni>
+      <edad>0</edad>
+      <peso_equipaje>8.25</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Arda</nombre>
+      <apellido>Tallyn</apellido>
+      <dni>48835467</dni>
+      <edad>0</edad>
+      <peso_equipaje>19.01</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Cass</nombre>
+      <apellido>Matula</apellido>
+      <dni>35881098</dni>
+      <edad>0</edad>
+      <peso_equipaje>11.77</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Howie</nombre>
+      <apellido>Hearn</apellido>
+      <dni>26369638</dni>
+      <edad>0</edad>
+      <peso_equipaje>3.87</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Bryanty</nombre>
+      <apellido>Bellefonte</apellido>
+      <dni>12404245</dni>
+      <edad>0</edad>
+      <peso_equipaje>13.43</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Aguie</nombre>
+      <apellido>Pigrome</apellido>
+      <dni>21281360</dni>
+      <edad>0</edad>
+      <peso_equipaje>20.99</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Ewell</nombre>
+      <apellido>Carloni</apellido>
+      <dni>33865639</dni>
+      <edad>0</edad>
+      <peso_equipaje>17.79</peso_equipaje>
+      <genero />
+      <premium>true</premium>
+    </pasajeros>
+    <pasajeros>
+      <nombre>Alia</nombre>
+      <apellido>Caws</apellido>
+      <dni>30089674</dni>
+      <edad>0</edad>
+      <peso_equipaje>7.31</peso_equipaje>
+      <genero />
+      <premium>false</premium>
+    </pasajeros>
+    <avion>
+      <matricula>FJS50OP</matricula>
+      <cantidad_asientos>60</cantidad_asientos>
+      <cantidad_asientos_premium>12</cantidad_asientos_premium>
+      <servicio_internet>false</servicio_internet>
+      <servicio_comida>true</servicio_comida>
+      <capacidad_bodega>2400</capacidad_bodega>
+      <modelo>Boeing 787</modelo>
+      <codigo>BRC2023</codigo>
+    </avion>
+    <fecha>2023-04-27T23:28:07.5553324-03:00</fecha>
+    <asientos_disponibles>10</asientos_disponibles>
+    <asientos_ocupados>50</asientos_ocupados>
+    <codigo>BRC2023</codigo>
+    <origen>Trelew</origen>
+    <destino>Neuquen</destino>
+    <horas>2</horas>
+    <precio>100</precio>
+  </VuelosNacionales>
+</ArrayOfVuelosNacionales>

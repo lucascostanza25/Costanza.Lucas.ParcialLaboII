@@ -3,112 +3,76 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
+    [XmlInclude(typeof(VuelosNacionales))]
     public class Vuelos
     {
-        private DestinosNacionalesVuelos origenVuelo;
-        private DestinosNacionalesVuelos destinoVuelo;
+        private List<Pasajeros> listaPasajeros;
+        private Aviones avionVuelo;
         private DateTime fechaVuelo;
-        private double precio;
-        private List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         private int asientosDisponibles;
         private int asientosOcupados;
-        private Aviones avionVuelo;
+        private int asientosPremium;
         private string codigoVuelo;
-        private string marcaAvion;
 
-        public Vuelos(DestinosNacionalesVuelos origenVuelo, DestinosNacionalesVuelos destinoVuelo, DateTime fechaVuelo, double precio, List<Pasajeros> lista, Aviones avionVuelo, string codigoVuelo)
+        public Vuelos()
         {
-            this.origenVuelo = origenVuelo;
-            this.destinoVuelo = destinoVuelo;
-            this.fechaVuelo = fechaVuelo;
-            this.precio = precio;
-            this.listaPasajeros = lista;
-            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
-            this.asientosOcupados = listaPasajeros.Count();
+            this.listaPasajeros = new List<Pasajeros>();
+            this.avionVuelo = new Aviones();
+            this.asientosDisponibles = 0;
+            this.asientosOcupados = 0;
+            this.codigoVuelo = "";
+        }
+
+        public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo)
+        {
+            this.listaPasajeros = listaPasajeros;
             this.avionVuelo = avionVuelo;
-            this.marcaAvion = avionVuelo.ModeloAvion;
-            this.codigoVuelo = codigoVuelo;
+            this.fechaVuelo = fechaVuelo;
+            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
+            this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
+            this.asientosOcupados = listaPasajeros.Count();
+            this.codigoVuelo = codigo;
         }
 
-        public void AgregarPasajero(string nombre, string apellido, int dni, int edad)
+        [XmlElement("pasajeros")]
+        public List<Pasajeros> ListaPasajeros
         {
-            listaPasajeros.Add(new Pasajeros(nombre, apellido, dni, edad));
+            get { return this.listaPasajeros; }
+            set { this.listaPasajeros = value; }
         }
-
-        public Pasajeros BuscarPasajeros(int dni)
-        {
-            Pasajeros pasajeroABuscar = new Pasajeros();
-            foreach(Pasajeros pasajeroBuscado in listaPasajeros)
-            {
-                if(pasajeroBuscado.Dni == dni)
-                {
-                    pasajeroABuscar = pasajeroBuscado;
-                }
-            }
-            return pasajeroABuscar;
-        }
-
-        public static bool operator +(Vuelos v1, Vuelos v2)
-        {
-            if(v1.codigoVuelo == v2.codigoVuelo)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        #region Propiedades
-
-        public DestinosNacionalesVuelos OrigenVuelo
-        {
-            get { return origenVuelo; }
-            set { destinoVuelo = value; }
-        }
-
-        public DestinosNacionalesVuelos DestinoVuelo
-        {
-            get { return destinoVuelo;}
-            set { destinoVuelo = value; }
-        }
-
-        public DateTime FechaVuelo
-        {
-            get { return fechaVuelo;}
-            set { fechaVuelo = value; }
-        }
-
-        public double Precio
-        {
-            get { return precio; }
-            set { precio = value; }
-        }
-        
-        public int AsientosDisponibles
-        {
-            get { return asientosDisponibles; }
-            set { asientosDisponibles = value; }
-        }
-
-        public int AsientosOcupados
-        {
-            get { return asientosOcupados; }
-            set { asientosOcupados = value; }
-        }
-
+        [XmlElement("avion")]
         public Aviones AvionVuelo
         {
-            get { return avionVuelo; }
-            set { avionVuelo = value;}
+            get { return this.avionVuelo; }
+            set { this.avionVuelo = value; }
         }
-
+        [XmlElement("fecha")]
+        public DateTime FechaVuelo
+        {
+            get { return this.fechaVuelo; }
+            set { this.fechaVuelo = value; }
+        }
+        [XmlElement("asientos_disponibles")]
+        public int AsientosDisponibles
+        {
+            get { return this.asientosDisponibles; }
+            set { this.asientosDisponibles = value; }
+        }
+        [XmlElement("asientos_ocupados")]
+        public int AsientosOcupados
+        {
+            get { return this.asientosOcupados; }
+            set { this.asientosOcupados = value; }
+        }
+        [XmlElement("codigo")]
         public string CodigoVuelo
         {
-            get { return codigoVuelo; }
-            set { codigoVuelo = value; }      
+            get { return this.codigoVuelo; }
+            set { this.codigoVuelo = value; }
         }
-        #endregion
     }
 }
