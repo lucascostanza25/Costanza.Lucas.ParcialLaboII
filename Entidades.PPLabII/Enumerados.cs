@@ -1,5 +1,9 @@
-﻿public enum DestinosNacionalesVuelos
+﻿using System.ComponentModel;
+
+public enum DestinosVuelos
 {
+    Buenos_aires,
+    //Destinos nacionales
     Santa_Rosa,
     Bariloche,
     Corrientes,
@@ -15,10 +19,7 @@
     Tucuman,
     Puerto_Madryn,
     Ushuaia,
-};
-
-public enum DestinosInternacionalesVuelos
-{
+    //Destinos internacionales
     Recife,
     Roma,
     Acapulco,

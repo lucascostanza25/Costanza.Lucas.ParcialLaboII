@@ -12,7 +12,7 @@ namespace Entidades.PPLabII
     public abstract class miAerolinea
     {
         public static List<Usuarios> listaUsuarios = new List<Usuarios>();
-        public static List<VuelosNacionales> listaVuelosNacionales = new List<VuelosNacionales>();
+        public static List<Vuelos> listaVuelos = new List<Vuelos>();
         public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         private static string archivoJsonUsuarios = File.ReadAllText(@"D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\MOCK_DATA.json");
         
@@ -45,7 +45,7 @@ namespace Entidades.PPLabII
         {
             List<Pasajeros> listaPasajerosBuscados;
 
-            foreach(VuelosNacionales vueloBuscado in listaVuelosNacionales) 
+            foreach(Vuelos vueloBuscado in listaVuelos) 
             {
                 if(vueloBuscado.CodigoVuelo == codigoVuelo)
                 {
@@ -57,33 +57,17 @@ namespace Entidades.PPLabII
             return listaPasajeros;
         }
 
-        public static Pasajeros RetornarUnPasajero(int dni)
-        {
-            Pasajeros pasajeroBuscado = new Pasajeros();
-
-            foreach(Pasajeros miPasajero in listaPasajeros)
-            {
-                if(miPasajero.Dni == dni)
-                {
-                    pasajeroBuscado = miPasajero;
-                    break;
-                }
-            }
-
-            return pasajeroBuscado;
-        }
-
         public static void SerializarAvionesJson(List<Aviones> listaAvionesSerializar)
         {
             string jsonSting = JsonSerializer.Serialize(listaAvionesSerializar);
             File.WriteAllText("Aviones.json", jsonSting);
         }
 
-        public static string RetornarDatosVuelo(VuelosNacionales miVuelo)
+        public static string RetornarDatosVuelo(Vuelos miVuelo)
         {
             int contadorAsientosPremium = 0;
 
-            foreach(Pasajeros pasajero in listaPasajeros)
+            foreach (Pasajeros pasajero in listaPasajeros)
             {
                 if (pasajero.AsientoPremium == true)
                     contadorAsientosPremium++;
@@ -92,8 +76,8 @@ namespace Entidades.PPLabII
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine($"CODIGO VUELO: {miVuelo.CodigoVuelo}");
-            sb.AppendLine($"ORIGEN: {miVuelo.OrigenVuelo.ToString()}");
-            sb.AppendLine($"DESTINO: {miVuelo.DestinoVuelo.ToString()}");
+            sb.AppendLine($"ORIGEN: {miVuelo.Origen.ToString()}");
+            sb.AppendLine($"DESTINO: {miVuelo.Destino.ToString()}");
             sb.AppendLine($"FECHA: {miVuelo.FechaVuelo.ToString()}");
             sb.AppendLine($"ASIENTOS DISPONIBLES: {miVuelo.AsientosDisponibles.ToString()}");
             sb.AppendLine($"ASIENTOS PREMIUM DISPONIBLES: {miVuelo.AvionVuelo.CantidadAsientosPremium.ToString()}");
@@ -114,25 +98,95 @@ namespace Entidades.PPLabII
             return sb.ToString();
         }
 
-        public static void CrearVueloNacional(List<Pasajeros> listaPasajeros, List<Aviones> aviones, DateTime fecha, string codigo, int horas, DestinosNacionalesVuelos origen, DestinosNacionalesVuelos destino)
+        public static void CrearVuelo(List<Pasajeros> listaPasajeros, List<Aviones> flotaAviones, DateTime fecha, string codigo, int horas, DestinosVuelos origen, DestinosVuelos destino, double precioVuelo)
         {
-            foreach(Aviones miAvion in aviones)
+            foreach(Aviones miAvion in flotaAviones)
             {
                 if (miAvion.CodigoVuelo == codigo)
-                    listaVuelosNacionales.Add(new VuelosNacionales(listaPasajeros, miAvion, fecha, codigo, horas, origen, destino));
-
-                SerializarVuelosXml(listaVuelosNacionales);
+                    listaVuelos.Add(new Vuelos(listaPasajeros, miAvion, fecha, codigo, origen, destino, horas, precioVuelo));
             }
         }
 
-        public static void SerializarVuelosXml(List<VuelosNacionales> listaVuelos)
+        public static void SerializarVuelosXml(List<Vuelos> listaVuelos)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<VuelosNacionales>));
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
 
             using(StreamWriter streamWriter = new StreamWriter("vuelos.xml"))
             {
                 serializer.Serialize(streamWriter, listaVuelos);
             }
+        }
+
+        public static void DeserializarVuelosXml()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
+            using(FileStream fileStream = new FileStream("vuelos.xml", FileMode.Open))
+            {
+                listaVuelos = (List<Vuelos>)serializer.Deserialize(fileStream);
+            }
+        }
+
+        public static void SerializarPasajerosXml()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Pasajeros>));
+            using (FileStream fileStream = new FileStream("pasajeros.xml", FileMode.Open))
+            {
+                listaPasajeros = (List<Pasajeros>)serializer.Deserialize(fileStream);
+            }
+        }
+
+        public static List<Vuelos> BuscarVuelo(string codigoVuelo)
+        {
+            List<Vuelos> vueloBuscado = new List<Vuelos>();
+
+            foreach(Vuelos miVuelo in listaVuelos)
+            {
+                if(miVuelo.CodigoVuelo == codigoVuelo)
+                    vueloBuscado.Add(miVuelo);
+            }
+
+            return vueloBuscado;
+        }
+
+        public static string BuscarUnPasajero(int dni)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach(Vuelos miVuelo in listaVuelos)
+            {
+                foreach(Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                {
+                    if(miPasajero.Dni == dni)
+                    {
+                        sb.AppendLine($"NOMBRE: {miPasajero.Nombre}");
+                        sb.AppendLine($"APELLIDO: {miPasajero.Apellido}");
+                        sb.AppendLine($"EDAD: {miPasajero.Edad}");
+                        sb.AppendLine($"DNI: {miPasajero.Dni.ToString()}");
+                        sb.AppendLine($"GENERO: {miPasajero.Genero}");
+                        sb.AppendLine($"PESO EQUIPAJE: {miPasajero.PesoEquipaje.ToString()}");
+                        sb.AppendLine($"VUELO: {miVuelo.CodigoVuelo}");
+                        sb.AppendLine($"ORIGEN: {miVuelo.Origen}");
+                        sb.AppendLine($"DESTINO: {miVuelo.Destino}");
+                        sb.AppendLine($"FECHA: {miVuelo.FechaVuelo.ToString()}");
+                        sb.AppendLine($"AVION: {miVuelo.AvionVuelo.ModeloAvion}");
+                    }
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        public static Vuelos BuscarUnVuelo(string codigoVuelo)
+        {
+            Vuelos vueloBuscado = new Vuelos();
+
+            foreach(Vuelos miVuelo in listaVuelos)
+            {
+                if(miVuelo.CodigoVuelo == codigoVuelo)
+                    vueloBuscado = miVuelo;
+            }
+
+            return vueloBuscado;
         }
     }
 }

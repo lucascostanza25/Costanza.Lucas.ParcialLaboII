@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
-    [XmlInclude(typeof(VuelosNacionales))]
     public class Vuelos
     {
         private List<Pasajeros> listaPasajeros;
@@ -17,17 +16,18 @@ namespace Entidades.PPLabII
         private int asientosOcupados;
         private int asientosPremium;
         private string codigoVuelo;
+        private DestinosVuelos destino;
+        private DestinosVuelos origen;
+        private int horasVuelo;
+        private double precioVuelo;
+        private double capacidadDisponibleBodega;
 
         public Vuelos()
         {
-            this.listaPasajeros = new List<Pasajeros>();
-            this.avionVuelo = new Aviones();
-            this.asientosDisponibles = 0;
-            this.asientosOcupados = 0;
-            this.codigoVuelo = "";
+           
         }
 
-        public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo)
+        public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo)
         {
             this.listaPasajeros = listaPasajeros;
             this.avionVuelo = avionVuelo;
@@ -36,6 +36,10 @@ namespace Entidades.PPLabII
             this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
             this.asientosOcupados = listaPasajeros.Count();
             this.codigoVuelo = codigo;
+            this.horasVuelo = horasVuelo;
+            this.precioVuelo = horasVuelo * precioVuelo;
+            this.destino = destino;
+            this.origen = origen;
         }
 
         [XmlElement("pasajeros")]
@@ -73,6 +77,30 @@ namespace Entidades.PPLabII
         {
             get { return this.codigoVuelo; }
             set { this.codigoVuelo = value; }
+        }
+        [XmlElement("origen")]
+        public DestinosVuelos Origen
+        {
+            get { return this.origen; }
+            set { this.origen = value; }
+        }
+        [XmlElement("destino")]
+        public DestinosVuelos Destino
+        {
+            get { return this.destino; }
+            set { this.destino = value; }
+        }
+        [XmlElement("horas")]
+        public int HorasVuelo
+        {
+            get { return this.horasVuelo; }
+            set { this.horasVuelo = value; }
+        }
+        [XmlElement("precio")]
+        public double PrecioVuelo
+        {
+            get { return this.precioVuelo; }
+            set { this.precioVuelo = value; }
         }
     }
 }

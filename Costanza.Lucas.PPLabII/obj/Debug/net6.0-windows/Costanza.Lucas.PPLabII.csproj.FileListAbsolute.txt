@@ -19,5 +19,4 @@ D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII\o
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII\obj\Debug\net6.0-windows\ref\Costanza.Lucas.PPLabII.dll
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII\obj\Debug\net6.0-windows\Costanza.Lucas.PPLabII.FrmInicioSesion.resources
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII\obj\Debug\net6.0-windows\Costanza.Lucas.PPLabII.Properties.Resources.resources
-D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII\obj\Debug\net6.0-windows\Costanza.Lucas.PPLabII.FrmVendedor.resources
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII\obj\Debug\net6.0-windows\Costanza.Lucas.PPLabII.FrmMenuPrincipal.resources
