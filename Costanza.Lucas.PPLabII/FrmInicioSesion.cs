@@ -9,7 +9,7 @@ namespace Costanza.Lucas.PPLabII
         {
             InitializeComponent();
             listaUsuarios = new List<Usuarios>();
-            listaUsuarios = miAerolinea.CargarUsuariosJson();
+            listaUsuarios = MiAerolinea.CargarUsuariosJson();
             lblMail.Visible = false;
             lblContrasenia.Visible = false;
             txtContrasenia.Visible = false;
@@ -31,8 +31,6 @@ namespace Costanza.Lucas.PPLabII
         private void btnLogearse_Click(object sender, EventArgs e)
         {
             List<Usuarios> copiaLista = listaUsuarios.ToList();
-            DateTime fecha = DateTime.Now;
-            string fechaSinHora = fecha.ToString("dd/MM/yyyy");
             foreach (Usuarios miUsuario in copiaLista)
             {
                 if (miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
@@ -42,7 +40,7 @@ namespace Costanza.Lucas.PPLabII
                         case "vendedor":
                             //FrmVendedor formVendedor = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora);
                             //formVendedor.ShowDialog();
-                            FrmMenuPrincipal formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                            FrmMenuPrincipal formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, DateTime.Now.Date, miUsuario.Perfil);
                             formMenu.ShowDialog();
                             break;
 

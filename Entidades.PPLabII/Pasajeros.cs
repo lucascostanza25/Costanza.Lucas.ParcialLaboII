@@ -8,10 +8,8 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
-    public class Pasajeros
+    public class Pasajeros : Persona
     {
-        private string nombre;
-        private string apellido;
         private int dni;
         private int edad;
         private double pesoEquipaje;
@@ -20,8 +18,6 @@ namespace Entidades.PPLabII
 
         public Pasajeros()
         {
-            this.nombre = "";
-            this.apellido = "";
             this.dni = 0;
             this.edad = 0;
             this.pesoEquipaje = 0;
@@ -29,10 +25,8 @@ namespace Entidades.PPLabII
             this.asientoPremium = false;
         }
 
-        public Pasajeros(string nombre, string apellido, int dni, int edad, double pesoEquipaje, string genero, bool asientoPremium)
+        public Pasajeros(string apellido, string nombre, int dni, int edad, double pesoEquipaje, string genero, bool asientoPremium) : base(apellido, nombre)
         {
-            this.nombre = nombre;
-            this.apellido = apellido;
             this.dni = dni;
             this.edad = edad;
             this.pesoEquipaje = pesoEquipaje;
@@ -55,18 +49,6 @@ namespace Entidades.PPLabII
         }
 
         #region Propiedades
-        [XmlElement("nombre")]
-        public string Nombre
-        {
-            get { return nombre; }
-            set { nombre = value; }
-        }
-        [XmlElement("apellido")]
-        public string Apellido
-        {
-            get { return apellido; }
-            set { apellido = value; }
-        }
         [XmlElement("dni")]
         public int Dni
         {

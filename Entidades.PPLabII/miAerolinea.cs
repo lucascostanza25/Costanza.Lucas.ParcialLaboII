@@ -9,13 +9,21 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
-    public abstract class miAerolinea
+    public abstract class MiAerolinea
     {
         public static List<Usuarios> listaUsuarios = new List<Usuarios>();
         public static List<Vuelos> listaVuelos = new List<Vuelos>();
         public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         private static string archivoJsonUsuarios = File.ReadAllText(@"D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\MOCK_DATA.json");
-        
+
+        public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>
+        {
+            {1, new DestinosVuelos[] {DestinosVuelos.Salta, DestinosVuelos.Santa_Rosa, DestinosVuelos.Bariloche, DestinosVuelos.Corrientes, DestinosVuelos.Cordoba, DestinosVuelos.Jujuy,
+            DestinosVuelos.Mendoza, DestinosVuelos.Neuquen, DestinosVuelos.Posadas, DestinosVuelos.Iguazu, DestinosVuelos.Santiado_Del_Estero, DestinosVuelos.Trelew, DestinosVuelos.Tucuman,
+            DestinosVuelos.Puerto_Madryn, DestinosVuelos.Ushuaia}},
+            {2, new DestinosVuelos[] {DestinosVuelos.Buenos_aires, DestinosVuelos.Recife, DestinosVuelos.Roma, DestinosVuelos.Acapulco, DestinosVuelos.Miami} }
+        };
+
 
         public static List<Usuarios> CargarUsuariosJson()
         {
@@ -187,6 +195,36 @@ namespace Entidades.PPLabII
             }
 
             return vueloBuscado;
+        }
+        
+        public static List<Vuelos> FiltrarVuelos(DestinosVuelos origen, DestinosVuelos destino, DateTime fecha)
+        {
+            List<Vuelos> listaVuelosFiltrada = new List<Vuelos>();
+
+            foreach(Vuelos vuelo in listaVuelos)
+            {
+                if (vuelo.AsientosDisponibles > 0)
+                {
+                    if (vuelo.Origen == origen && vuelo.Destino == destino && vuelo.FechaVuelo.Date == fecha.Date)
+                    {
+                        if (vuelo.AsientosDisponibles > 0)
+                        {
+                            listaVuelosFiltrada.Add(vuelo);
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("El vuelo seleccionado no tiene asientos disponibles");
+                }
+
+            }
+            if(listaVuelosFiltrada.Count == 0)
+            {
+                throw new Exception("No se encontró vuelos con los datos ingresados");
+            }
+
+            return listaVuelosFiltrada;
         }
     }
 }

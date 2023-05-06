@@ -7,29 +7,23 @@ using System.Threading.Tasks;
 
 namespace Entidades.PPLabII
 {
-    public class Usuarios
+    public class Usuarios : Persona
     {
-        private string nombre;
-        private string apellido;
         private int? legajo;
         private string correo;
         private string clave;
         private string perfil;
 
-        public Usuarios()
+        public Usuarios() : base()
         {
-            this.nombre = "";
-            this.apellido = "";
             this.legajo = 0;
             this.correo = "";
             this.clave = "";
             this.perfil = "";
         }
-
-        public Usuarios(string apellido, string nombre, int legajo, string correo, string clave, string perfil)
+        [JsonConstructor]
+        public Usuarios(string apellido, string nombre, int? legajo, string correo, string clave, string perfil) : base(apellido, nombre)
         {
-            this.nombre = nombre;
-            this.apellido = apellido;
             this.legajo = legajo;
             this.correo = correo;
             this.clave = clave;
@@ -37,20 +31,6 @@ namespace Entidades.PPLabII
         }
 
         #region Propiedades
-        [JsonPropertyName("nombre")]
-        public string Nombre
-        {
-            get { return nombre; }
-            set { this.nombre = value; }
-        }
-
-        [JsonPropertyName("apellido")]
-        public string Apellido
-        {
-            get { return apellido; }
-            set { this.apellido = value; }
-        }
-
         [JsonPropertyName("legajo")]
         public int? Legajo
         {
@@ -79,5 +59,6 @@ namespace Entidades.PPLabII
             set { this.perfil = value; }
         }
         #endregion
+
     }
 }
