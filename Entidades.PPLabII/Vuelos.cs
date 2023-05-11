@@ -21,6 +21,7 @@ namespace Entidades.PPLabII
         private int horasVuelo;
         private double precioVuelo;
         private double capacidadDisponibleBodega;
+        private double cantidadDineroRecaudado;
 
         public Vuelos()
         {
@@ -40,6 +41,24 @@ namespace Entidades.PPLabII
             this.precioVuelo = horasVuelo * precioVuelo;
             this.destino = destino;
             this.origen = origen;
+            this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
+        }
+
+        public double CalcularPrecioVuelo(bool estado)
+        {
+            double precioFinal = this.precioVuelo;
+
+            if(estado)
+                precioFinal *= 1.35;
+
+            return precioFinal;
+        }
+
+        public void ActualizarAsientos(List<Pasajeros> listaNuevaPasajeros)
+        {
+            this.asientosDisponibles = 0;
+            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaNuevaPasajeros.Count();
+            this.asientosOcupados = listaNuevaPasajeros.Count();
         }
 
         [XmlElement("pasajeros")]
@@ -101,6 +120,12 @@ namespace Entidades.PPLabII
         {
             get { return this.precioVuelo; }
             set { this.precioVuelo = value; }
+        }
+        
+        public double CantidadDineroRecuadado
+        {
+            get { return cantidadDineroRecaudado; }
+            set { cantidadDineroRecaudado = value; }
         }
     }
 }

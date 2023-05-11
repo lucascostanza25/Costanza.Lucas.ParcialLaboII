@@ -11,10 +11,19 @@ namespace Entidades.PPLabII
 {
     public abstract class MiAerolinea
     {
-        public static List<Usuarios> listaUsuarios = new List<Usuarios>();
-        public static List<Vuelos> listaVuelos = new List<Vuelos>();
-        public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
+        public static List<Usuarios> listaUsuarios;
+        public static List<Vuelos> listaVuelos;
+        public static List<Pasajeros> listaPasajeros;
+        public static List<Cliente> listaClientes;
         private static string archivoJsonUsuarios = File.ReadAllText(@"D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\MOCK_DATA.json");
+
+        static MiAerolinea()
+        {
+            listaUsuarios = new List<Usuarios>();
+            listaVuelos = new List<Vuelos>();
+            listaPasajeros = new List<Pasajeros>();
+            listaClientes = new List<Cliente>();
+        }
 
         public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>
         {
@@ -106,11 +115,11 @@ namespace Entidades.PPLabII
             return sb.ToString();
         }
 
-        public static void CrearVuelo(List<Pasajeros> listaPasajeros, List<Aviones> flotaAviones, DateTime fecha, string codigo, int horas, DestinosVuelos origen, DestinosVuelos destino, double precioVuelo)
+        public static void CrearVuelo(List<Pasajeros> listaPasajeros, List<Aviones> flotaAviones, DateTime fecha, string codigo, int horas, DestinosVuelos origen, DestinosVuelos destino, double precioVuelo, string matricula)
         {
             foreach(Aviones miAvion in flotaAviones)
             {
-                if (miAvion.CodigoVuelo == codigo)
+                if (miAvion.Matricula == matricula)
                     listaVuelos.Add(new Vuelos(listaPasajeros, miAvion, fecha, codigo, origen, destino, horas, precioVuelo));
             }
         }
@@ -197,34 +206,72 @@ namespace Entidades.PPLabII
             return vueloBuscado;
         }
         
-        public static List<Vuelos> FiltrarVuelos(DestinosVuelos origen, DestinosVuelos destino, DateTime fecha)
+        public static List<Vuelos> FiltrarVuelos(DestinosVuelos origen, DestinosVuelos destino, DateTime fecha, int servicio)
         {
-            List<Vuelos> listaVuelosFiltrada = new List<Vuelos>();
+            List<Vuelos> listaFiltrada = new List<Vuelos>();
 
             foreach(Vuelos vuelo in listaVuelos)
             {
-                if (vuelo.AsientosDisponibles > 0)
+                if (vuelo.Origen == origen && vuelo.Destino == destino && vuelo.FechaVuelo.Date == fecha.Date)
                 {
-                    if (vuelo.Origen == origen && vuelo.Destino == destino && vuelo.FechaVuelo.Date == fecha.Date)
+                    switch (servicio)
                     {
-                        if (vuelo.AsientosDisponibles > 0)
-                        {
-                            listaVuelosFiltrada.Add(vuelo);
-                        }
+                        case 0:
+                            if (!vuelo.AvionVuelo.ServicioComida && !vuelo.AvionVuelo.ServicioInternet)
+                                listaFiltrada.Add(vuelo);
+                            break;
+                        case 1:
+                            if (vuelo.AvionVuelo.ServicioComida && vuelo.AvionVuelo.ServicioInternet)
+                                listaFiltrada.Add(vuelo);
+                            break;
+                        case 2:
+                            if (vuelo.AvionVuelo.ServicioComida)
+                                listaFiltrada.Add(vuelo);
+                            break;
+                        case 3:
+                            if(vuelo.AvionVuelo.ServicioInternet)
+                                listaFiltrada.Add(vuelo);
+                            break;
                     }
+                }
+            }
+
+            if (listaFiltrada.Count == 0)
+                throw new Exception("No se encontraron vuelos con las caracteristicas buscadas");
+            return listaFiltrada;
+        }
+
+        public static bool VenderVuelo(Vuelos vuelo)
+        {
+            bool estadoVenta = false;
+            double precioDelPasaje;
+            foreach(Cliente miCliente in listaClientes)
+            {
+                if (miCliente.AsientoPremium)
+                {
+                    precioDelPasaje = vuelo.CalcularPrecioVuelo(true);
                 }
                 else
                 {
-                    throw new Exception("El vuelo seleccionado no tiene asientos disponibles");
+                    precioDelPasaje = vuelo.CalcularPrecioVuelo(false);
                 }
-
+                if(miCliente.DineroDisponible >= precioDelPasaje)
+                {
+                    miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
+                    vuelo.CantidadDineroRecuadado += precioDelPasaje;
+                    vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.PesoEquipaje, miCliente.Genero, miCliente.AsientoPremium));
+                    MiAerolinea.listaClientes.Remove(miCliente);
+                    vuelo.ActualizarAsientos(vuelo.ListaPasajeros);
+                    estadoVenta = true;
+                }
+                else
+                {
+                    throw new Exception("El cliente no tiene dinero suficiente");
+                }
+                break;
             }
-            if(listaVuelosFiltrada.Count == 0)
-            {
-                throw new Exception("No se encontró vuelos con los datos ingresados");
-            }
 
-            return listaVuelosFiltrada;
+            return estadoVenta;
         }
     }
 }

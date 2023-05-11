@@ -17,7 +17,6 @@ namespace Entidades.PPLabII
         private bool servicioComida;
         private double capacidadBodega;
         private string modeloAvion;
-        private string codigoVuelo;
 
         public Aviones()
         {
@@ -28,10 +27,9 @@ namespace Entidades.PPLabII
             this.capacidadBodega = 0;
             this.cantidadAsientosPremium = cantidadAsientos * 0.2;
             this.modeloAvion = "";
-            this.codigoVuelo = "";
         }
 
-        public Aviones(string matricula, double cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion, string codigoVuelo)
+        public Aviones(string matricula, double cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion)
         {
             this.matricula = matricula;
             this.cantidadAsientos = cantidadAsientos;
@@ -40,7 +38,6 @@ namespace Entidades.PPLabII
             this.capacidadBodega = capacidadBodega;
             this.cantidadAsientosPremium = cantidadAsientos * 0.2;
             this.modeloAvion = modeloAvion;
-            this.codigoVuelo = codigoVuelo;
         }
 
         #region Propiedades
@@ -93,18 +90,11 @@ namespace Entidades.PPLabII
             get { return modeloAvion; }
             set { modeloAvion = value; }
         }
-        [XmlElement("codigo")]
-        [JsonPropertyName("codigo")]
-        public string CodigoVuelo
-        {
-            get { return codigoVuelo; }
-            set { codigoVuelo = value; }
-        }
         #endregion
 
         public static bool operator == (Aviones a1, Aviones a2)
         {
-            if (a1.codigoVuelo == a2.codigoVuelo)
+            if (a1.Matricula == a2.Matricula)
                 return true;
             else return false;
         }
