@@ -11,22 +11,22 @@ namespace Entidades.PPLabII
         double dineroDisponible;
         int dni;
         int edad;
-        string mail;
         bool asientoPremium;
-        double pesoEquipaje;
         string genero;
-        //Agregar el origen y el destino
-        //Agregar fecha
+        int cantidadEquipaje;
+        double pesoEquipajeUno;
+        double pesoEquipajeDos;
 
-        public Cliente(string apellido, string nombre, double dineroDisponible, int dni, int edad, string mail, bool asientoPremium, double pesoEquipaje, string genero) : base(apellido, nombre)
+        public Cliente(string apellido, string nombre, double dineroDisponible, int dni, int edad, bool asientoPremium, string genero, int cantidadEquipaje, double pesoEquipajeUno, double pesoEquipajeDos) : base(apellido, nombre)
         {
             this.dineroDisponible = dineroDisponible;
             this.dni = dni;
-            this.mail = mail;
             this.asientoPremium = asientoPremium;
-            this.pesoEquipaje = pesoEquipaje;
             this.edad = edad;
             this.genero = genero;
+            this.cantidadEquipaje = cantidadEquipaje;
+            this.pesoEquipajeUno = pesoEquipajeUno;
+            this.pesoEquipajeDos = pesoEquipajeDos;
         }
 
         public double DineroDisponible
@@ -41,22 +41,10 @@ namespace Entidades.PPLabII
             set { dni = value; } 
         }
 
-        public string Mail
-        {
-            get { return mail; }
-            set { mail = value; }
-        }
-
         public bool AsientoPremium
         {
             get { return asientoPremium; }
             set { asientoPremium = value; }
-        }
-
-        public double PesoEquipaje
-        {
-            get { return pesoEquipaje; }
-            set { pesoEquipaje = value; }
         }
         
         public int Edad
@@ -69,6 +57,24 @@ namespace Entidades.PPLabII
         {
             get { return genero; }
             set { genero = value; }
+        }
+
+        public int CantidadEquipaje
+        {
+            get { return cantidadEquipaje; }
+            set { cantidadEquipaje = value; }
+        }
+
+        public double PesoEquipajeUno
+        {
+            get { return pesoEquipajeUno; }
+            set { pesoEquipajeUno = value; }
+        }
+
+        public double PesoEquipajeDos
+        {
+            get { return pesoEquipajeDos; }
+            set { pesoEquipajeDos = value; }
         }
     }
 }

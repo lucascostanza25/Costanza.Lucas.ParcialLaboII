@@ -67,11 +67,30 @@ namespace Entidades.PPLabII
                 if(vueloBuscado.CodigoVuelo == codigoVuelo)
                 {
                     listaPasajerosBuscados = vueloBuscado.ListaPasajeros;
-                    break;
+                    //break;
                 }
             }
 
             return listaPasajeros;
+        }
+
+        public static Pasajeros RetornarUnPasajero(int dni)
+        {
+            Pasajeros pasajeroBuscado = new Pasajeros();
+
+            foreach (Vuelos miVuelo in listaVuelos)
+            {
+                foreach (Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                {
+                    if (miPasajero.Dni == dni)
+                    {
+                        pasajeroBuscado = miPasajero;
+                        break;
+                    }
+                }
+            }
+
+            return pasajeroBuscado;
         }
 
         public static void SerializarAvionesJson(List<Aviones> listaAvionesSerializar)
@@ -180,7 +199,12 @@ namespace Entidades.PPLabII
                         sb.AppendLine($"EDAD: {miPasajero.Edad}");
                         sb.AppendLine($"DNI: {miPasajero.Dni.ToString()}");
                         sb.AppendLine($"GENERO: {miPasajero.Genero}");
-                        sb.AppendLine($"PESO EQUIPAJE: {miPasajero.PesoEquipaje.ToString()}");
+                        sb.AppendLine($"CANTIDAD DE EQUIPAJE: {miPasajero.CantidadEquipaje}");
+                        sb.AppendLine($"- Peso primer equipaje: {miPasajero.PesoEquipajeUno}");
+                        if (miPasajero.AsientoPremium)
+                        {
+                            sb.AppendLine($"- Peso segundo equipaje: {miPasajero.PesoEquipajeDos}");
+                        }
                         sb.AppendLine($"VUELO: {miVuelo.CodigoVuelo}");
                         sb.AppendLine($"ORIGEN: {miVuelo.Origen}");
                         sb.AppendLine($"DESTINO: {miVuelo.Destino}");
@@ -241,37 +265,139 @@ namespace Entidades.PPLabII
             return listaFiltrada;
         }
 
-        public static bool VenderVuelo(Vuelos vuelo)
+        public static bool VenderVuelo(Vuelos vuelo, Cliente miCliente)
         {
             bool estadoVenta = false;
             double precioDelPasaje;
-            foreach(Cliente miCliente in listaClientes)
+            if (miCliente.AsientoPremium)
             {
+                precioDelPasaje = vuelo.CalcularPrecioVuelo(true);
+            }
+            else
+            {
+                precioDelPasaje = vuelo.CalcularPrecioVuelo(false);
+            }
+            if(miCliente.DineroDisponible >= precioDelPasaje)
+            {
+                miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
+                vuelo.CantidadDineroRecuadado += precioDelPasaje;
                 if (miCliente.AsientoPremium)
-                {
-                    precioDelPasaje = vuelo.CalcularPrecioVuelo(true);
-                }
-                else
-                {
-                    precioDelPasaje = vuelo.CalcularPrecioVuelo(false);
-                }
-                if(miCliente.DineroDisponible >= precioDelPasaje)
-                {
-                    miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
-                    vuelo.CantidadDineroRecuadado += precioDelPasaje;
-                    vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.PesoEquipaje, miCliente.Genero, miCliente.AsientoPremium));
-                    MiAerolinea.listaClientes.Remove(miCliente);
-                    vuelo.ActualizarAsientos(vuelo.ListaPasajeros);
-                    estadoVenta = true;
-                }
-                else
-                {
-                    throw new Exception("El cliente no tiene dinero suficiente");
-                }
-                break;
+                    if (miCliente.CantidadEquipaje == 1)
+                    {
+                        vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno));
+                    }
+                    else
+                    {
+                        vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
+                    }
+                MiAerolinea.listaClientes.Remove(miCliente);
+                vuelo.ActualizarAsientos(vuelo.ListaPasajeros);
+                estadoVenta = true;
+            }
+            else
+            {
+                throw new Exception("El cliente no tiene dinero suficiente");
             }
 
             return estadoVenta;
+        }
+
+        public static void DespacharEquipajeDePasajerosHechos()
+        {
+            Random equipaje = new Random();
+            foreach(Vuelos miVuelo in listaVuelos)
+            {
+                foreach(Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                {
+                    if(miPasajero.AsientoPremium)
+                    {
+                        miPasajero.CantidadEquipaje = 2;
+                        miPasajero.PesoEquipajeUno = equipaje.Next(1, 21);
+                        miPasajero.PesoEquipajeDos = equipaje.Next(1, 21);
+                    }
+                    else
+                    {
+                        miPasajero.CantidadEquipaje = 1;
+                        miPasajero.PesoEquipajeUno = equipaje.Next(1, 25);
+                    }
+                }
+            }
+        }
+
+        public static string EstadisticaVueloMasPasajeros()
+        {
+            Vuelos vueloMasPasajeros = new Vuelos();
+            StringBuilder sb = new StringBuilder();
+            int maxPasajeros = 0;
+            int cantidadPasajeros = 0;
+            foreach(Vuelos vuelo in listaVuelos)
+            {
+                cantidadPasajeros = vuelo.ListaPasajeros.Count;
+                if(cantidadPasajeros > maxPasajeros)
+                {
+                    maxPasajeros = cantidadPasajeros;
+                    vueloMasPasajeros = vuelo;
+                }
+            }
+
+            sb.AppendLine($"Vuelo con mas pasajeros es: {vueloMasPasajeros.CodigoVuelo} - con {vueloMasPasajeros.ListaPasajeros.Count()} pasajeros");
+            sb.AppendLine($"Destino: {vueloMasPasajeros.Destino} - Origen {vueloMasPasajeros.Origen}");
+
+            return sb.ToString();
+        }
+
+        public static string EstadisticaRecaudacionTotalVuelos()
+        {
+            StringBuilder sb = new StringBuilder();
+            double recaudacionTotal = 0;
+
+            foreach(Vuelos vuelo in listaVuelos)
+            {
+                recaudacionTotal += vuelo.CantidadDineroRecuadado;
+            }
+
+            sb.AppendLine($"La recaudación total fue de {recaudacionTotal.ToString()}USD");
+
+            return sb.ToString();
+        }
+
+        public static string EstadisticaVueloMasRecaudo()
+        {
+            Vuelos vueloMasRecaudado = new Vuelos();
+            StringBuilder sb = new StringBuilder();
+            double maxRecaudacion = 0;
+            double recaudacion = 0;
+            foreach (Vuelos vuelo in listaVuelos)
+            {
+                recaudacion = vuelo.CantidadDineroRecuadado;
+                if (recaudacion > maxRecaudacion)
+                {
+                    maxRecaudacion = recaudacion;
+                    vueloMasRecaudado = vuelo;
+                }
+            }
+
+            sb.AppendLine($"El vuelo que mas recaudó fue {vueloMasRecaudado.CodigoVuelo}, con una recaudación de {vueloMasRecaudado.CantidadDineroRecuadado.ToString()}");
+
+            return sb.ToString();
+        }
+
+        public static bool EliminarPasajero(int dni)
+        {
+            foreach(Vuelos vuelo in listaVuelos)
+            {
+                foreach(Pasajeros pasajero in vuelo.ListaPasajeros)
+                {
+                    if(pasajero.Dni == dni)
+                    {
+                        vuelo.ListaPasajeros.Remove(pasajero);
+                        vuelo.ActualizarAsientos(vuelo.ListaPasajeros);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
