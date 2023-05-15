@@ -76,13 +76,14 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.gbEstadisticas = new System.Windows.Forms.GroupBox();
+            this.lblRecaudacionTodosVuelos = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.lblVueloMasRecaudado = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.lblRecaudacionTotal = new System.Windows.Forms.Label();
             this.lblVueloMasPasajeros = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.btnEliminarPasajero = new System.Windows.Forms.Button();
@@ -669,13 +670,14 @@
             // gbEstadisticas
             // 
             this.gbEstadisticas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.gbEstadisticas.Controls.Add(this.lblRecaudacionTodosVuelos);
+            this.gbEstadisticas.Controls.Add(this.label19);
             this.gbEstadisticas.Controls.Add(this.lblVueloMasRecaudado);
             this.gbEstadisticas.Controls.Add(this.label20);
             this.gbEstadisticas.Controls.Add(this.lblRecaudacionTotal);
             this.gbEstadisticas.Controls.Add(this.lblVueloMasPasajeros);
             this.gbEstadisticas.Controls.Add(this.label18);
             this.gbEstadisticas.Controls.Add(this.label17);
-            this.gbEstadisticas.Controls.Add(this.label16);
             this.gbEstadisticas.Controls.Add(this.label15);
             this.gbEstadisticas.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.gbEstadisticas.Location = new System.Drawing.Point(200, 167);
@@ -685,12 +687,34 @@
             this.gbEstadisticas.TabStop = false;
             this.gbEstadisticas.Visible = false;
             // 
+            // lblRecaudacionTodosVuelos
+            // 
+            this.lblRecaudacionTodosVuelos.AutoSize = true;
+            this.lblRecaudacionTodosVuelos.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblRecaudacionTodosVuelos.Location = new System.Drawing.Point(27, 295);
+            this.lblRecaudacionTodosVuelos.Name = "lblRecaudacionTodosVuelos";
+            this.lblRecaudacionTodosVuelos.Size = new System.Drawing.Size(71, 22);
+            this.lblRecaudacionTodosVuelos.TabIndex = 36;
+            this.lblRecaudacionTodosVuelos.Text = "label19";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.BackColor = System.Drawing.Color.Transparent;
+            this.label19.Font = new System.Drawing.Font("Gadugi", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.label19.Location = new System.Drawing.Point(27, 243);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(584, 44);
+            this.label19.TabIndex = 35;
+            this.label19.Text = "Recaudación de todos los vuelos";
+            // 
             // lblVueloMasRecaudado
             // 
             this.lblVueloMasRecaudado.AutoSize = true;
+            this.lblVueloMasRecaudado.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblVueloMasRecaudado.Location = new System.Drawing.Point(1203, 136);
             this.lblVueloMasRecaudado.Name = "lblVueloMasRecaudado";
-            this.lblVueloMasRecaudado.Size = new System.Drawing.Size(44, 15);
+            this.lblVueloMasRecaudado.Size = new System.Drawing.Size(71, 22);
             this.lblVueloMasRecaudado.TabIndex = 34;
             this.lblVueloMasRecaudado.Text = "label19";
             // 
@@ -708,18 +732,20 @@
             // lblRecaudacionTotal
             // 
             this.lblRecaudacionTotal.AutoSize = true;
+            this.lblRecaudacionTotal.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblRecaudacionTotal.Location = new System.Drawing.Point(568, 137);
             this.lblRecaudacionTotal.Name = "lblRecaudacionTotal";
-            this.lblRecaudacionTotal.Size = new System.Drawing.Size(44, 15);
+            this.lblRecaudacionTotal.Size = new System.Drawing.Size(71, 22);
             this.lblRecaudacionTotal.TabIndex = 32;
             this.lblRecaudacionTotal.Text = "label19";
             // 
             // lblVueloMasPasajeros
             // 
             this.lblVueloMasPasajeros.AutoSize = true;
-            this.lblVueloMasPasajeros.Location = new System.Drawing.Point(16, 295);
+            this.lblVueloMasPasajeros.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblVueloMasPasajeros.Location = new System.Drawing.Point(27, 142);
             this.lblVueloMasPasajeros.Name = "lblVueloMasPasajeros";
-            this.lblVueloMasPasajeros.Size = new System.Drawing.Size(44, 15);
+            this.lblVueloMasPasajeros.Size = new System.Drawing.Size(71, 22);
             this.lblVueloMasPasajeros.TabIndex = 31;
             this.lblVueloMasPasajeros.Text = "label19";
             // 
@@ -728,7 +754,7 @@
             this.label18.AutoSize = true;
             this.label18.BackColor = System.Drawing.Color.Transparent;
             this.label18.Font = new System.Drawing.Font("Gadugi", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label18.Location = new System.Drawing.Point(15, 242);
+            this.label18.Location = new System.Drawing.Point(15, 89);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(447, 44);
             this.label18.TabIndex = 30;
@@ -744,17 +770,6 @@
             this.label17.Size = new System.Drawing.Size(567, 44);
             this.label17.TabIndex = 29;
             this.label17.Text = "Recaudación total de los vuelos";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.BackColor = System.Drawing.Color.Transparent;
-            this.label16.Font = new System.Drawing.Font("Gadugi", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label16.Location = new System.Drawing.Point(15, 82);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(405, 44);
-            this.label16.TabIndex = 28;
-            this.label16.Text = "Destinos mas elegidos";
             // 
             // label15
             // 
@@ -930,9 +945,10 @@
             this.lblInformacionVuelo.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblInformacionVuelo.Location = new System.Drawing.Point(1118, 95);
             this.lblInformacionVuelo.Name = "lblInformacionVuelo";
-            this.lblInformacionVuelo.Size = new System.Drawing.Size(206, 19);
+            this.lblInformacionVuelo.Size = new System.Drawing.Size(587, 19);
             this.lblInformacionVuelo.TabIndex = 32;
-            this.lblInformacionVuelo.Text = "Seleccione un vuelo primero";
+            this.lblInformacionVuelo.Text = "Seleccione un vuelo clickeando en la primera columna con la fecla de la fila dese" +
+    "ada";
             // 
             // gbVerVuelos
             // 
@@ -980,6 +996,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMenuPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vendedor";
@@ -1009,8 +1026,6 @@
 
         #endregion
         private PictureBox pbLogo;
-
-        private Label lblInformacionTrabajador;
         private Button btnCerrarSesion;
         
         private Label label14;
@@ -1050,7 +1065,6 @@
         private Label lblVueloMasPasajeros;
         private Label label18;
         private Label label17;
-        private Label label16;
         private Label label20;
         private Label lblRecaudacionTotal;
         private Label lblVueloMasRecaudado;
@@ -1081,5 +1095,8 @@
         private Panel panelLogo;
         private Button btnEstadisticas;
         protected Button btnVuelos;
+        protected Label lblInformacionTrabajador;
+        private Label label19;
+        private Label lblRecaudacionTodosVuelos;
     }
 }

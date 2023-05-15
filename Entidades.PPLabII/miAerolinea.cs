@@ -15,7 +15,7 @@ namespace Entidades.PPLabII
         public static List<Vuelos> listaVuelos;
         public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         public static List<Cliente> listaClientes;
-        public static List<Aviones> listaAviones;
+        public static List<Aviones> listaAviones = new List<Aviones>();
         private static string archivoJsonUsuarios = File.ReadAllText(@"D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\MOCK_DATA.json");
 
         static MiAerolinea()
@@ -97,7 +97,16 @@ namespace Entidades.PPLabII
         public static void SerializarAvionesJson(List<Aviones> listaAvionesSerializar)
         {
             string jsonSting = JsonSerializer.Serialize(listaAvionesSerializar);
-            File.WriteAllText("Aviones.json", jsonSting);
+            File.WriteAllText("aviones.json", jsonSting);
+        }
+
+        public static void DeserializarAvionesJson(string archivo)
+        {
+            List<Aviones> listaAviones = new List<Aviones>();
+
+            string jsonString = File.ReadAllText(archivo);
+            listaAviones = JsonSerializer.Deserialize<List<Aviones>>(jsonString);
+            MiAerolinea.listaAviones = listaAviones;
         }
 
         public static string RetornarDatosVuelo(Vuelos miVuelo)
@@ -124,7 +133,23 @@ namespace Entidades.PPLabII
             else
                 sb.AppendLine("SERVICIO INTERNET: SI");
             sb.AppendLine($"CAPACIDAD BODEGA: {miVuelo.AvionVuelo.CapacidadBodega}Kg");
+            sb.AppendLine($"CAPACIDAD DISPONIBLE BODEGA: {miVuelo.CapacidadDisponibleBodega}Kg");
             sb.AppendLine($"CANTIDAD DE ASIENTOS PREMIUM USADOS: {contadorAsientosPremium.ToString()}");
+
+            return sb.ToString();
+        }
+
+        public static string RetornarDatosAvion(Aviones avion)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"MATRICULA: {avion.Matricula}");
+            sb.AppendLine($"MARCA Y MODELO: {avion.ModeloAvion}");
+            sb.AppendLine($"CANTIDAD ASIENTOS: {avion.CantidadAsientos}");
+            sb.AppendLine($"CANTIDAD ASIENTOS PREMIUM: {avion.CantidadAsientosPremium}");
+            sb.AppendLine($"CAPACIDAD BODEGA: {avion.CapacidadBodega}");
+            sb.AppendLine($"SERVICIO INTERNET: {avion.ServicioInternet}");
+            sb.AppendLine($"SERVICIO COMIDA: {avion.ServicioComida}");
 
             return sb.ToString();
         }
@@ -272,18 +297,23 @@ namespace Entidades.PPLabII
             {
                 precioDelPasaje = vuelo.CalcularPrecioVuelo(false);
             }
-            if(miCliente.DineroDisponible >= precioDelPasaje)
+            if (vuelo.CapacidadDisponibleBodega > miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos)
             {
-                miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
-                vuelo.CantidadDineroRecuadado += precioDelPasaje;
-                vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
-                MiAerolinea.listaClientes.Remove(miCliente);
-                vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
-                estadoVenta = true;
-            }
-            else
-            {
-                throw new Exception("El cliente no tiene dinero suficiente");
+                if (miCliente.DineroDisponible >= precioDelPasaje)
+                {
+                    miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
+                    vuelo.CantidadDineroRecuadado += precioDelPasaje;
+                    vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
+                    MiAerolinea.listaClientes.Remove(miCliente);
+                    vuelo.AsientosOcupados++;
+                    vuelo.AsientosDisponibles--;
+                    vuelo.CapacidadDisponibleBodega = vuelo.AvionVuelo.CapacidadBodega - (miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos);
+                    estadoVenta = true;
+                }
+                else
+                {
+                    throw new Exception("El cliente no tiene dinero suficiente");
+                }
             }
 
             return estadoVenta;
@@ -292,6 +322,7 @@ namespace Entidades.PPLabII
         public static void DespacharEquipajeDePasajerosHechos()
         {
             Random equipaje = new Random();
+            double pesoTotal = 0;
             foreach(Vuelos miVuelo in listaVuelos)
             {
                 foreach(Pasajeros miPasajero in miVuelo.ListaPasajeros)
@@ -301,11 +332,15 @@ namespace Entidades.PPLabII
                         miPasajero.CantidadEquipaje = 2;
                         miPasajero.PesoEquipajeUno = equipaje.Next(1, 21);
                         miPasajero.PesoEquipajeDos = equipaje.Next(1, 21);
+                        pesoTotal += miPasajero.PesoEquipajeUno + miPasajero.PesoEquipajeDos;
+                        miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
                     }
                     else
                     {
                         miPasajero.CantidadEquipaje = 1;
                         miPasajero.PesoEquipajeUno = equipaje.Next(1, 25);
+                        pesoTotal += miPasajero.PesoEquipajeUno;
+                        miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
                     }
                 }
             }
@@ -365,6 +400,18 @@ namespace Entidades.PPLabII
             }
 
             sb.AppendLine($"El vuelo que mas recaudó fue {vueloMasRecaudado.CodigoVuelo}, con una recaudación de {vueloMasRecaudado.CantidadDineroRecuadado.ToString()}");
+
+            return sb.ToString();
+        }
+
+        public static string EstadisticaRecaudacionTodosLosVuelo()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach(Vuelos vuelo in listaVuelos)
+            {
+                sb.AppendLine($"Vuelo: {vuelo.CodigoVuelo} - Recaudación: {vuelo.CantidadDineroRecuadado}");
+            }
 
             return sb.ToString();
         }

@@ -57,8 +57,15 @@ namespace Entidades.PPLabII
         {
             double precioFinal = this.precioVuelo;
 
-            if(estado)
+            if (estado)
+            {
                 precioFinal *= 1.35;
+                precioFinal *= 1.21; //Se suma el iva
+            }
+            else
+            {
+                precioFinal *= 1.21; //Se suma el iva
+            }
 
             return precioFinal;
         }
@@ -159,6 +166,12 @@ namespace Entidades.PPLabII
         {
             get { return cantidadDineroRecaudado; }
             set { cantidadDineroRecaudado = value; }
+        }
+
+        public double CapacidadDisponibleBodega
+        {
+            get { return capacidadDisponibleBodega; }
+            set { capacidadDisponibleBodega = value; }
         }
     }
 }

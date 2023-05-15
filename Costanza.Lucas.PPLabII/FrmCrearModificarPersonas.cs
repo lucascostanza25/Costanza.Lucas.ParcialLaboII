@@ -18,28 +18,31 @@ namespace Costanza.Lucas.PPLabII
         Pasajeros miPasajero;
         Vuelos vueloPasajero;
 
-        public FrmCrearModificarPersonas(string titulo, int tipo, int dni)
+        public FrmCrearModificarPersonas(string titulo)
         {
             InitializeComponent();
 
             this.Text = titulo;
-            this.tipo = tipo;
+            btnAceptar.Text = "Crear cliente";
             miPasajero = new Pasajeros();
-            if (tipo == 0)
-                PintarDatosPasajero(dni);
-            if (tipo == 1)
+            if(cbAsientoPremium.CheckState == CheckState.Unchecked)
             {
-                if(cbAsientoPremium.CheckState == CheckState.Unchecked)
-                {
-                    cmbCantidadEquipajes.Items.Add(1);
-                    nudPesoEquipajeDos.Enabled = false;
-                }
+                cmbCantidadEquipajes.Items.Add(1);
+                nudPesoEquipajeDos.Enabled = false;
             }
         }
 
-        public FrmCrearModificarPersonas(string titulo, int tipo, int dni, Vuelos vuelo) : this(titulo, tipo, dni)
+        public FrmCrearModificarPersonas(string titulo, int dni) : this(titulo)
         {
-            vueloPasajero = vuelo;  
+            this.Text = titulo;
+            btnAceptar.Text = "Editar pasajero";
+            PintarDatosPasajero(dni);
+        }
+
+        public FrmCrearModificarPersonas(string titulo , int dni, Vuelos vuelo) : this(titulo, dni)
+        {
+            vueloPasajero = vuelo;
+            btnAceptar.Text = "Editar pasajero SUPERVISOR";
         }
 
         private void PintarDatosPasajero(int dni)
@@ -88,50 +91,18 @@ namespace Costanza.Lucas.PPLabII
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             
-            if(this.tipo == 1)
+            if(btnAceptar.Text == "Crear cliente")
             {
-                int dni, edad, dinero;
-                double pesoEquipajeUno, pesoEquipajeDos;
-                dni = Convert.ToInt32(nudDni.Value);
-                edad = Convert.ToInt32(nudEdad.Value);
-                pesoEquipajeUno = Convert.ToDouble(nudPesoEquipajeUno.Value);
-                pesoEquipajeDos = Convert.ToDouble(nudPesoEquipajeDos.Value);
-                dinero = Convert.ToInt32(nudDineroDisponible.Value);
-
-                if (String.IsNullOrEmpty(txtApellido.Text) && String.IsNullOrEmpty(txtNombre.Text) && dni <= 1000 && edad <= 0)
+                if(CrearCliente())
                 {
-                    MessageBox.Show("Por favor, verifique los campos");
+                    MessageBox.Show("Cliente creado correctamente");
                 }
                 else
                 {
-                    foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
-                    {
-                        foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
-                        {
-                            if (pasajero.Dni != dni)
-                            {
-                                if (cbAsientoPremium.Checked)
-                                {
-                                    MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
-                                }
-                                else
-                                {
-                                    MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, pesoEquipajeUno, 0));
-                                }
-                                MessageBox.Show("Cliente agregado correctamente");
-                            }
-                            else
-                            {
-                                MessageBox.Show("Este pasajero ya existe");
-                            }
-
-                            break;
-                        }
-                        break;
-                    }
+                    MessageBox.Show("No se pudo crear al cliente");
                 }
             }
-            else if(this.tipo == 0)
+            else if(btnAceptar.Text == "Editar pasajero")
             {
                 
                 if(ActualizarPasajero())
@@ -143,7 +114,7 @@ namespace Costanza.Lucas.PPLabII
                     MessageBox.Show("No se pudo actualizar al pasajero");
                 }
             }
-            else if(this.tipo == 3)
+            else if(btnAceptar.Text == "Editar pasajero SUPERVISOR")
             {
                 SupervisorAgregarPasajero(vueloPasajero);
             }
@@ -151,6 +122,63 @@ namespace Costanza.Lucas.PPLabII
 
             this.Close();
            
+        }
+
+        private bool CrearCliente()
+        {
+            int dni, edad, dinero;
+            double pesoEquipajeUno, pesoEquipajeDos;
+            dni = Convert.ToInt32(nudDni.Value);
+            edad = Convert.ToInt32(nudEdad.Value);
+            pesoEquipajeUno = Convert.ToDouble(nudPesoEquipajeUno.Value);
+            pesoEquipajeDos = Convert.ToDouble(nudPesoEquipajeDos.Value);
+            dinero = Convert.ToInt32(nudDineroDisponible.Value);
+            bool clienteDuplicado = false;
+            bool estado = false;
+            bool pasajeroDuplicado = false;
+
+            if (String.IsNullOrEmpty(txtApellido.Text) && String.IsNullOrEmpty(txtNombre.Text) && dni <= 1000 && edad <= 0)
+            {
+                MessageBox.Show("Por favor, verifique los campos");
+            }
+            else
+            {
+                foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
+                {
+                    foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
+                    {
+                        if (pasajero.Dni == dni)
+                        {
+                            pasajeroDuplicado = true;
+                            break;
+
+                        }
+                    }
+                }
+                foreach(Cliente cliente in MiAerolinea.listaClientes)
+                {
+                    if(cliente.Dni == dni)
+                    {
+                        clienteDuplicado = true;
+                        break;
+                    }
+                }
+                if (!pasajeroDuplicado && !clienteDuplicado)
+                {
+                    if (cbAsientoPremium.Checked)
+                    {
+                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
+                    }
+                    else
+                    {
+                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, pesoEquipajeUno, 0));
+                    }
+                    MessageBox.Show("Cliente agregado correctamente");
+                    estado = true;
+                }
+            }
+
+            return estado;
         }
 
         private void cmbCantidadEquipajes_SelectedIndexChanged(object sender, EventArgs e)

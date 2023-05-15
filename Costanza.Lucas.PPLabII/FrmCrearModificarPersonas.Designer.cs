@@ -323,7 +323,10 @@
             this.ClientSize = new System.Drawing.Size(794, 558);
             this.Controls.Add(this.gbGeneral);
             this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmCrearModificarPersonas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FrmCrearModificarPersonas";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.gbGeneral.ResumeLayout(false);

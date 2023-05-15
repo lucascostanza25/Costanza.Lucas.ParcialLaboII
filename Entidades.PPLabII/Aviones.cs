@@ -28,7 +28,7 @@ namespace Entidades.PPLabII
             this.cantidadAsientosPremium = cantidadAsientos * 0.2;
             this.modeloAvion = "";
         }
-
+        [JsonConstructor]
         public Aviones(string matricula, double cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion)
         {
             this.matricula = matricula;
@@ -60,7 +60,7 @@ namespace Entidades.PPLabII
         public double CantidadAsientosPremium
         {
             get { return cantidadAsientosPremium; }
-            set { cantidadAsientos = value; }
+            set { cantidadAsientosPremium = value; }
         }
         [XmlElement("servicio_internet")]
         [JsonPropertyName("servicio_internet")]

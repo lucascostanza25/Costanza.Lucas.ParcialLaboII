@@ -42,13 +42,13 @@ namespace Costanza.Lucas.PPLabII
             dgvAviones.Columns.Add("internet", "Internet");
             dgvAviones.Columns.Add("comida", "Comida");
 
-            dgvAviones.Columns["matricula"].Width = 80;
+            dgvAviones.Columns["matricula"].Width = 100;
             dgvAviones.Columns["modelo"].Width = 100;
             dgvAviones.Columns["asientos"].Width = 80;
             dgvAviones.Columns["asientos_premium"].Width = 80;
             dgvAviones.Columns["capacidad_bodega"].Width = 80;
-            dgvAviones.Columns["internet"].Width = 50;
-            dgvAviones.Columns["comida"].Width = 50;
+            dgvAviones.Columns["internet"].Width = 60;
+            dgvAviones.Columns["comida"].Width = 60;
 
             foreach(Aviones avion in listaAviones)
             {
@@ -234,6 +234,16 @@ namespace Costanza.Lucas.PPLabII
             }
 
             return estado;
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

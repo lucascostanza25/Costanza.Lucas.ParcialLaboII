@@ -195,15 +195,14 @@ namespace Costanza.Lucas.PPLabII
         #region FormClosing
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
-            this.Close();
             DialogResult resultado = MessageBox.Show("¿Seguro que desea cerrar sesion?", "Cerrar sesion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (resultado == DialogResult.Yes)
-            Application.Restart();
+                this.Close();
         }
 
         private void FrmMenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
         }
         #endregion
         
@@ -238,12 +237,9 @@ namespace Costanza.Lucas.PPLabII
         #region Vender Vuelos
         private void btnVenderVueloLateral_Click(object sender, EventArgs e)
         {
-            //OcultarGroupBox();
             this.gbVerVuelos.Visible = false;
             this.gbEstadisticas.Visible = false;
             this.gbVenderVuelos.Visible = true;
-            //MiAerolinea.listaClientes.Add(new Cliente("Ramos", "Alfredo", 500, 5400934, 53, true, "Male", 2, 13, 16, DestinosVuelos.Trelew, DestinosVuelos.Neuquen, new DateTime(2023, 07, 07)));
-            //MiAerolinea.listaClientes.Add(new Cliente("Juan", "Gutierrez", 400, 56565652, 80, "juanguti@gmail.com", false, 15, "Male"));
 
         }
 
@@ -377,6 +373,7 @@ namespace Costanza.Lucas.PPLabII
                             }
                             else
                                 MessageBox.Show("¡El vuelo de ida fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
                         }
                     }
                     catch (Exception ex)
@@ -434,13 +431,13 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnCrearCliente_Click(object sender, EventArgs e)
         {
-            FrmCrearModificarPersonas formCrearCliente = new FrmCrearModificarPersonas("Crear cliente", 1, -1);
+            FrmCrearModificarPersonas formCrearCliente = new FrmCrearModificarPersonas("Crear cliente");
             formCrearCliente.ShowDialog();
         }
 
         private void btnEditarPasajero_Click(object sender, EventArgs e)
         {
-            FrmCrearModificarPersonas formEditarPasajero = new FrmCrearModificarPersonas("Editar pasajero", 0, int.Parse(txtDniPasajero.Text));
+            FrmCrearModificarPersonas formEditarPasajero = new FrmCrearModificarPersonas("Editar pasajero", int.Parse(txtDniPasajero.Text));
             formEditarPasajero.ShowDialog();
         }
         private void btnVerEstadisticas_Click(object sender, EventArgs e)
@@ -451,7 +448,8 @@ namespace Costanza.Lucas.PPLabII
 
             lblVueloMasPasajeros.Text = MiAerolinea.EstadisticaVueloMasPasajeros();
             lblRecaudacionTotal.Text = MiAerolinea.EstadisticaRecaudacionTotalVuelos();
-            lblVueloMasPasajeros.Text = MiAerolinea.EstadisticaVueloMasRecaudo();
+            lblVueloMasRecaudado.Text = MiAerolinea.EstadisticaVueloMasRecaudo();
+            lblRecaudacionTodosVuelos.Text = MiAerolinea.EstadisticaRecaudacionTodosLosVuelo();
         }
 
         private void btnEliminarPasajero_Click(object sender, EventArgs e)
