@@ -16,7 +16,6 @@ namespace Entidades.PPLabII
         public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         public static List<Cliente> listaClientes;
         public static List<Aviones> listaAviones = new List<Aviones>();
-        private static string archivoJsonUsuarios = File.ReadAllText(@"D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\MOCK_DATA.json");
 
         static MiAerolinea()
         {
@@ -34,15 +33,12 @@ namespace Entidades.PPLabII
             {2, new DestinosVuelos[] {DestinosVuelos.Buenos_aires, DestinosVuelos.Recife, DestinosVuelos.Roma, DestinosVuelos.Acapulco, DestinosVuelos.Miami} }
         };
 
-
-        public static List<Usuarios> CargarUsuariosJson()
+        public static void DeserializarUsuarios(string archivo)
         {
-            List<Usuarios>? listaUsuariosDeserializados = JsonSerializer.Deserialize<List<Usuarios>>(archivoJsonUsuarios);
-
-            if(listaUsuariosDeserializados != null) 
-            listaUsuarios.AddRange(listaUsuariosDeserializados);
-
-            return listaUsuarios;
+            List<Usuarios>? listaUsuarios = new List<Usuarios>();
+            string jsonString = File.ReadAllText(archivo);
+            listaUsuarios = JsonSerializer.Deserialize<List<Usuarios>>(jsonString);
+            MiAerolinea.listaUsuarios = listaUsuarios;
         }
 
         public static List<Pasajeros> CargarPasajerosXml(string path)

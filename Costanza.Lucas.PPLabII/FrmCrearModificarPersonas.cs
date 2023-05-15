@@ -27,6 +27,7 @@ namespace Costanza.Lucas.PPLabII
             miPasajero = new Pasajeros();
             if(cbAsientoPremium.CheckState == CheckState.Unchecked)
             {
+                cmbCantidadEquipajes.Items.Clear();
                 cmbCantidadEquipajes.Items.Add(1);
                 nudPesoEquipajeDos.Enabled = false;
             }
@@ -130,8 +131,6 @@ namespace Costanza.Lucas.PPLabII
             double pesoEquipajeUno, pesoEquipajeDos;
             dni = Convert.ToInt32(nudDni.Value);
             edad = Convert.ToInt32(nudEdad.Value);
-            pesoEquipajeUno = Convert.ToDouble(nudPesoEquipajeUno.Value);
-            pesoEquipajeDos = Convert.ToDouble(nudPesoEquipajeDos.Value);
             dinero = Convert.ToInt32(nudDineroDisponible.Value);
             bool clienteDuplicado = false;
             bool estado = false;
@@ -167,11 +166,11 @@ namespace Costanza.Lucas.PPLabII
                 {
                     if (cbAsientoPremium.Checked)
                     {
-                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
+                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), (double)nudPesoEquipajeUno.Value, (double)nudPesoEquipajeDos.Value));
                     }
                     else
                     {
-                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, pesoEquipajeUno, 0));
+                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, (double)nudPesoEquipajeUno.Value, 0));
                     }
                     MessageBox.Show("Cliente agregado correctamente");
                     estado = true;

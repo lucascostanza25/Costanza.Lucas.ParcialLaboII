@@ -4,12 +4,10 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmInicioSesion : Form
     {
-        public static List<Usuarios> listaUsuarios;
         public FrmInicioSesion()
         {
             InitializeComponent();
-            listaUsuarios = new List<Usuarios>();
-            listaUsuarios = MiAerolinea.CargarUsuariosJson();
+            MiAerolinea.DeserializarUsuarios("usuarios.json");
             lblMail.Visible = false;
             lblContrasenia.Visible = false;
             txtContrasenia.Visible = false;
@@ -33,11 +31,10 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnLogearse_Click(object sender, EventArgs e)
         {
-            List<Usuarios> copiaLista = listaUsuarios.ToList();
             DateTime fecha = DateTime.Now;
             string fechaSinHora = fecha.ToString("dd/MM/yyyy");
             
-            foreach (Usuarios miUsuario in copiaLista)
+            foreach (Usuarios miUsuario in MiAerolinea.listaUsuarios)
             {
                 if (miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
                 {
