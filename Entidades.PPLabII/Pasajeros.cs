@@ -34,15 +34,10 @@ namespace Entidades.PPLabII
             this.asientoPremium = asientoPremium;
         } 
 
-        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, int cantidadEquipaje, double pesoUno) : this(apellido, nombre, dni, edad, genero, asientoPremium)
+        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, int cantidadEquipaje, double pesoUno, double pesoDos) : this(apellido, nombre, dni, edad, genero, asientoPremium)
         {
             this.cantidadEquipajes = cantidadEquipaje;
             this.pesoEquipajeUno = pesoUno;
-            this.pesoEquipajeDos = 0;
-        }
-
-        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, int cantidadEquipaje, double pesoUno, double pesoDos) : this(apellido, nombre, dni, edad, genero, asientoPremium, cantidadEquipaje, pesoUno)
-        {
             this.pesoEquipajeDos = pesoDos;
         }
 

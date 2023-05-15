@@ -15,12 +15,14 @@ namespace Entidades.PPLabII
         private int asientosDisponibles;
         private int asientosOcupados;
         private int asientosPremium;
+        private int asientosPremiumOcupados;
         private string codigoVuelo;
         private DestinosVuelos destino;
         private DestinosVuelos origen;
         private int horasVuelo;
         private double precioVuelo;
         private double capacidadDisponibleBodega;
+        private double capacidadTotalBodega;
         private double cantidadDineroRecaudado;
 
         public Vuelos()
@@ -28,19 +30,26 @@ namespace Entidades.PPLabII
            
         }
 
-        public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo)
+        public Vuelos(Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo)
         {
-            this.listaPasajeros = listaPasajeros;
             this.avionVuelo = avionVuelo;
             this.fechaVuelo = fechaVuelo;
-            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
-            this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
-            this.asientosOcupados = listaPasajeros.Count();
             this.codigoVuelo = codigo;
             this.horasVuelo = horasVuelo;
             this.precioVuelo = horasVuelo * precioVuelo;
             this.destino = destino;
             this.origen = origen;
+            this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
+        }
+
+        public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo) : this(avionVuelo, fechaVuelo, codigo, origen, destino, horasVuelo, precioVuelo)
+        {
+            this.listaPasajeros = listaPasajeros;
+     
+            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
+            this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
+            this.asientosOcupados = listaPasajeros.Count();
+            
             this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
         }
 
@@ -54,11 +63,35 @@ namespace Entidades.PPLabII
             return precioFinal;
         }
 
-        public void ActualizarAsientos(List<Pasajeros> listaNuevaPasajeros)
+        public void ActualizarDatosVuelo(List<Pasajeros> listaNuevaPasajeros)
         {
             this.asientosDisponibles = 0;
             this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaNuevaPasajeros.Count();
             this.asientosOcupados = listaNuevaPasajeros.Count();
+            this.asientosPremiumOcupados = 0;
+            this.capacidadDisponibleBodega = 0;
+            double pesoTotal = 0; 
+            foreach(Pasajeros pasajero in listaNuevaPasajeros)
+            {
+                if(pasajero.AsientoPremium)
+                {
+                    this.asientosPremiumOcupados++;
+                }
+                pesoTotal += pasajero.PesoEquipajeUno + pasajero.PesoEquipajeDos;
+            }
+            this.capacidadDisponibleBodega = this.capacidadTotalBodega - pesoTotal;
+        }
+
+        public static bool operator ==(Vuelos v1, Vuelos v2)
+        {
+            if (v1.CodigoVuelo == v2.codigoVuelo)
+                return true; 
+            return false;
+        }
+
+        public static bool operator !=(Vuelos v1, Vuelos v2)
+        {
+            return !(v1 == v2);
         }
 
         [XmlElement("pasajeros")]

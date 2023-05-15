@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace Costanza.Lucas.PPLabII
     {
         private int tipo = -1;
         Pasajeros miPasajero;
+        Vuelos vueloPasajero;
 
         public FrmCrearModificarPersonas(string titulo, int tipo, int dni)
         {
@@ -33,6 +35,11 @@ namespace Costanza.Lucas.PPLabII
                     nudPesoEquipajeDos.Enabled = false;
                 }
             }
+        }
+
+        public FrmCrearModificarPersonas(string titulo, int tipo, int dni, Vuelos vuelo) : this(titulo, tipo, dni)
+        {
+            vueloPasajero = vuelo;  
         }
 
         private void PintarDatosPasajero(int dni)
@@ -111,7 +118,7 @@ namespace Costanza.Lucas.PPLabII
                                 {
                                     MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, pesoEquipajeUno, 0));
                                 }
-                                MessageBox.Show("Pasajero agregado correctamente");
+                                MessageBox.Show("Cliente agregado correctamente");
                             }
                             else
                             {
@@ -136,6 +143,11 @@ namespace Costanza.Lucas.PPLabII
                     MessageBox.Show("No se pudo actualizar al pasajero");
                 }
             }
+            else if(this.tipo == 3)
+            {
+                SupervisorAgregarPasajero(vueloPasajero);
+            }
+
 
             this.Close();
            
@@ -169,6 +181,37 @@ namespace Costanza.Lucas.PPLabII
             estado = true;
 
             return estado;
+        }
+
+        public bool SupervisorAgregarPasajero(Vuelos vuelo)
+        {
+            int dni, edad;
+            double pesoEquipajeUno, pesoEquipajeDos;
+            dni = Convert.ToInt32(nudDni.Value);
+            edad = Convert.ToInt32(nudEdad.Value);
+            pesoEquipajeUno = Convert.ToDouble(nudPesoEquipajeUno.Value);
+            pesoEquipajeDos = Convert.ToDouble(nudPesoEquipajeDos.Value);
+            foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
+            {
+                if (pasajero.Dni != dni)
+                {
+                    if (this.tipo == 3)
+                    {
+                        if (cbAsientoPremium.Checked)
+                        {
+                            vuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, true, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
+                        }
+                        else
+                        {
+                            vuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, false, 1, pesoEquipajeUno, pesoEquipajeDos));
+                        }
+                        MessageBox.Show("Pasajero agregado correctamente");
+                        vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

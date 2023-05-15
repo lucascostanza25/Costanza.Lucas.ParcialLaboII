@@ -16,30 +16,36 @@ namespace Costanza.Lucas.PPLabII
         private List<Pasajeros>? listaPasajerosVuelo;
         private List<Aviones>? listaAvionesVuelo;
 
-        public FrmMenuPrincipal(string nombre, string apellido, string fecha, string cargo)
+        public FrmMenuPrincipal()
         {
             InitializeComponent();
+        }
+
+        public FrmMenuPrincipal(string nombre, string apellido, string fecha, string cargo) : this()
+        {
+            
             OcultarMenu();
             OcultarGroupBox();
 
-            lblInformacionTrabajador.Text = $"Bienvenido {nombre} {apellido} - Perfil {cargo} - Fecha {fecha}";
+            lblInformacionTrabajador.Text = $"¡Bienvenido {cargo}!\n" +
+                $"¡{nombre} {apellido}!\n" +
+                $"Fecha: {fecha}";
             lblInformacionTrabajador.BackColor = Color.Transparent;
 
             listaPasajerosVuelo = new List<Pasajeros>();
             listaAvionesVuelo = new List<Aviones>();
 
-            CrearDataPrueba();
 
         }
         #region Menu lateral
-        private void OcultarGroupBox()
+        protected void OcultarGroupBox()
         {
             this.gbVerVuelos.Visible = false;
             this.gbVenderVuelos.Visible = false;
 
         }
 
-        private void OcultarMenu()
+        protected void OcultarMenu()
         {
             this.panelMenuVuelos.Visible = false;
             this.panelMenuEstadisticas.Visible = false;
@@ -71,7 +77,7 @@ namespace Costanza.Lucas.PPLabII
 
         #region DataGridViews
     
-        private void CrearDataGridViewVuelos(DataGridView dgv, List<Vuelos> listaVuelos)
+        protected void CrearDataGridViewVuelos(DataGridView dgv, List<Vuelos> listaVuelos)
         {
             dgv.Rows.Clear();
             dgv.Columns.Clear();
@@ -106,46 +112,7 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
-        private void CrearDataPrueba()
-        {
-            listaAvionesVuelo.Add(new Aviones("FJS50OP", 65, false, true, 3500, "Boeing 787"));
-            listaAvionesVuelo.Add(new Aviones("GLT049T", 120, true, true, 5500, "Airbus A220"));
-            listaAvionesVuelo.Add(new Aviones("TRF053T", 80, false, false, 4500, "Airbus A110"));
-            listaAvionesVuelo.Add(new Aviones("UYI5904", 65, false, false, 4000, "Boeing 678"));
-            listaAvionesVuelo.Add(new Aviones("HLY095N", 250, true, true, 13000, "Boeing 777"));
-            listaAvionesVuelo.Add(new Aviones("HTF078P", 300, true, true, 15000, "Airbus A380"));
-            listaAvionesVuelo.Add(new Aviones("HCV0952", 350, true, true, 15000, "Boeing 777"));
-
-
-            //MiAerolinea.SerializarAvionesJson(listaAvionesVuelo);
-            listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros1.xml");
-            MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 07, 07, 11, 30, 00), "BRC2023", 2, DestinosVuelos.Trelew, DestinosVuelos.Neuquen, 50, "FJS50OP");
-            listaPasajerosVuelo = null;
-            listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros100.xml");
-            MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 06, 09, 22, 30, 00), "ITA2353", 18, DestinosVuelos.Roma, DestinosVuelos.Buenos_aires, 100, "HTF078P");
-            listaPasajerosVuelo = null;
-            listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros100_2.xml");
-            MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 06, 10, 19, 00, 00), "BUE2452", 18, DestinosVuelos.Buenos_aires, DestinosVuelos.Roma, 100, "HTF078P");
-            listaPasajerosVuelo = null;
-            listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros310.xml");
-            MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 05, 29, 15, 30, 00), "USA5793", 12, DestinosVuelos.Buenos_aires, DestinosVuelos.Miami, 100, "HCV0952");
-            listaPasajerosVuelo = null;
-            listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros305.xml");
-            MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 05, 29, 22, 30, 00), "BUE2432", 12, DestinosVuelos.Miami, DestinosVuelos.Buenos_aires, 100, "HCV0952");
-            listaPasajerosVuelo = null;
-            //listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros220.xml");
-            //MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 05, 20, 12, 00, 00), "RCF9865", 6, DestinosVuelos.Buenos_aires, DestinosVuelos.Recife, 100, "HLY095N");
-            //listaPasajerosVuelo = null;
-            listaPasajerosVuelo = MiAerolinea.CargarPasajerosXml("Pasajeros62.xml");
-            MiAerolinea.CrearVuelo(listaPasajerosVuelo, listaAvionesVuelo, new DateTime(2023, 07, 07, 13, 30, 00), "NEQ2685", 2, DestinosVuelos.Neuquen, DestinosVuelos.Trelew, 50, "FJS50OP");
-            listaPasajerosVuelo = null;
-
-
-            //miAerolinea.SerializarVuelosXml(miAerolinea.listaVuelos);
-            //miAerolinea.DeserializarVuelosXml();
-
-            MiAerolinea.DespacharEquipajeDePasajerosHechos();
-        }
+        
 
         private void CrearDataGridViewPasajeros(DataGridView dgv, List<Pasajeros> listaPasajeros)
         {

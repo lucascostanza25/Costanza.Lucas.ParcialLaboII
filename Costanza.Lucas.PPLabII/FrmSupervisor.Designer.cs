@@ -1,6 +1,6 @@
 ﻿namespace Costanza.Lucas.PPLabII
 {
-    partial class FrmSupervisor
+    partial class Supervisor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,12 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.btnAgregarPasajero = new System.Windows.Forms.Button();
+            this.gbVerVuelos.SuspendLayout();
+            this.panelMenu.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // gbVerVuelos
+            // 
+            this.gbVerVuelos.Controls.Add(this.btnAgregarPasajero);
+            this.gbVerVuelos.Controls.SetChildIndex(this.btnAgregarPasajero, 0);
+            // 
+            // btnVenderVueloLateral
+            // 
+            this.btnVenderVueloLateral.FlatAppearance.BorderSize = 0;
+            // 
+            // btnVuelos
+            // 
+            this.btnVuelos.FlatAppearance.BorderSize = 0;
+            // 
+            // btnAgregarPasajero
+            // 
+            this.btnAgregarPasajero.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAgregarPasajero.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnAgregarPasajero.Location = new System.Drawing.Point(1509, 554);
+            this.btnAgregarPasajero.Name = "btnAgregarPasajero";
+            this.btnAgregarPasajero.Size = new System.Drawing.Size(163, 31);
+            this.btnAgregarPasajero.TabIndex = 69;
+            this.btnAgregarPasajero.Text = "Agregar pasajero";
+            this.btnAgregarPasajero.UseVisualStyleBackColor = true;
+            this.btnAgregarPasajero.Click += new System.EventHandler(this.btnAgregarPasajero_Click);
+            // 
+            // Supervisor
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1903, 1041);
+            this.Name = "Supervisor";
             this.Text = "FrmSupervisor";
+            this.gbVerVuelos.ResumeLayout(false);
+            this.gbVerVuelos.PerformLayout();
+            this.panelMenu.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private Button btnAgregarPasajero;
     }
 }

@@ -13,8 +13,9 @@ namespace Entidades.PPLabII
     {
         public static List<Usuarios> listaUsuarios;
         public static List<Vuelos> listaVuelos;
-        public static List<Pasajeros> listaPasajeros;
+        public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         public static List<Cliente> listaClientes;
+        public static List<Aviones> listaAviones;
         private static string archivoJsonUsuarios = File.ReadAllText(@"D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\MOCK_DATA.json");
 
         static MiAerolinea()
@@ -102,12 +103,6 @@ namespace Entidades.PPLabII
         public static string RetornarDatosVuelo(Vuelos miVuelo)
         {
             int contadorAsientosPremium = 0;
-
-            foreach (Pasajeros pasajero in listaPasajeros)
-            {
-                if (pasajero.AsientoPremium == true)
-                    contadorAsientosPremium++;
-            }
 
             StringBuilder sb = new StringBuilder();
 
@@ -281,17 +276,9 @@ namespace Entidades.PPLabII
             {
                 miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
                 vuelo.CantidadDineroRecuadado += precioDelPasaje;
-                if (miCliente.AsientoPremium)
-                    if (miCliente.CantidadEquipaje == 1)
-                    {
-                        vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno));
-                    }
-                    else
-                    {
-                        vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
-                    }
+                vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
                 MiAerolinea.listaClientes.Remove(miCliente);
-                vuelo.ActualizarAsientos(vuelo.ListaPasajeros);
+                vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
                 estadoVenta = true;
             }
             else
@@ -391,13 +378,29 @@ namespace Entidades.PPLabII
                     if(pasajero.Dni == dni)
                     {
                         vuelo.ListaPasajeros.Remove(pasajero);
-                        vuelo.ActualizarAsientos(vuelo.ListaPasajeros);
+                        vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
                         return true;
                     }
                 }
             }
 
             return false;
+        }
+
+        public static Aviones BuscarUnAvion(string? matricula)
+        {
+            Aviones avionBuscado = new Aviones();
+
+            foreach(Aviones avion in listaAviones)
+            {
+                if(avion.Matricula == matricula)
+                {
+                    avionBuscado = avion;
+                    break;
+                }
+            }
+
+            return avionBuscado;
         }
     }
 }
