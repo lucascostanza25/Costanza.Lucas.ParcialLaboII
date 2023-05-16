@@ -283,7 +283,10 @@ namespace Costanza.Lucas.PPLabII
                         if(!cbSoloIda.Checked)
                         {
                             listaFiltradaVuelta = MiAerolinea.FiltrarVuelos(destino, origen, dtpFechaVuelta.Value.Date, servicio);
-                            CrearDataGridViewVuelos(dgvVenderVuelosVuelta, listaFiltradaVuelta);
+                            if (listaFiltradaVuelta.Count == 0)
+                                throw new Exception("No se encontraron vuelos de vuelta");
+                            else
+                                CrearDataGridViewVuelos(dgvVenderVuelosVuelta, listaFiltradaVuelta);
                         }
                     }
                 }
