@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Entidades.PPLabII.Aviones" Collapsed="true">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAQAAAAEAAAAAAAAABIAAAAQACCIAAAAgAQgAAAEqA=</HashCode>
+      <FileName>Aviones.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.Persona" Collapsed="true">
+    <Position X="1.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAACEAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Persona.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.Usuarios" Collapsed="true">
+    <Position X="0.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAQAABAAAAIQAAACAAAAQAAAAEAA=</HashCode>
+      <FileName>Usuarios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.Vuelos" Collapsed="true">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAQQAAgEABAACIAAAACQYAAIACAgCSAQIACgECAio=</HashCode>
+      <FileName>Vuelos.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.Pasajeros" Collapsed="true">
+    <Position X="3.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEABAgBAAQAAAAggAEAIAIAAAACAoAAAAKAAAAAgiA=</HashCode>
+      <FileName>Pasajeros.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.Cliente" Collapsed="true">
+    <Position X="1.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEABAQBAAQAAAAgAAEAIAIBAAACAgAABAKAAAAAgAA=</HashCode>
+      <FileName>Cliente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.MiAerolinea" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MgAAUAAAAQgEEgAAgAQAABhNBBAAIAiCAAAAEAEAABk=</HashCode>
+      <FileName>MiAerolinea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.ListaViajesXml" Collapsed="true">
+    <Position X="11.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListaViajesXml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.PPLabII.ListaPasajerosXml" Collapsed="true">
+    <Position X="11.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListaPasajerosXml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="DestinosVuelos" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQgACAAAAAAAIoCEAIQAIAAAIAoggEAAAACAAAAA=</HashCode>
+      <FileName>Enumerados.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Costanza.Lucas.PPLabII.FrmAdministrador" Collapsed="true">
+    <Position X="1.75" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>BAEIEEQQECACABAAA9CCRMQKOCABBAEAABCEYABIAMg=</HashCode>
+      <FileName>FrmAdministrador.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Costanza.Lucas.PPLabII.FrmInicioSesion" Collapsed="true">
+    <Position X="1.75" Y="2" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAIAEAAASACBABAAACABAACAASQBAACAAAEAAAJAAA=</HashCode>
+      <FileName>FrmInicioSesion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Costanza.Lucas.PPLabII.FrmMenuPrincipal" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>+7oIAkBQAChZCBzSDhyoYMFKIggDJZMYE5CRbAZoILo=</HashCode>
+      <FileName>FrmMenuPrincipal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Costanza.Lucas.PPLabII.Supervisor" Collapsed="true">
+    <Position X="9" Y="3.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAACAAAAAAAACAAAACAAAAAAAEAAAAAAAoAAA=</HashCode>
+      <FileName>FrmSupervisor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Costanza.Lucas.PPLabII.FrmCrearModificarVuelo" Collapsed="true">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gYAAIQEAACAEAJgABAiKQBhCAEBCAIAEAgAAQABAAAA=</HashCode>
+      <FileName>FrmCrearModificarVuelo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Costanza.Lucas.PPLabII.FrmCrearModificarPersonas" Collapsed="true">
+    <Position X="8" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABQmAAAJiAJACEAAACECRIAAUAAAAEIAhAAQA=</HashCode>
+      <FileName>FrmCrearModificarPersonas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Costanza.Lucas.PPLabII.FrmCrearModificarAvion" Collapsed="true">
+    <Position X="3.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAIACEBAJyYBACCAAACAABAAAABAAQAEABAAAA=</HashCode>
+      <FileName>FrmCrearModificarAvion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
