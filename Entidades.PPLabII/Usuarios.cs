@@ -30,6 +30,11 @@ namespace Entidades.PPLabII
             this.perfil = perfil;
         }
 
+        protected override string Datos()
+        {
+            throw new NotImplementedException();
+        }
+
         #region Propiedades
         [JsonPropertyName("legajo")]
         public int? Legajo

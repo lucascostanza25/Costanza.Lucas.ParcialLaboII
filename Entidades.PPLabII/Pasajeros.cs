@@ -41,6 +41,31 @@ namespace Entidades.PPLabII
             this.pesoEquipajeDos = pesoDos;
         }
 
+        protected override string Datos()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"NOMBRE: {Nombre}");
+            sb.AppendLine($"APELLIDO: {Apellido}");
+            sb.AppendLine($"EDAD: {Edad}");
+            sb.AppendLine($"DNI: {Dni.ToString()}");
+            sb.AppendLine($"GENERO: {Genero}");
+            sb.AppendLine($"CANTIDAD DE EQUIPAJE: {CantidadEquipaje}");
+            sb.AppendLine($"- Peso primer equipaje: {PesoEquipajeUno}");
+            if (AsientoPremium)
+            {
+                sb.AppendLine($"- Peso segundo equipaje: {PesoEquipajeDos}");
+            }
+
+
+            return sb.ToString();
+        }
+
+        public override string ToString()
+        {
+            return Datos();
+        }
+
         public static bool operator ==(Pasajeros p1, Pasajeros p2)
         {
             if (p1.Dni == p2.Dni)

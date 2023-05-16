@@ -11,19 +11,11 @@ namespace Entidades.PPLabII
 {
     public abstract class MiAerolinea
     {
-        public static List<Usuarios> listaUsuarios;
-        public static List<Vuelos> listaVuelos;
+        public static List<Usuarios>? listaUsuarios = new List<Usuarios>();
+        public static List<Vuelos> listaVuelos = new List<Vuelos>();
         public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
-        public static List<Cliente> listaClientes;
+        public static List<Cliente>? listaClientes = new List<Cliente>();
         public static List<Aviones> listaAviones = new List<Aviones>();
-
-        static MiAerolinea()
-        {
-            listaUsuarios = new List<Usuarios>();
-            listaVuelos = new List<Vuelos>();
-            listaPasajeros = new List<Pasajeros>();
-            listaClientes = new List<Cliente>();
-        }
 
         public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>
         {
@@ -35,7 +27,7 @@ namespace Entidades.PPLabII
 
         public static void DeserializarUsuarios(string archivo)
         {
-            List<Usuarios>? listaUsuarios = new List<Usuarios>();
+            //List<Usuarios>? listaUsuarios = new List<Usuarios>();
             string jsonString = File.ReadAllText(archivo);
             listaUsuarios = JsonSerializer.Deserialize<List<Usuarios>>(jsonString);
             MiAerolinea.listaUsuarios = listaUsuarios;
@@ -57,7 +49,7 @@ namespace Entidades.PPLabII
 
         public static List<Pasajeros> RetornarPasajerosPorVuelo(string? codigoVuelo)
         {
-            List<Pasajeros> listaPasajerosBuscados;
+            List<Pasajeros>? listaPasajerosBuscados;
 
             foreach(Vuelos vueloBuscado in listaVuelos) 
             {
@@ -98,7 +90,7 @@ namespace Entidades.PPLabII
 
         public static void DeserializarAvionesJson(string archivo)
         {
-            List<Aviones> listaAviones = new List<Aviones>();
+            List<Aviones>? listaAviones = new List<Aviones>();
 
             string jsonString = File.ReadAllText(archivo);
             listaAviones = JsonSerializer.Deserialize<List<Aviones>>(jsonString);
@@ -172,6 +164,7 @@ namespace Entidades.PPLabII
         public static void DeserializarVuelosXml()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
+
             using(FileStream fileStream = new FileStream("vuelos.xml", FileMode.Open))
             {
                 listaVuelos = (List<Vuelos>)serializer.Deserialize(fileStream);
@@ -210,22 +203,9 @@ namespace Entidades.PPLabII
                 {
                     if(miPasajero.Dni == dni)
                     {
-                        sb.AppendLine($"NOMBRE: {miPasajero.Nombre}");
-                        sb.AppendLine($"APELLIDO: {miPasajero.Apellido}");
-                        sb.AppendLine($"EDAD: {miPasajero.Edad}");
-                        sb.AppendLine($"DNI: {miPasajero.Dni.ToString()}");
-                        sb.AppendLine($"GENERO: {miPasajero.Genero}");
-                        sb.AppendLine($"CANTIDAD DE EQUIPAJE: {miPasajero.CantidadEquipaje}");
-                        sb.AppendLine($"- Peso primer equipaje: {miPasajero.PesoEquipajeUno}");
-                        if (miPasajero.AsientoPremium)
-                        {
-                            sb.AppendLine($"- Peso segundo equipaje: {miPasajero.PesoEquipajeDos}");
-                        }
-                        sb.AppendLine($"VUELO: {miVuelo.CodigoVuelo}");
-                        sb.AppendLine($"ORIGEN: {miVuelo.Origen}");
-                        sb.AppendLine($"DESTINO: {miVuelo.Destino}");
-                        sb.AppendLine($"FECHA: {miVuelo.FechaVuelo.ToString()}");
-                        sb.AppendLine($"AVION: {miVuelo.AvionVuelo.ModeloAvion}");
+                        sb.Append(miPasajero.ToString());
+                        sb.AppendLine("----------------------");
+                        sb.AppendLine(miVuelo.ToString());
                     }
                 }
             }
@@ -300,7 +280,7 @@ namespace Entidades.PPLabII
                     miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
                     vuelo.CantidadDineroRecuadado += precioDelPasaje;
                     vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
-                    MiAerolinea.listaClientes.Remove(miCliente);
+                    listaClientes.Remove(miCliente);
                     vuelo.AsientosOcupados++;
                     vuelo.AsientosDisponibles--;
                     vuelo.CapacidadDisponibleBodega = vuelo.AvionVuelo.CapacidadBodega - (miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos);

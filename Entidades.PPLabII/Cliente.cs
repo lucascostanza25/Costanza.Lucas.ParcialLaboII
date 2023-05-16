@@ -29,6 +29,11 @@ namespace Entidades.PPLabII
             this.pesoEquipajeDos = pesoEquipajeDos;
         }
 
+        protected override string Datos()
+        {
+            throw new NotImplementedException();
+        }
+
         public double DineroDisponible
         {
             get { return dineroDisponible; }

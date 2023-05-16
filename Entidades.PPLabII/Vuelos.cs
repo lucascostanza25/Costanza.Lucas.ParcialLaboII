@@ -100,6 +100,28 @@ namespace Entidades.PPLabII
         {
             return !(v1 == v2);
         }
+        public override bool Equals(object? obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"VUELO: {CodigoVuelo}");
+            sb.AppendLine($"ORIGEN: {Origen}");
+            sb.AppendLine($"DESTINO: {Destino}");
+            sb.AppendLine($"FECHA: {FechaVuelo.ToString()}");
+            sb.AppendLine($"AVION: {AvionVuelo.ModeloAvion}");
+
+            return sb.ToString();
+        }
 
         [XmlElement("pasajeros")]
         public List<Pasajeros> ListaPasajeros

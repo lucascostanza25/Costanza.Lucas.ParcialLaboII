@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
-    public class Persona
+    public abstract class Persona
     {
         private string nombre;
         private string apellido;
@@ -25,6 +25,8 @@ namespace Entidades.PPLabII
             this.nombre = nombre;
             this.apellido = apellido;
         }
+
+        abstract protected string Datos();
 
         [XmlElement("apellido")]
         [JsonPropertyName("apellido")]
