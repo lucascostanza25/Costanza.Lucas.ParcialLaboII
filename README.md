@@ -73,6 +73,7 @@ Por ultimo, el vendedor podrá visualizar las estadisticas dando click en el men
 # Supervisor
 ---
 <br>
+
 ![Supervisor](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/FrmSupervisor.png)
 <br>
 El supervisor tendrá carateristicas muy parecidas al vendedor, heredando su form, pero limitando la venta, por lo que el suepervisor, podrá agregar un pasajero de emergencia sin necesidad de pasar por la caja.

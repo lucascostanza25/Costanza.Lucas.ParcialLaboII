@@ -412,7 +412,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmAdministrador";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmAdministrador";
+            this.Text = "Administrador";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmAdministrador_FormClosing);
             this.Load += new System.EventHandler(this.FrmAdministrador_Load);
