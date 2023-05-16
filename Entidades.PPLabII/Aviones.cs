@@ -103,7 +103,6 @@ namespace Entidades.PPLabII
         {
             return !(a1 == a2);
         }
-
         public override bool Equals(object? obj)
         {
             return base.Equals(obj);

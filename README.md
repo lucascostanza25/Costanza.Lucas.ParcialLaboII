@@ -136,12 +136,37 @@ Par crear un nuevo avion, solamente pulse en el botón *"Crear"* y dará inicio 
 Diagrama de las entidades
 <br>
 
-![Diagrama](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesEntidades.png)
+![Diagrama entidades](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesEntidades.png)
+
 <br>
 Diagrama de los forms
 <br>
 
-![Diagrama](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesForms.png)
+![Diagrama forms](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesForms.png)
+<br>
+
+# Usos
+---
+### Herencia y clase abstracta:
+<br>
+
+`public abstract class Persona`
+<br>
+`public class Cliente : Persona` | `public class Pasajeros : Persona` | `public class Usuarios : Persona`
+<br>
+### Polimorfismo
+<br>
+
+Clase Persona: `abstract protected string Datos();`
+<br>
+
+Clases Pasajeros, Usuarios y Cliente: `protected override string Datos()`
+<br>
+<br>
+<br>
+<br>
+
+
 
 
 
