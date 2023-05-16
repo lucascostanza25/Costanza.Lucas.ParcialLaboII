@@ -42,7 +42,7 @@ namespace Costanza.Lucas.PPLabII
                     {
                         case "vendedor":
                             this.Hide();
-                            FrmMenuPrincipal formMenu = new FrmMenuPrincipal(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                            FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
                             formMenu.ShowDialog();
                             this.Show();
                             break;

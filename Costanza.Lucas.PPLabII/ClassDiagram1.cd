@@ -14,11 +14,11 @@
       <FileName>FrmInicioSesion.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Costanza.Lucas.PPLabII.FrmMenuPrincipal" Collapsed="true">
+  <Class Name="Costanza.Lucas.PPLabII.FrmVendedor" Collapsed="true">
     <Position X="5.25" Y="3.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>+7oIAkBQAChZCBzSDhyoYMFKIggDJZMYE5CRbAZoILo=</HashCode>
-      <FileName>FrmMenuPrincipal.cs</FileName>
+      <FileName>FrmVendedor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Costanza.Lucas.PPLabII.Supervisor" Collapsed="true">

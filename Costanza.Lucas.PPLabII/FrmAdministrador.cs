@@ -13,6 +13,7 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmAdministrador : Form
     {
+        private bool solicitudCierre = false;
         public FrmAdministrador(string nombre, string apellido, string fecha, string cargo)
         {
             InitializeComponent();
@@ -186,6 +187,20 @@ namespace Costanza.Lucas.PPLabII
         private void FrmAdministrador_FormClosing(object sender, FormClosingEventArgs e)
         {
             MiAerolinea.SerializarAvionesJson(MiAerolinea.listaAviones);
+            MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
+            if (!solicitudCierre)
+            {
+                DialogResult resultado = MessageBox.Show("¿Seguro que desea salir del programa?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (resultado == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+                else
+                {
+                    solicitudCierre = true;
+                    Application.Exit();
+                }
+            }
         }
 
         private void btnCrearAvion_Click(object sender, EventArgs e)
@@ -232,7 +247,10 @@ namespace Costanza.Lucas.PPLabII
         {
             DialogResult resultado = MessageBox.Show("¿Seguro que desea cerrar sesion?", "Cerrar sesion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (resultado == DialogResult.Yes)
+            {
+                solicitudCierre = true;
                 this.Close();
+            }
         }
 
         private void btnEliminarAvion_Click(object sender, EventArgs e)

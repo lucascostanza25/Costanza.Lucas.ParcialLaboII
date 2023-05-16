@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Costanza.Lucas.PPLabII
 {
-    public partial class Supervisor : FrmMenuPrincipal
+    public partial class Supervisor : FrmVendedor
     {
         Vuelos vuelo;
         public Supervisor(string nombre, string apellido, string fecha, string cargo)

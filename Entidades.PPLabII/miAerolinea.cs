@@ -27,7 +27,6 @@ namespace Entidades.PPLabII
 
         public static void DeserializarUsuarios(string archivo)
         {
-            //List<Usuarios>? listaUsuarios = new List<Usuarios>();
             string jsonString = File.ReadAllText(archivo);
             listaUsuarios = JsonSerializer.Deserialize<List<Usuarios>>(jsonString);
             MiAerolinea.listaUsuarios = listaUsuarios;

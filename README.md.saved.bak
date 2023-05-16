@@ -166,9 +166,23 @@ Clases Pasajeros, Usuarios y Cliente: `protected override string Datos()`
 ### Herencia Form
 <br>
 
+El form del supervisor hereda del vendedor: `public partial class Supervisor : FrmVendedor`
+<br>
 
+### Enumerados
 <br>
+
+Contiene los destinos nacionales e internacionales: `public enum DestinosVuelos`
 <br>
+
+### Colecciones
+<br>
+
+Se utilizaro listas para los **usuarios**, los **clientes**, los **pasajeros**, los **vuelos** y los **aviones**.
+<br>
+Ademas se utlizó un diccionario para filtrar los vuelos nacionales e internacionales del enumerado:
+<br>
+`public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>`
 
 
 
