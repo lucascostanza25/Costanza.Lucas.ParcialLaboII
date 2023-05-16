@@ -133,6 +133,17 @@ Par crear un nuevo avion, solamente pulse en el botón *"Crear"* y dará inicio 
 # Diagrama de clases
 ---
 <br>
+Diagrama de las entidades
+<br>
+
+![Diagrama](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesEntidades.png)
+<br>
+Diagrama de los forms
+<br>
+
+![Diagrama](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesForms.png)
+
+
 
 
 
