@@ -43,7 +43,7 @@ namespace Costanza.Lucas.PPLabII
         public FrmCrearModificarPersonas(string titulo , int dni, Vuelos vuelo) : this(titulo, dni)
         {
             vueloPasajero = vuelo;
-            btnAceptar.Text = "Editar pasajero SUPERVISOR";
+            btnAceptar.Text = titulo;
         }
 
         private void PintarDatosPasajero(int dni)
@@ -115,7 +115,7 @@ namespace Costanza.Lucas.PPLabII
                     MessageBox.Show("No se pudo actualizar al pasajero");
                 }
             }
-            else if(btnAceptar.Text == "Editar pasajero SUPERVISOR")
+            else if(btnAceptar.Text == "Crear pasajero SUPERVISOR")
             {
                 SupervisorAgregarPasajero(vueloPasajero);
             }
@@ -239,6 +239,11 @@ namespace Costanza.Lucas.PPLabII
                 }
             }
             return false;
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

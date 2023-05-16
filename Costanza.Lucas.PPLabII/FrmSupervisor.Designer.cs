@@ -66,7 +66,7 @@
             this.ClientSize = new System.Drawing.Size(1903, 1041);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Supervisor";
-            this.Text = "FrmSupervisor";
+            this.Text = "Supervisor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Supervisor_FormClosing);
             this.gbVerVuelos.ResumeLayout(false);
             this.gbVerVuelos.PerformLayout();

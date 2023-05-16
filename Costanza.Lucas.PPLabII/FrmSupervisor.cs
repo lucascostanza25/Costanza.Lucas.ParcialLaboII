@@ -29,12 +29,12 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnAgregarPasajero_Click(object sender, EventArgs e)
         {
-            string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
-            vuelo = MiAerolinea.BuscarUnVuelo(codigoVueloSeleccionado);
-            FrmCrearModificarPersonas formAgregarPasajero = new FrmCrearModificarPersonas("Editar pasajero SUPERVISOR", 0, vuelo);
+
+            FrmCrearModificarPersonas formAgregarPasajero = new FrmCrearModificarPersonas("Crear pasajero SUPERVISOR", 0, vuelo);
             formAgregarPasajero.ShowDialog();
             CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
             dgvPasajeros.Rows.Clear();
+            
         }
 
         private void Supervisor_FormClosing(object sender, FormClosingEventArgs e)

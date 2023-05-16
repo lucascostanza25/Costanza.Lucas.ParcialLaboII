@@ -237,29 +237,43 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnEliminarAvion_Click(object sender, EventArgs e)
         {
-            string? matriculaAvion = dgvDatosAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
-            Aviones avionSeleccionado = new Aviones();
-            avionSeleccionado = MiAerolinea.BuscarUnAvion(matriculaAvion);
-            DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el avion {avionSeleccionado.ModeloAvion}?", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (resutado == DialogResult.Yes)
-                MiAerolinea.listaAviones.Remove(avionSeleccionado);
-            else
-                MessageBox.Show($"No se elminó a el avion {avionSeleccionado.ModeloAvion}", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            CrearDataGridViewAviones(MiAerolinea.listaAviones);
-            lblInformacionAvion.Text = "Seleccione un avion clickeando en la primera columna con la flecha de la fila deseada";
+            try
+            {
+                string? matriculaAvion = dgvDatosAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
+                Aviones avionSeleccionado = new Aviones();
+                avionSeleccionado = MiAerolinea.BuscarUnAvion(matriculaAvion);
+                DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el avion {avionSeleccionado.ModeloAvion}?", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (resutado == DialogResult.Yes)
+                    MiAerolinea.listaAviones.Remove(avionSeleccionado);
+                else
+                    MessageBox.Show($"No se elminó a el avion {avionSeleccionado.ModeloAvion}", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                CrearDataGridViewAviones(MiAerolinea.listaAviones);
+                lblInformacionAvion.Text = "Seleccione un avion clickeando en la primera columna con la flecha de la fila deseada";
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Seleccione un vuelo para eliminar primero");
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
-            Vuelos vuelo = MiAerolinea.BuscarUnVuelo(codigoVueloSeleccionado);
-            DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el vuelo {vuelo.CodigoVuelo}?", "Eliminar vuelo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (resutado == DialogResult.Yes)
-                MiAerolinea.listaVuelos.Remove(vuelo);
-            else
-                MessageBox.Show($"No se elminó el vuelo {vuelo.CodigoVuelo}", "Eliminar vuelo", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
-            lblInformacionVuelo.Text = "Seleccione un vuelo clickeando en la primera columna con la fecla de la fila deseada";
+            try
+            {
+                string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
+                Vuelos vuelo = MiAerolinea.BuscarUnVuelo(codigoVueloSeleccionado);
+                DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el vuelo {vuelo.CodigoVuelo}?", "Eliminar vuelo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (resutado == DialogResult.Yes)
+                    MiAerolinea.listaVuelos.Remove(vuelo);
+                else
+                    MessageBox.Show($"No se elminó el vuelo {vuelo.CodigoVuelo}", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+                lblInformacionVuelo.Text = "Seleccione un vuelo clickeando en la primera columna con la fecla de la fila deseada";
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Seleccione un vuelo para eliminar primero");
+            }
         }
     }
 }

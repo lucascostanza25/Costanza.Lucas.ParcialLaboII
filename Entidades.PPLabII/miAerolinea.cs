@@ -326,15 +326,12 @@ namespace Entidades.PPLabII
                     if(miPasajero.AsientoPremium)
                     {
                         miPasajero.CantidadEquipaje = 2;
-                        miPasajero.PesoEquipajeUno = equipaje.Next(1, 21);
-                        miPasajero.PesoEquipajeDos = equipaje.Next(1, 21);
                         pesoTotal += miPasajero.PesoEquipajeUno + miPasajero.PesoEquipajeDos;
                         miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
                     }
                     else
                     {
                         miPasajero.CantidadEquipaje = 1;
-                        miPasajero.PesoEquipajeUno = equipaje.Next(1, 25);
                         pesoTotal += miPasajero.PesoEquipajeUno;
                         miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
                     }
