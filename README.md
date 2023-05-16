@@ -6,5 +6,5 @@ vender vuelo a clientes, que luego pasaran a ser pasajeros, gestionar los vuelos
 A continuación se detallara el funcionamiento del programa.
 ## Inicio de sesión
 ---
-![](../Fotos_GitHub/FrmInicioSesion.png)
+![](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/FrmInicioSesion.png)
 
