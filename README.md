@@ -163,6 +163,31 @@ Clase Persona: `abstract protected string Datos();`
 Clases Pasajeros, Usuarios y Cliente: `protected override string Datos()`
 <br>
 
+    protected override string Datos()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine($"NOMBRE: {Nombre}");
+        sb.AppendLine($"APELLIDO: {Apellido}");
+        sb.AppendLine($"EDAD: {Edad}");
+        sb.AppendLine($"DNI: {Dni.ToString()}");
+        sb.AppendLine($"GENERO: {Genero}");
+        sb.AppendLine($"CANTIDAD DE EQUIPAJE: {CantidadEquipaje}");
+        sb.AppendLine($"- Peso primer equipaje: {PesoEquipajeUno}");
+        if (AsientoPremium)
+        {
+            sb.AppendLine($"- Peso segundo equipaje: {PesoEquipajeDos}");
+        }
+
+
+        return sb.ToString();
+    }
+
+    public override string ToString()
+    {
+        return Datos();
+    }
+
 ### Herencia Form
 <br>
 
@@ -183,6 +208,33 @@ Se utilizaro listas para los **usuarios**, los **clientes**, los **pasajeros**, 
 Ademas se utlizó un diccionario para filtrar los vuelos nacionales e internacionales del enumerado:
 <br>
 `public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>`
+<br>
+
+### Sobrecargas de operadores
+<br>
+
+    public static bool operator ==(Vuelos v1, Vuelos v2)
+    {
+        if (v1.CodigoVuelo == v2.codigoVuelo)
+            return true; 
+        return false;
+    }
+
+    public static bool operator !=(Vuelos v1, Vuelos v2)
+    {
+        return !(v1 == v2);
+    }
+    public override bool Equals(object? obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+<br>
+<br>
 
 
 
