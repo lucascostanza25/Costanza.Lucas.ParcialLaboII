@@ -12,10 +12,10 @@ namespace Entidades.PPLabII
     public abstract class MiAerolinea
     {
         public static List<Usuarios>? listaUsuarios = new List<Usuarios>();
-        public static List<Vuelos> listaVuelos = new List<Vuelos>();
-        public static List<Pasajeros> listaPasajeros = new List<Pasajeros>();
+        public static List<Vuelos>? listaVuelos = new List<Vuelos>();
+        public static List<Pasajeros>? listaPasajeros = new List<Pasajeros>();
         public static List<Cliente>? listaClientes = new List<Cliente>();
-        public static List<Aviones> listaAviones = new List<Aviones>();
+        public static List<Aviones>? listaAviones = new List<Aviones>();
 
         public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>
         {

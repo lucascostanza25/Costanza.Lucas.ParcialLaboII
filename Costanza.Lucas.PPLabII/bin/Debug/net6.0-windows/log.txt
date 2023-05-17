@@ -1,2 +1,3 @@
 17/5/2023 01:13:55 -> INICIO SESION: Michael Jordan - administrador
 17/5/2023 01:15:23 -> INICIO SESION: Corey Gorgen - vendedor
+17/5/2023 01:36:15 -> INICIO SESION: Corey Gorgen - vendedor
