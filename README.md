@@ -6,7 +6,7 @@ vender vuelo a clientes, que luego pasaran a ser pasajeros, gestionar los vuelos
 A continuación se detallara el funcionamiento del programa.
 
 # Sobre mi
-Soy Lucas Costanza y vengo programando en c# hace un tiempo. Considero que el parcial fue un desafio, me resultó entretenido al principio, no tanto al final, ya que me di cuenta que todo lo que se pedia fue un poco demasiado con respecto al tiempo dado. 
+Soy Lucas Costanza y vengo programando en c# hace un tiempo. Considero que el parcial fue un desafio, me resultó entretenido al principio, interesante. 
 
 # Inicio de sesión
 ---
@@ -145,7 +145,7 @@ Diagrama de los forms
 ![Diagrama forms](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/DiagramaDeClasesForms.png)
 <br>
 
-# Usos
+# Breve explicacion sobre algunos de los temas vistos en la cursada aplicados al tp
 ---
 ### Herencia y clase abstracta:
 <br>
@@ -162,9 +162,27 @@ Clase Persona: `abstract protected string Datos();`
 
 Clases Pasajeros, Usuarios y Cliente: `protected override string Datos()`
 <br>
+
+### Herencia Form
 <br>
+
+El form del supervisor hereda del vendedor: `public partial class Supervisor : FrmVendedor`
 <br>
+
+### Enumerados
 <br>
+
+Contiene los destinos nacionales e internacionales: `public enum DestinosVuelos`
+<br>
+
+### Colecciones
+<br>
+
+Se utilizaro listas para los **usuarios**, los **clientes**, los **pasajeros**, los **vuelos** y los **aviones**.
+<br>
+Ademas se utlizó un diccionario para filtrar los vuelos nacionales e internacionales del enumerado:
+<br>
+`public static Dictionary<int, DestinosVuelos[]> destinoPorVuelo = new Dictionary<int, DestinosVuelos[]>`
 
 
 

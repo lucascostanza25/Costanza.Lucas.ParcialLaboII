@@ -20,7 +20,10 @@ namespace Costanza.Lucas.PPLabII
             btnAceptar.Text = "Crear avion";
             avion = new Aviones();
         }
-
+        /// <summary>
+        /// Sobrecarga del constructor destinado a modificar aviones
+        /// </summary>
+        /// <param name="avionEditar">avion a modificar</param>
         public FrmCrearModificarAvion(Aviones avionEditar) : this()
         {
             btnAceptar.Text = "Editar avion";
@@ -65,7 +68,10 @@ namespace Costanza.Lucas.PPLabII
             }
             this.Close();
         }
-
+        /// <summary>
+        /// Metodo que crea un avion
+        /// </summary>
+        /// <returns>Retorna true si lo pudo crar, false si no</returns>
         public bool CrearAvion()
         {
             bool estado = false;
@@ -102,7 +108,10 @@ namespace Costanza.Lucas.PPLabII
         {
             this.Close();
         }
-
+        /// <summary>
+        /// Metodo que pinta los datos de un avion a modificar
+        /// </summary>
+        /// <param name="avionEditar">avion a modificar</param>
         private void PintarDatosAvion(Aviones avionEditar)
         {
             txtMarcaModelo.Text = avionEditar.ModeloAvion;
@@ -130,7 +139,11 @@ namespace Costanza.Lucas.PPLabII
                 cbComida.CheckState = CheckState.Unchecked;
             }
         } 
-        
+        /// <summary>
+        /// Metodo que modifica un avion
+        /// </summary>
+        /// <param name="avionEditar">avion a modificar</param>
+        /// <returns>retorna true si lo puedo modificar, false si no</returns>
         private bool ModificarAvion(Aviones avionEditar)
         {
             if(nudCapacidadBodega.Value > 100)

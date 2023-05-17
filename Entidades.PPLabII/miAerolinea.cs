@@ -29,7 +29,6 @@ namespace Entidades.PPLabII
         {
             string jsonString = File.ReadAllText(archivo);
             listaUsuarios = JsonSerializer.Deserialize<List<Usuarios>>(jsonString);
-            MiAerolinea.listaUsuarios = listaUsuarios;
         }
 
         public static List<Pasajeros> CargarPasajerosXml(string path)
@@ -212,7 +211,7 @@ namespace Entidades.PPLabII
             return sb.ToString();
         }
 
-        public static Vuelos BuscarUnVuelo(string codigoVuelo)
+        public static Vuelos BuscarUnVuelo(string? codigoVuelo)
         {
             Vuelos vueloBuscado = new Vuelos();
 

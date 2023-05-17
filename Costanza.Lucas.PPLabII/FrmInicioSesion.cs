@@ -33,37 +33,44 @@ namespace Costanza.Lucas.PPLabII
         {
             DateTime fecha = DateTime.Now;
             string fechaSinHora = fecha.ToString("dd/MM/yyyy");
+            string rutaArchivo = "log.txt";
             
             foreach (Usuarios miUsuario in MiAerolinea.listaUsuarios)
             {
                 if (miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
                 {
-                    switch (miUsuario.Perfil)
+                    using (StreamWriter archivo = new StreamWriter(rutaArchivo, true))
                     {
-                        case "vendedor":
-                            this.Hide();
-                            FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
-                            formMenu.ShowDialog();
-                            this.Show();
-                            break;
+                        switch (miUsuario.Perfil)
+                        {
+                            case "vendedor":
+                                archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
+                                this.Hide();
+                                FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                formMenu.ShowDialog();
+                                this.Show();
+                                break;
 
-                        case "supervisor":
-                            this.Hide();
-                            Supervisor formSupervisor = new Supervisor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
-                            formSupervisor.ShowDialog();
-                            this.Show();
-                            break;
+                            case "supervisor":
+                                archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
+                                this.Hide();
+                                Supervisor formSupervisor = new Supervisor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                formSupervisor.ShowDialog();
+                                this.Show();
+                                break;
 
-                        case "administrador":
-                            this.Hide();
-                            FrmAdministrador formAdministrador = new FrmAdministrador(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
-                            formAdministrador.ShowDialog();
-                            this.Show();
-                            break;
+                            case "administrador":
+                                archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
+                                this.Hide();
+                                FrmAdministrador formAdministrador = new FrmAdministrador(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                formAdministrador.ShowDialog();
+                                this.Show();
+                                break;
+                        }
+                        this.txtContrasenia.Text = null;
+                        this.txtMail.Text = null;
+                        archivo.Flush();
                     }
-                    this.txtContrasenia.Text = null;
-                    this.txtMail.Text = null;
-                    
                 }
             }
         }

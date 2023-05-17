@@ -40,7 +40,10 @@ namespace Entidades.PPLabII
             this.pesoEquipajeUno = pesoUno;
             this.pesoEquipajeDos = pesoDos;
         }
-
+        /// <summary>
+        /// Metodo override que devuelve los datos de un pasajero
+        /// </summary>
+        /// <returns>Retorna los datos de un pasajero en formato string</returns>
         protected override string Datos()
         {
             StringBuilder sb = new StringBuilder();
@@ -60,12 +63,20 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Override del metodo .toString()
+        /// </summary>
+        /// <returns>Retorna los datos del metodo Datos()</returns>
         public override string ToString()
         {
             return Datos();
         }
-
+        /// <summary>
+        /// Sobrecarga del operador == que compara 2 pasajeros
+        /// </summary>
+        /// <param name="p1">Pasajero 1</param>
+        /// <param name="p2">Pasajero 2</param>
+        /// <returns>Retorna true si tienen los dni iguales o false sino</returns>
         public static bool operator ==(Pasajeros p1, Pasajeros p2)
         {
             if (p1.Dni == p2.Dni)

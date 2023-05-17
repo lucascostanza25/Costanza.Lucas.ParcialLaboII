@@ -25,6 +25,7 @@ namespace Costanza.Lucas.PPLabII
             this.Text = titulo;
             btnAceptar.Text = "Crear cliente";
             miPasajero = new Pasajeros();
+            vueloPasajero = new Vuelos();
             if(cbAsientoPremium.CheckState == CheckState.Unchecked)
             {
                 cmbCantidadEquipajes.Items.Clear();
@@ -32,20 +33,32 @@ namespace Costanza.Lucas.PPLabII
                 nudPesoEquipajeDos.Enabled = false;
             }
         }
-
+        /// <summary>
+        /// Sobrecarga del constructor destinada para editar pasajero
+        /// </summary>
+        /// <param name="titulo">titulo del form</param>
+        /// <param name="dni">dni del pasajero</param>
         public FrmCrearModificarPersonas(string titulo, int dni) : this(titulo)
         {
             this.Text = titulo;
             btnAceptar.Text = "Editar pasajero";
             PintarDatosPasajero(dni);
         }
-
+        /// <summary>
+        /// Sobrecarga del constructor pensado para el supervisor
+        /// </summary>
+        /// <param name="titulo">titulo del boton</param>
+        /// <param name="dni">dni del pasajero, en este caso 0 o -1</param>
+        /// <param name="vuelo">vuelo del pasajero a crear</param>
         public FrmCrearModificarPersonas(string titulo , int dni, Vuelos vuelo) : this(titulo, dni)
         {
             vueloPasajero = vuelo;
             btnAceptar.Text = titulo;
         }
-
+        /// <summary>
+        /// Metodo que pinta los datos del pasajero a editar
+        /// </summary>
+        /// <param name="dni">dni del pasajero</param>
         private void PintarDatosPasajero(int dni)
         {
             nudDineroDisponible.Enabled = false;
@@ -124,7 +137,10 @@ namespace Costanza.Lucas.PPLabII
             this.Close();
            
         }
-
+        /// <summary>
+        /// Metodo que crea un cliente
+        /// </summary>
+        /// <returns>Retorna true si lo pudo crear, false si no</returns>
         private bool CrearCliente()
         {
             int dni, edad, dinero;
@@ -189,7 +205,10 @@ namespace Costanza.Lucas.PPLabII
             else
                 nudPesoEquipajeDos.Enabled = true;
         }
-
+        /// <summary>
+        /// Metodo que actualiza un pasajero
+        /// </summary>
+        /// <returns>retorna tru si lo pudo modificar, false si no</returns>
         private bool ActualizarPasajero()
         {
             bool estado = false;
@@ -209,7 +228,11 @@ namespace Costanza.Lucas.PPLabII
 
             return estado;
         }
-
+        /// <summary>
+        /// Metodo que agrega un pasajero para el supervisor
+        /// </summary>
+        /// <param name="vuelo">Vuelo a agregar el pasajero</param>
+        /// <returns>Retoran true si lo pudo agregar, false si no</returns>
         public bool SupervisorAgregarPasajero(Vuelos vuelo)
         {
             int dni, edad;

@@ -14,6 +14,13 @@ namespace Costanza.Lucas.PPLabII
     public partial class FrmAdministrador : Form
     {
         private bool solicitudCierre = false;
+        /// <summary>
+        /// Constructor del form
+        /// </summary>
+        /// <param name="nombre">Nombre del administrador</param>
+        /// <param name="apellido">Apellido del administrador</param>
+        /// <param name="fecha">Fecha que se inicia sesion</param>
+        /// <param name="cargo">Cargo</param>
         public FrmAdministrador(string nombre, string apellido, string fecha, string cargo)
         {
             InitializeComponent();
@@ -29,12 +36,16 @@ namespace Costanza.Lucas.PPLabII
         {
 
         }
-
+        /// <summary>
+        /// Metodo que oculta el menu del panel lateral
+        /// </summary>
         protected void OcultarMenu()
         {
             this.panelMenuVuelos.Visible = false;
         }
-
+        /// <summary>
+        /// Metodo que pinta el submenu del panel lateral
+        /// </summary>
         protected void PintarSubMenu()
         {
             if (panelMenuVuelos.Visible == true)
@@ -42,7 +53,10 @@ namespace Costanza.Lucas.PPLabII
                 panelMenuVuelos.Visible = false;
             }
         }
-
+        /// <summary>
+        /// Metodo que muestra el menu del panel lateral
+        /// </summary>
+        /// <param name="menu">Panel a mostrar</param>
         protected void MostrarMenu(Panel menu)
         {
             if (menu.Visible == false)
@@ -74,7 +88,11 @@ namespace Costanza.Lucas.PPLabII
             this.gbAdministrarVuelos.Visible = true;
             CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
         }
-
+        /// <summary>
+        /// Metodo que crear la informacion del data grid view
+        /// </summary>
+        /// <param name="dgv">DataGridView a pintar</param>
+        /// <param name="listaVuelos">Lista con la informacion</param>
         protected void CrearDataGridViewVuelos(DataGridView dgv, List<Vuelos> listaVuelos)
         {
             dgv.Rows.Clear();
@@ -144,7 +162,10 @@ namespace Costanza.Lucas.PPLabII
 
             lblInformacionVuelo.Text = MiAerolinea.RetornarDatosVuelo(vuelo);
         }
-
+        /// <summary>
+        /// Metodo que crear el DataGridView de los aviones
+        /// </summary>
+        /// <param name="listaAviones">lista de los aviones</param>
         protected void CrearDataGridViewAviones(List<Aviones> listaAviones)
         {
             dgvDatosAviones.Rows.Clear();
