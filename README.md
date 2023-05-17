@@ -234,10 +234,62 @@ Ademas se utlizó un diccionario para filtrar los vuelos nacionales e internacio
         return base.GetHashCode();
     }
 <br>
+
+### Serialización y deserialización
 <br>
 
+Serialización Xml
+<br>
 
+    public static void SerializarVuelosXml(List<Vuelos> listaVuelos)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
 
+        using(StreamWriter streamWriter = new StreamWriter("vuelos.xml"))
+        {
+            serializer.Serialize(streamWriter, listaVuelos);
+        }
+    }
+
+<br>
+
+Deserialización Xml
+<br>
+
+    public static void DeserializarVuelosXml()
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
+
+        using(FileStream fileStream = new FileStream("vuelos.xml", FileMode.Open))
+        {
+            listaVuelos = (List<Vuelos>)serializer.Deserialize(fileStream);
+        }
+    }
+
+<br>
+
+Serialización Json
+<br>
+
+    public static void SerializarAvionesJson(List<Aviones> listaAvionesSerializar)
+    {
+        string jsonSting = JsonSerializer.Serialize(listaAvionesSerializar);
+        File.WriteAllText("aviones.json", jsonSting);
+    }
+ 
+<br>
+
+Deserialización Json
+<br>
+
+    public static void DeserializarAvionesJson(string archivo)
+    {
+        List<Aviones>? listaAviones = new List<Aviones>();
+
+        string jsonString = File.ReadAllText(archivo);
+        listaAviones = JsonSerializer.Deserialize<List<Aviones>>(jsonString);
+        MiAerolinea.listaAviones = listaAviones;
+    }
 
 
 

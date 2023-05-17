@@ -24,13 +24,21 @@ namespace Entidades.PPLabII
             DestinosVuelos.Puerto_Madryn, DestinosVuelos.Ushuaia}},
             {2, new DestinosVuelos[] {DestinosVuelos.Buenos_aires, DestinosVuelos.Recife, DestinosVuelos.Roma, DestinosVuelos.Acapulco, DestinosVuelos.Miami} }
         };
-
+        /// <summary>
+        /// Metodo que deserializa la el archivo json  de usuarios
+        /// </summary>
+        /// <param name="archivo">nombre del archivo</param>
         public static void DeserializarUsuarios(string archivo)
         {
             string jsonString = File.ReadAllText(archivo);
             listaUsuarios = JsonSerializer.Deserialize<List<Usuarios>>(jsonString);
         }
-
+        /// <summary>
+        /// Metodo que deserializa pasajeros de un archivo xml
+        /// No utilizdo, ya que los pasajeros se encuentran dentro de vuelos.xml
+        /// </summary>
+        /// <param name="path">archivo</param>
+        /// <returns>retorna la lista de pasajeros</returns>
         public static List<Pasajeros> CargarPasajerosXml(string path)
         {
             List<Pasajeros>? listaPasajerosXml = new List<Pasajeros>();
@@ -44,7 +52,11 @@ namespace Entidades.PPLabII
 
             return listaPasajerosXml;
         }
-
+        /// <summary>
+        /// Metodo que filtra a los pasajeros de un vuelo buscado
+        /// </summary>
+        /// <param name="codigoVuelo">codigo del vuelo</param>
+        /// <returns>retorna la lista de pasajeros</returns>
         public static List<Pasajeros> RetornarPasajerosPorVuelo(string? codigoVuelo)
         {
             List<Pasajeros>? listaPasajerosBuscados;
@@ -54,13 +66,16 @@ namespace Entidades.PPLabII
                 if(vueloBuscado.CodigoVuelo == codigoVuelo)
                 {
                     listaPasajerosBuscados = vueloBuscado.ListaPasajeros;
-                    //break;
                 }
             }
 
             return listaPasajeros;
         }
-
+        /// <summary>
+        /// Metodo que retorna a un pasajero
+        /// </summary>
+        /// <param name="dni">dni del pasajero</param>
+        /// <returns>retorna a el pasajero buscado</returns>
         public static Pasajeros RetornarUnPasajero(int dni)
         {
             Pasajeros pasajeroBuscado = new Pasajeros();
@@ -79,13 +94,19 @@ namespace Entidades.PPLabII
 
             return pasajeroBuscado;
         }
-
+        /// <summary>
+        /// Metodo que serializa la lista de los aviones
+        /// </summary>
+        /// <param name="listaAvionesSerializar">lista de aviones a serializar</param>
         public static void SerializarAvionesJson(List<Aviones> listaAvionesSerializar)
         {
             string jsonSting = JsonSerializer.Serialize(listaAvionesSerializar);
             File.WriteAllText("aviones.json", jsonSting);
         }
-
+        /// <summary>
+        /// Metodo que deserializa la lista de aviones
+        /// </summary>
+        /// <param name="archivo"></param>
         public static void DeserializarAvionesJson(string archivo)
         {
             List<Aviones>? listaAviones = new List<Aviones>();
@@ -94,7 +115,11 @@ namespace Entidades.PPLabII
             listaAviones = JsonSerializer.Deserialize<List<Aviones>>(jsonString);
             MiAerolinea.listaAviones = listaAviones;
         }
-
+        /// <summary>
+        /// Metodo que retorna los datos de un vuelo
+        /// </summary>
+        /// <param name="miVuelo">vuelo a retornar los datos</param>
+        /// <returns>retorna un stringbuilder con todos los datos</returns>
         public static string RetornarDatosVuelo(Vuelos miVuelo)
         {
             int contadorAsientosPremium = 0;
@@ -124,7 +149,11 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Metodo que retorna los datos de un avion
+        /// </summary>
+        /// <param name="avion">avion a sacar los datos</param>
+        /// <returns>retorna un stringbuilder con los datos</returns>
         public static string RetornarDatosAvion(Aviones avion)
         {
             StringBuilder sb = new StringBuilder();
@@ -139,16 +168,10 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
-        public static void CrearVuelo(List<Pasajeros> listaPasajeros, List<Aviones> flotaAviones, DateTime fecha, string codigo, int horas, DestinosVuelos origen, DestinosVuelos destino, double precioVuelo, string matricula)
-        {
-            foreach(Aviones miAvion in flotaAviones)
-            {
-                if (miAvion.Matricula == matricula)
-                    listaVuelos.Add(new Vuelos(listaPasajeros, miAvion, fecha, codigo, origen, destino, horas, precioVuelo));
-            }
-        }
-
+        /// <summary>
+        /// Metodo que serializa los vuelos en archivo xml
+        /// </summary>
+        /// <param name="listaVuelos">lista de los vuelos</param>
         public static void SerializarVuelosXml(List<Vuelos> listaVuelos)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
@@ -158,7 +181,9 @@ namespace Entidades.PPLabII
                 serializer.Serialize(streamWriter, listaVuelos);
             }
         }
-
+        /// <summary>
+        /// Metodo que deserializa los vuelos en archivo xml
+        /// </summary>
         public static void DeserializarVuelosXml()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
@@ -168,7 +193,10 @@ namespace Entidades.PPLabII
                 listaVuelos = (List<Vuelos>)serializer.Deserialize(fileStream);
             }
         }
-
+        /// <summary>
+        /// Metodo que serializa los pasajeros xml,
+        /// no utilizado ya que los pasajeros se encuentran en la lista de vuelos
+        /// </summary>
         public static void SerializarPasajerosXml()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Pasajeros>));
@@ -177,7 +205,11 @@ namespace Entidades.PPLabII
                 listaPasajeros = (List<Pasajeros>)serializer.Deserialize(fileStream);
             }
         }
-
+        /// <summary>
+        /// Metodo que busca un vuelo
+        /// </summary>
+        /// <param name="codigoVuelo"></param>
+        /// <returns>retorna una lista del vuelo buscado</returns>
         public static List<Vuelos> BuscarVuelo(string codigoVuelo)
         {
             List<Vuelos> vueloBuscado = new List<Vuelos>();
@@ -190,7 +222,11 @@ namespace Entidades.PPLabII
 
             return vueloBuscado;
         }
-
+        /// <summary>
+        /// Metodo que busca a un pasajero
+        /// </summary>
+        /// <param name="dni">dni de pasajero</param>
+        /// <returns>retorna un stringbuilder con los datos del pasajero y de su vuelo</returns>
         public static string BuscarUnPasajero(int dni)
         {
             StringBuilder sb = new StringBuilder();
@@ -210,7 +246,11 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Metodo que busca un vuelo
+        /// </summary>
+        /// <param name="codigoVuelo">codigo del vuelo buscado</param>
+        /// <returns>retorna un vuelo</returns>
         public static Vuelos BuscarUnVuelo(string? codigoVuelo)
         {
             Vuelos vueloBuscado = new Vuelos();
@@ -223,7 +263,15 @@ namespace Entidades.PPLabII
 
             return vueloBuscado;
         }
-        
+        /// <summary>
+        /// Metodoque filtra vuelos
+        /// </summary>
+        /// <param name="origen">origen del vuelo</param>
+        /// <param name="destino">destino del vuelo</param>
+        /// <param name="fecha">fecha del vuelo</param>
+        /// <param name="servicio">servicios del vuelo</param>
+        /// <returns>retorna una lista de los vuelos filtrado</returns>
+        /// <exception cref="Exception">lanza una excepcion si no se encontraron vuelo para filtrar</exception>
         public static List<Vuelos> FiltrarVuelos(DestinosVuelos origen, DestinosVuelos destino, DateTime fecha, int servicio)
         {
             List<Vuelos> listaFiltrada = new List<Vuelos>();
@@ -258,7 +306,13 @@ namespace Entidades.PPLabII
                 throw new Exception("No se encontraron vuelos con las caracteristicas buscadas");
             return listaFiltrada;
         }
-
+        /// <summary>
+        /// Metodo que vende un vuelo y lo agrega a la lista de los pasajeros del vuelo
+        /// </summary>
+        /// <param name="vuelo">vuelo a vender</param>
+        /// <param name="miCliente">cliente a vender el vuelo</param>
+        /// <returns>retorna true si lo pudo vender, false si no</returns>
+        /// <exception cref="Exception">lanza una excepcion si el cliente no tiene dinero suficiente</exception>
         public static bool VenderVuelo(Vuelos vuelo, Cliente miCliente)
         {
             bool estadoVenta = false;
@@ -292,7 +346,9 @@ namespace Entidades.PPLabII
 
             return estadoVenta;
         }
-
+        /// <summary>
+        /// Metodo que despacha el equipaje de todos los pasajeros
+        /// </summary>
         public static void DespacharEquipajeDePasajerosHechos()
         {
             Random equipaje = new Random();
@@ -316,7 +372,10 @@ namespace Entidades.PPLabII
                 }
             }
         }
-
+        /// <summary>
+        /// Metodo que genera las estadisticas del vuelo con mas pasajeros
+        /// </summary>
+        /// <returns>retorna un string con los datos del vuelo</returns>
         public static string EstadisticaVueloMasPasajeros()
         {
             Vuelos vueloMasPasajeros = new Vuelos();
@@ -338,7 +397,10 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Metodo que genera las estadisticas de la recaudacion total de todos los vuelos
+        /// </summary>
+        /// <returns>retorna un string con los datos</returns>
         public static string EstadisticaRecaudacionTotalVuelos()
         {
             StringBuilder sb = new StringBuilder();
@@ -353,7 +415,10 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Meotodo que genera las estadisticas del vuelo que mas recaudo
+        /// </summary>
+        /// <returns>retorna un string con los datos</returns>
         public static string EstadisticaVueloMasRecaudo()
         {
             Vuelos vueloMasRecaudado = new Vuelos();
@@ -374,7 +439,10 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Metodo que genera las estadisticas de la recaudación total de todos los vuelo
+        /// </summary>
+        /// <returns>retorna un string con todos los datos</returns>
         public static string EstadisticaRecaudacionTodosLosVuelo()
         {
             StringBuilder sb = new StringBuilder();
@@ -386,7 +454,11 @@ namespace Entidades.PPLabII
 
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Metodo que elimina un pasajero
+        /// </summary>
+        /// <param name="dni">sni del pasajero</param>
+        /// <returns>retorna true si lo pudo eliminar, false si no</returns>
         public static bool EliminarPasajero(int dni)
         {
             foreach(Vuelos vuelo in listaVuelos)
@@ -404,7 +476,11 @@ namespace Entidades.PPLabII
 
             return false;
         }
-
+        /// <summary>
+        /// Metodo que busca un avion en el sistema
+        /// </summary>
+        /// <param name="matricula">matricula del avion</param>
+        /// <returns>retorna el avion buscado</returns>
         public static Aviones BuscarUnAvion(string? matricula)
         {
             Aviones avionBuscado = new Aviones();

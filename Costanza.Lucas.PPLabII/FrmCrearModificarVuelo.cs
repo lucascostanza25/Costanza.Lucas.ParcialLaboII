@@ -131,7 +131,10 @@ namespace Costanza.Lucas.PPLabII
             Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
             lblAvion.Text = $"Avion seleccionado: {vueloAvion.ModeloAvion} - {vueloAvion.Matricula}";
         }
-
+        /// <summary>
+        /// Metodo que crea un vuelo con los datos deseados
+        /// </summary>
+        /// <returns>retorna true si lo pudo crear, false si no</returns>
         private bool CrearVuelo()
         {
             bool estado = false;
@@ -177,7 +180,10 @@ namespace Costanza.Lucas.PPLabII
 
             return estado;
         }
-
+        /// <summary>
+        /// Metodo que pinta los datos del vuelo a editar
+        /// </summary>
+        /// <param name="vuelo">vuelo a editar</param>
         private void PintarDatosVuelo(Vuelos vuelo)
         {
             if (MiAerolinea.destinoPorVuelo[1].Contains(vuelo.Destino))
