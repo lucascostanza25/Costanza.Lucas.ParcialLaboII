@@ -26,7 +26,7 @@ namespace Costanza.Lucas.PPLabII
             btnAceptar.Text = "Crear cliente";
             miPasajero = new Pasajeros();
             vueloPasajero = new Vuelos();
-            if(cbAsientoPremium.CheckState == CheckState.Unchecked)
+            if (cbAsientoPremium.CheckState == CheckState.Unchecked)
             {
                 cmbCantidadEquipajes.Items.Clear();
                 cmbCantidadEquipajes.Items.Add(1);
@@ -50,7 +50,7 @@ namespace Costanza.Lucas.PPLabII
         /// <param name="titulo">titulo del boton</param>
         /// <param name="dni">dni del pasajero, en este caso 0 o -1</param>
         /// <param name="vuelo">vuelo del pasajero a crear</param>
-        public FrmCrearModificarPersonas(string titulo , int dni, Vuelos vuelo) : this(titulo, dni)
+        public FrmCrearModificarPersonas(string titulo, int dni, Vuelos vuelo) : this(titulo, dni)
         {
             vueloPasajero = vuelo;
             btnAceptar.Text = titulo;
@@ -78,7 +78,7 @@ namespace Costanza.Lucas.PPLabII
                 nudPesoEquipajeDos.Value = Convert.ToDecimal(miPasajero.PesoEquipajeDos);
                 cbAsientoPremium.CheckState = CheckState.Checked;
             }
-            
+
         }
 
         private void cbAsientoPremium_CheckedChanged(object sender, EventArgs e)
@@ -104,10 +104,10 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            
-            if(btnAceptar.Text == "Crear cliente")
+
+            if (btnAceptar.Text == "Crear cliente")
             {
-                if(CrearCliente())
+                if (CrearCliente())
                 {
                     MessageBox.Show("Cliente creado correctamente");
                 }
@@ -116,10 +116,10 @@ namespace Costanza.Lucas.PPLabII
                     MessageBox.Show("No se pudo crear al cliente");
                 }
             }
-            else if(btnAceptar.Text == "Editar pasajero")
+            else if (btnAceptar.Text == "Editar pasajero")
             {
-                
-                if(ActualizarPasajero())
+
+                if (ActualizarPasajero())
                 {
                     MessageBox.Show("Pasajero actualizado correctamente");
                 }
@@ -128,14 +128,14 @@ namespace Costanza.Lucas.PPLabII
                     MessageBox.Show("No se pudo actualizar al pasajero");
                 }
             }
-            else if(btnAceptar.Text == "Crear pasajero SUPERVISOR")
+            else if (btnAceptar.Text == "Crear pasajero SUPERVISOR")
             {
                 SupervisorAgregarPasajero(vueloPasajero);
             }
 
 
             this.Close();
-           
+
         }
         /// <summary>
         /// Metodo que crea un cliente
@@ -170,9 +170,9 @@ namespace Costanza.Lucas.PPLabII
                         }
                     }
                 }
-                foreach(Cliente cliente in MiAerolinea.listaClientes)
+                foreach (Cliente cliente in MiAerolinea.listaClientes)
                 {
-                    if(cliente.Dni == dni)
+                    if (cliente.Dni == dni)
                     {
                         clienteDuplicado = true;
                         break;
@@ -198,7 +198,7 @@ namespace Costanza.Lucas.PPLabII
 
         private void cmbCantidadEquipajes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cmbCantidadEquipajes.SelectedIndex == 0)
+            if (cmbCantidadEquipajes.SelectedIndex == 0)
             {
                 nudPesoEquipajeDos.Enabled = false;
             }
@@ -249,11 +249,11 @@ namespace Costanza.Lucas.PPLabII
                     {
                         if (cbAsientoPremium.Checked)
                         {
-                            vuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, true, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
+                            //vuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, true, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
                         }
                         else
                         {
-                            vuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, false, 1, pesoEquipajeUno, pesoEquipajeDos));
+                            //svuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, false, 1, pesoEquipajeUno, pesoEquipajeDos));
                         }
                         MessageBox.Show("Pasajero agregado correctamente");
                         vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);

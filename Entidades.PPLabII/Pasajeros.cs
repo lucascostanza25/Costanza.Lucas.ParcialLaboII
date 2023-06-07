@@ -17,6 +17,7 @@ namespace Entidades.PPLabII
         private int cantidadEquipajes;
         private double pesoEquipajeUno;
         private double pesoEquipajeDos;
+        private string codigoVuelo;
 
         public Pasajeros()
         {
@@ -24,17 +25,19 @@ namespace Entidades.PPLabII
             this.edad = 0;
             this.genero = "";
             this.asientoPremium = false;
+            this.codigoVuelo = "";
         }
 
-        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium) : base(apellido, nombre)
+        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, string codigo) : base(apellido, nombre)
         {
             this.dni = dni;
             this.edad = edad;
             this.genero = genero;
             this.asientoPremium = asientoPremium;
-        } 
+            this.codigoVuelo = codigo;
+        }
 
-        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, int cantidadEquipaje, double pesoUno, double pesoDos) : this(apellido, nombre, dni, edad, genero, asientoPremium)
+        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, string codigo, int cantidadEquipaje, double pesoUno, double pesoDos) : this(apellido, nombre, dni, edad, genero, asientoPremium, codigo)
         {
             this.cantidadEquipajes = cantidadEquipaje;
             this.pesoEquipajeUno = pesoUno;
@@ -143,6 +146,12 @@ namespace Entidades.PPLabII
         {
             get { return pesoEquipajeDos; }
             set { pesoEquipajeDos = value; }
+        }
+        [XmlElement("codigo_vuelo")]
+        public string CodigoVuelo
+        {
+            get { return codigoVuelo; }
+            set { codigoVuelo = value; }
         }
         #endregion
     }

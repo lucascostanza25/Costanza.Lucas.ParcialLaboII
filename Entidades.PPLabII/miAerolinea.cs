@@ -49,7 +49,7 @@ namespace Entidades.PPLabII
                 ListaPasajerosXml lista = (ListaPasajerosXml)xmlSerializer.Deserialize(streamReader);
                 listaPasajerosXml = lista.Pasajeros;
             }
-
+            listaPasajeros.AddRange(listaPasajerosXml);
             return listaPasajerosXml;
         }
         /// <summary>
@@ -61,9 +61,9 @@ namespace Entidades.PPLabII
         {
             List<Pasajeros>? listaPasajerosBuscados;
 
-            foreach(Vuelos vueloBuscado in listaVuelos) 
+            foreach (Vuelos vueloBuscado in listaVuelos)
             {
-                if(vueloBuscado.CodigoVuelo == codigoVuelo)
+                if (vueloBuscado.CodigoVuelo == codigoVuelo)
                 {
                     listaPasajerosBuscados = vueloBuscado.ListaPasajeros;
                 }
@@ -176,7 +176,7 @@ namespace Entidades.PPLabII
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
 
-            using(StreamWriter streamWriter = new StreamWriter("vuelos.xml"))
+            using (StreamWriter streamWriter = new StreamWriter("vuelos.xml"))
             {
                 serializer.Serialize(streamWriter, listaVuelos);
             }
@@ -188,7 +188,7 @@ namespace Entidades.PPLabII
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
 
-            using(FileStream fileStream = new FileStream("vuelos.xml", FileMode.Open))
+            using (FileStream fileStream = new FileStream("vuelos.xml", FileMode.Open))
             {
                 listaVuelos = (List<Vuelos>)serializer.Deserialize(fileStream);
             }
@@ -214,9 +214,9 @@ namespace Entidades.PPLabII
         {
             List<Vuelos> vueloBuscado = new List<Vuelos>();
 
-            foreach(Vuelos miVuelo in listaVuelos)
+            foreach (Vuelos miVuelo in listaVuelos)
             {
-                if(miVuelo.CodigoVuelo == codigoVuelo)
+                if (miVuelo.CodigoVuelo == codigoVuelo)
                     vueloBuscado.Add(miVuelo);
             }
 
@@ -231,11 +231,11 @@ namespace Entidades.PPLabII
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach(Vuelos miVuelo in listaVuelos)
+            foreach (Vuelos miVuelo in listaVuelos)
             {
-                foreach(Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                foreach (Pasajeros miPasajero in miVuelo.ListaPasajeros)
                 {
-                    if(miPasajero.Dni == dni)
+                    if (miPasajero.Dni == dni)
                     {
                         sb.Append(miPasajero.ToString());
                         sb.AppendLine("----------------------");
@@ -255,9 +255,9 @@ namespace Entidades.PPLabII
         {
             Vuelos vueloBuscado = new Vuelos();
 
-            foreach(Vuelos miVuelo in listaVuelos)
+            foreach (Vuelos miVuelo in listaVuelos)
             {
-                if(miVuelo.CodigoVuelo == codigoVuelo)
+                if (miVuelo.CodigoVuelo == codigoVuelo)
                     vueloBuscado = miVuelo;
             }
 
@@ -276,7 +276,7 @@ namespace Entidades.PPLabII
         {
             List<Vuelos> listaFiltrada = new List<Vuelos>();
 
-            foreach(Vuelos vuelo in listaVuelos)
+            foreach (Vuelos vuelo in listaVuelos)
             {
                 if (vuelo.Origen == origen && vuelo.Destino == destino && vuelo.FechaVuelo.Date == fecha.Date)
                 {
@@ -295,7 +295,7 @@ namespace Entidades.PPLabII
                                 listaFiltrada.Add(vuelo);
                             break;
                         case 3:
-                            if(vuelo.AvionVuelo.ServicioInternet)
+                            if (vuelo.AvionVuelo.ServicioInternet)
                                 listaFiltrada.Add(vuelo);
                             break;
                     }
@@ -331,7 +331,7 @@ namespace Entidades.PPLabII
                 {
                     miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
                     vuelo.CantidadDineroRecuadado += precioDelPasaje;
-                    vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
+                    //vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
                     listaClientes.Remove(miCliente);
                     vuelo.AsientosOcupados++;
                     vuelo.AsientosDisponibles--;
@@ -349,28 +349,29 @@ namespace Entidades.PPLabII
         /// <summary>
         /// Metodo que despacha el equipaje de todos los pasajeros
         /// </summary>
-        public static void DespacharEquipajeDePasajerosHechos()
+        public static void DespacharEquipajeDePasajerosHechos(List<Pasajeros> lista)
         {
             Random equipaje = new Random();
             double pesoTotal = 0;
-            foreach(Vuelos miVuelo in listaVuelos)
+            foreach (Pasajeros miPasajero in lista)
             {
-                foreach(Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                if (miPasajero.AsientoPremium)
                 {
-                    if(miPasajero.AsientoPremium)
-                    {
-                        miPasajero.CantidadEquipaje = 2;
-                        pesoTotal += miPasajero.PesoEquipajeUno + miPasajero.PesoEquipajeDos;
-                        miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
-                    }
-                    else
-                    {
-                        miPasajero.CantidadEquipaje = 1;
-                        pesoTotal += miPasajero.PesoEquipajeUno;
-                        miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
-                    }
+                    miPasajero.PesoEquipajeUno = equipaje.Next(0, 21);
+                    miPasajero.PesoEquipajeDos = equipaje.Next(0, 21);
+                    miPasajero.CantidadEquipaje = 2;
+                    pesoTotal += miPasajero.PesoEquipajeUno + miPasajero.PesoEquipajeDos;
+                    //miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
+                }
+                else
+                {
+                    miPasajero.PesoEquipajeUno = equipaje.Next(0, 25);
+                    miPasajero.CantidadEquipaje = 1;
+                    pesoTotal += miPasajero.PesoEquipajeUno;
+                    //miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
                 }
             }
+
         }
         /// <summary>
         /// Metodo que genera las estadisticas del vuelo con mas pasajeros
@@ -382,10 +383,10 @@ namespace Entidades.PPLabII
             StringBuilder sb = new StringBuilder();
             int maxPasajeros = 0;
             int cantidadPasajeros = 0;
-            foreach(Vuelos vuelo in listaVuelos)
+            foreach (Vuelos vuelo in listaVuelos)
             {
                 cantidadPasajeros = vuelo.ListaPasajeros.Count;
-                if(cantidadPasajeros > maxPasajeros)
+                if (cantidadPasajeros > maxPasajeros)
                 {
                     maxPasajeros = cantidadPasajeros;
                     vueloMasPasajeros = vuelo;
@@ -406,7 +407,7 @@ namespace Entidades.PPLabII
             StringBuilder sb = new StringBuilder();
             double recaudacionTotal = 0;
 
-            foreach(Vuelos vuelo in listaVuelos)
+            foreach (Vuelos vuelo in listaVuelos)
             {
                 recaudacionTotal += vuelo.CantidadDineroRecuadado;
             }
@@ -447,7 +448,7 @@ namespace Entidades.PPLabII
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach(Vuelos vuelo in listaVuelos)
+            foreach (Vuelos vuelo in listaVuelos)
             {
                 sb.AppendLine($"Vuelo: {vuelo.CodigoVuelo} - Recaudación: {vuelo.CantidadDineroRecuadado}");
             }
@@ -461,11 +462,11 @@ namespace Entidades.PPLabII
         /// <returns>retorna true si lo pudo eliminar, false si no</returns>
         public static bool EliminarPasajero(int dni)
         {
-            foreach(Vuelos vuelo in listaVuelos)
+            foreach (Vuelos vuelo in listaVuelos)
             {
-                foreach(Pasajeros pasajero in vuelo.ListaPasajeros)
+                foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
                 {
-                    if(pasajero.Dni == dni)
+                    if (pasajero.Dni == dni)
                     {
                         vuelo.ListaPasajeros.Remove(pasajero);
                         vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
@@ -485,9 +486,9 @@ namespace Entidades.PPLabII
         {
             Aviones avionBuscado = new Aviones();
 
-            foreach(Aviones avion in listaAviones)
+            foreach (Aviones avion in listaAviones)
             {
-                if(avion.Matricula == matricula)
+                if (avion.Matricula == matricula)
                 {
                     avionBuscado = avion;
                     break;

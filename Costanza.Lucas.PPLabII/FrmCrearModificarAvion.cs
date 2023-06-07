@@ -57,7 +57,7 @@ namespace Costanza.Lucas.PPLabII
             }
             if (btnAceptar.Text == "Editar avion")
             {
-                if(ModificarAvion(avion))
+                if (ModificarAvion(avion))
                 {
                     MessageBox.Show("Avion modificado exitosamente", "Avion modificado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -76,9 +76,11 @@ namespace Costanza.Lucas.PPLabII
         {
             bool estado = false;
             bool avionRepetido = false;
-            double asientos, bodega;
+            double asientos, bodega, asientosNormales, asientosPremium;
             asientos = Convert.ToDouble(nudCantidadAsientos.Value);
             bodega = Convert.ToDouble(nudCapacidadBodega.Value);
+            asientosPremium = asientos * 0.2;
+            asientosNormales = asientos - asientosPremium;
 
             foreach (Aviones miAvion in MiAerolinea.listaAviones)
             {
@@ -91,13 +93,13 @@ namespace Costanza.Lucas.PPLabII
             if (!avionRepetido)
             {
                 if (cbComida.Checked && cbInternet.Checked)
-                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, true, true, bodega, txtMarcaModelo.Text));
+                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, true, true, bodega, txtMarcaModelo.Text, asientosNormales, asientosPremium));
                 if (cbComida.Checked && cbInternet.CheckState == CheckState.Unchecked)
-                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, true, false, bodega, txtMarcaModelo.Text));
+                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, true, false, bodega, txtMarcaModelo.Text, asientosNormales, asientosPremium));
                 if (cbComida.CheckState == CheckState.Unchecked && cbInternet.Checked)
-                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, false, true, bodega, txtMarcaModelo.Text));
+                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, false, true, bodega, txtMarcaModelo.Text, asientosNormales, asientosPremium));
                 if (cbComida.CheckState == CheckState.Unchecked && cbInternet.CheckState == CheckState.Unchecked)
-                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, false, false, bodega, txtMarcaModelo.Text));
+                    MiAerolinea.listaAviones.Add(new Aviones(txtMatricula.Text, asientos, false, false, bodega, txtMarcaModelo.Text, asientosNormales, asientosPremium));
                 estado = true;
             }
 
@@ -123,22 +125,22 @@ namespace Costanza.Lucas.PPLabII
                 cbComida.CheckState = CheckState.Checked;
                 cbInternet.CheckState = CheckState.Checked;
             }
-            if(!avionEditar.ServicioInternet && avionEditar.ServicioComida)
+            if (!avionEditar.ServicioInternet && avionEditar.ServicioComida)
             {
                 cbComida.CheckState = CheckState.Checked;
                 cbInternet.CheckState = CheckState.Unchecked;
             }
-            if(avionEditar.ServicioInternet && !avionEditar.ServicioComida)
+            if (avionEditar.ServicioInternet && !avionEditar.ServicioComida)
             {
                 cbComida.CheckState = CheckState.Unchecked;
                 cbInternet.CheckState = CheckState.Checked;
             }
-            if(!avionEditar.ServicioComida && !avionEditar.ServicioInternet)
+            if (!avionEditar.ServicioComida && !avionEditar.ServicioInternet)
             {
                 cbInternet.CheckState = CheckState.Unchecked;
                 cbComida.CheckState = CheckState.Unchecked;
             }
-        } 
+        }
         /// <summary>
         /// Metodo que modifica un avion
         /// </summary>
@@ -146,7 +148,7 @@ namespace Costanza.Lucas.PPLabII
         /// <returns>retorna true si lo puedo modificar, false si no</returns>
         private bool ModificarAvion(Aviones avionEditar)
         {
-            if(nudCapacidadBodega.Value > 100)
+            if (nudCapacidadBodega.Value > 100)
             {
                 avionEditar.ModeloAvion = txtMarcaModelo.Text;
                 avionEditar.CantidadAsientos = (double)nudCantidadAsientos.Value;

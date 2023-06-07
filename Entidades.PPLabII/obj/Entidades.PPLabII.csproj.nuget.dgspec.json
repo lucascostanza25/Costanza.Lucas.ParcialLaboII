@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.PPLabII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {}
+    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {}
   },
   "projects": {
-    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.PPLabII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {
+    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.PPLabII\\Entidades.PPLabII\\Entidades.PPLabII.csproj",
+        "projectUniqueName": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj",
         "projectName": "Entidades.PPLabII",
-        "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.PPLabII\\Entidades.PPLabII\\Entidades.PPLabII.csproj",
+        "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj",
         "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-        "outputPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.PPLabII\\Entidades.PPLabII\\obj\\",
+        "outputPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

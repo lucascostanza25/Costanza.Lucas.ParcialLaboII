@@ -32,14 +32,16 @@ namespace Costanza.Lucas.PPLabII
 
             FrmCrearModificarPersonas formAgregarPasajero = new FrmCrearModificarPersonas("Crear pasajero SUPERVISOR", 0, vuelo);
             formAgregarPasajero.ShowDialog();
-            CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+            if(MiAerolinea.listaVuelos is not null)
+                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
             dgvPasajeros.Rows.Clear();
             
         }
 
         private void Supervisor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
+            if(MiAerolinea.listaVuelos is not null)
+                MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Costanza.Lucas.PPLabII
             dgvAviones.Columns["internet"].Width = 60;
             dgvAviones.Columns["comida"].Width = 60;
 
-            foreach(Aviones avion in listaAviones)
+            foreach (Aviones avion in listaAviones)
             {
                 dgvAviones.Rows.Add(avion.Matricula,
                     avion.ModeloAvion,
@@ -142,8 +142,8 @@ namespace Costanza.Lucas.PPLabII
             try
             {
                 string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
-                Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
-            
+                //Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
+
                 DestinosVuelos origen, destino;
                 double precio = Convert.ToDouble(nudPrecio.Value);
                 List<Pasajeros> listaPasajeros = new List<Pasajeros>();
@@ -153,9 +153,9 @@ namespace Costanza.Lucas.PPLabII
                 {
                     if (Enum.TryParse(cmbDestino.Text.Replace(" ", "_"), out destino))
                     {
-                        if(dtpFecha.Value >= DateTime.Now)
+                        if (dtpFecha.Value >= DateTime.Now)
                         {
-                            foreach(Vuelos vuelo in MiAerolinea.listaVuelos)
+                            foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
                             {
                                 if (vuelo.CodigoVuelo == txtCodigo.Text)
                                 {
@@ -165,7 +165,7 @@ namespace Costanza.Lucas.PPLabII
                             }
                             if (!vueloDuplicado)
                             {
-                                MiAerolinea.listaVuelos.Add(new Vuelos(listaPasajeros, vueloAvion, dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio));
+                                MiAerolinea.listaVuelos.Add(new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula));
                                 estado = true;
 
                             }
@@ -213,7 +213,7 @@ namespace Costanza.Lucas.PPLabII
             {
                 string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
                 Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
-            
+
                 DestinosVuelos origen, destino;
                 double precio = Convert.ToDouble(nudPrecio.Value);
 

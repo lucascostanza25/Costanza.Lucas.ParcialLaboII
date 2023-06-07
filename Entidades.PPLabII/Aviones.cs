@@ -13,6 +13,7 @@ namespace Entidades.PPLabII
         private string matricula;
         private double cantidadAsientos;
         private double cantidadAsientosPremium;
+        private double cantidadAsientosNormales;
         private bool servicioInternet;
         private bool servicioComida;
         private double capacidadBodega;
@@ -29,14 +30,15 @@ namespace Entidades.PPLabII
             this.modeloAvion = "";
         }
         [JsonConstructor]
-        public Aviones(string matricula, double cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion)
+        public Aviones(string matricula, double cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion, double cantidadAsientosNormales, double cantidadAsientosPremium)
         {
             this.matricula = matricula;
             this.cantidadAsientos = cantidadAsientos;
             this.servicioInternet = servicioInternet;
             this.servicioComida = servicioComida;
             this.capacidadBodega = capacidadBodega;
-            this.cantidadAsientosPremium = cantidadAsientos * 0.2;
+            this.cantidadAsientosPremium = cantidadAsientosPremium;
+            this.cantidadAsientosNormales = cantidadAsientosNormales;
             this.modeloAvion = modeloAvion;
         }
 
@@ -92,7 +94,7 @@ namespace Entidades.PPLabII
         }
         #endregion
 
-        public static bool operator == (Aviones a1, Aviones a2)
+        public static bool operator ==(Aviones a1, Aviones a2)
         {
             if (a1.Matricula == a2.Matricula)
                 return true;

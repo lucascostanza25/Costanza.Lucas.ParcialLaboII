@@ -27,31 +27,59 @@ namespace Entidades.PPLabII
 
         public Vuelos()
         {
-           
+
         }
 
-        public Vuelos(Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo)
+        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion)
         {
-            this.avionVuelo = avionVuelo;
-            this.fechaVuelo = fechaVuelo;
+            this.fechaVuelo = fecha;
             this.codigoVuelo = codigo;
-            this.horasVuelo = horasVuelo;
-            this.precioVuelo = horasVuelo * precioVuelo;
             this.destino = destino;
             this.origen = origen;
-            this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
+            this.horasVuelo = horas;
+            this.precioVuelo = precio;
+            if (avionVuelo is not null)
+            {
+                this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
+            }
         }
 
-        public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo) : this(avionVuelo, fechaVuelo, codigo, origen, destino, horasVuelo, precioVuelo)
+        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros, Aviones avionVuelo) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
         {
             this.listaPasajeros = listaPasajeros;
-     
-            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
-            this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
-            this.asientosOcupados = listaPasajeros.Count();
-            
-            this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
+            this.avionVuelo = avionVuelo;
+            if (avionVuelo is not null)
+            {
+                this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
+                this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
+                this.asientosOcupados = listaPasajeros.Count();
+
+                this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
+            }
         }
+
+        //public Vuelos(Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo)
+        //{
+        //    this.avionVuelo = avionVuelo;
+        //    this.fechaVuelo = fechaVuelo;
+        //    this.codigoVuelo = codigo;
+        //    this.horasVuelo = horasVuelo;
+        //    this.precioVuelo = horasVuelo * precioVuelo;
+        //    this.destino = destino;
+        //    this.origen = origen;
+        //    this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
+        //}
+
+        //public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo) : this(avionVuelo, fechaVuelo, codigo, origen, destino, horasVuelo, precioVuelo)
+        //{
+        //    this.listaPasajeros = listaPasajeros;
+
+        //    this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
+        //    this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
+        //    this.asientosOcupados = listaPasajeros.Count();
+
+        //    this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
+        //}
 
         public double CalcularPrecioVuelo(bool estado)
         {
@@ -77,10 +105,10 @@ namespace Entidades.PPLabII
             this.asientosOcupados = listaNuevaPasajeros.Count();
             this.asientosPremiumOcupados = 0;
             this.capacidadDisponibleBodega = 0;
-            double pesoTotal = 0; 
-            foreach(Pasajeros pasajero in listaNuevaPasajeros)
+            double pesoTotal = 0;
+            foreach (Pasajeros pasajero in listaNuevaPasajeros)
             {
-                if(pasajero.AsientoPremium)
+                if (pasajero.AsientoPremium)
                 {
                     this.asientosPremiumOcupados++;
                 }
@@ -92,7 +120,7 @@ namespace Entidades.PPLabII
         public static bool operator ==(Vuelos v1, Vuelos v2)
         {
             if (v1.CodigoVuelo == v2.codigoVuelo)
-                return true; 
+                return true;
             return false;
         }
 
@@ -183,7 +211,7 @@ namespace Entidades.PPLabII
             get { return this.precioVuelo; }
             set { this.precioVuelo = value; }
         }
-        
+
         public double CantidadDineroRecuadado
         {
             get { return cantidadDineroRecaudado; }
