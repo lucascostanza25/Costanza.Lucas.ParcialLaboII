@@ -1,4 +1,5 @@
 using Entidades.PPLabII;
+using Entidades.PPLabII.Entidades_DAO;
 
 namespace Costanza.Lucas.PPLabII
 {
@@ -13,8 +14,15 @@ namespace Costanza.Lucas.PPLabII
             txtContrasenia.Visible = false;
             txtMail.Visible = false;
             btnLogearse.Visible = false;
-            MiAerolinea.DeserializarAvionesJson("aviones.json");
-            MiAerolinea.DeserializarVuelosXml();
+            //MiAerolinea.DeserializarAvionesJson("aviones.json");
+            //MiAerolinea.DeserializarVuelosXml();
+
+            MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
+            MiAerolinea.listaAviones = AvionesDao.LeerAviones();
+            ////MiAerolinea.CargarPasajerosXml("NuevosPasajeros.xml");
+            MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
+
+            CrearDataPrueba();
         }
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
