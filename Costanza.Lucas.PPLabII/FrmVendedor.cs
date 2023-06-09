@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace Costanza.Lucas.PPLabII
 
         public FrmVendedor(string nombre, string apellido, string fecha, string cargo) : this()
         {
-            
+
             OcultarMenu();
             OcultarGroupBox();
 
@@ -77,7 +78,7 @@ namespace Costanza.Lucas.PPLabII
         #endregion
 
         #region DataGridViews
-    
+
         protected void CrearDataGridViewVuelos(DataGridView dgv, List<Vuelos> listaVuelos)
         {
             dgv.Rows.Clear();
@@ -100,9 +101,9 @@ namespace Costanza.Lucas.PPLabII
             dgv.Columns["asientos_ocupados"].Width = 55;
             dgv.Columns["avion"].Width = 100;
 
-            foreach(Vuelos miVuelo in listaVuelos)
+            foreach (Vuelos miVuelo in listaVuelos)
             {
-                dgv.Rows.Add(miVuelo.CodigoVuelo, 
+                dgv.Rows.Add(miVuelo.CodigoVuelo,
                     miVuelo.Origen.ToString().Replace("_", " "),
                     miVuelo.Destino.ToString().Replace("_", " "),
                     miVuelo.FechaVuelo,
@@ -113,7 +114,7 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
-        
+
 
         private void CrearDataGridViewPasajeros(DataGridView dgv, List<Pasajeros> listaPasajeros)
         {
@@ -158,13 +159,22 @@ namespace Costanza.Lucas.PPLabII
             MostrarMenu(panelMenuVuelos);
         }
 
-        private void btnVerVuelos_Click(object sender, EventArgs e)
+        private async void btnVerVuelos_Click(object sender, EventArgs e)
         {
 
             this.gbEstadisticas.Visible = false;
             this.gbVenderVuelos.Visible = false;
             this.gbVerVuelos.Visible = true;
             CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+            await Agregar();
+        }
+
+        public async Task Agregar()
+        { 
+            foreach(Vuelos vuelo in MiAerolinea.listaVuelos)
+            {
+                await VueloFire.Agregar(vuelo);
+            }    
         }
 
         private void dgvDatosVuelos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -187,9 +197,17 @@ namespace Costanza.Lucas.PPLabII
                         break;
                     }
                 }
+                //List<Pasajeros> lista = MiAerolinea.CargarPasajerosXml("NuevosPasajeros.xml");
+                //MiAerolinea.DespacharEquipajeDePasajerosHechos(lista);
+                //foreach (Pasajeros pasajero in lista)
+                //{
+                //    pasajero.CodigoVuelo = codigoVueloSeleccionado;
+                //    PasajerosDao.Guardar(pasajero);
+                //}
 
             }
             CrearDataGridViewPasajeros(dgvPasajeros, listaPasajerosPorVuelo);
+            
 
         }
 
@@ -197,7 +215,7 @@ namespace Costanza.Lucas.PPLabII
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
             DialogResult resultado = MessageBox.Show("¿Seguro que desea cerrar sesion?", "Cerrar sesion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if(resultado == DialogResult.Yes)
+            if (resultado == DialogResult.Yes)
             {
                 solicitudCierre = true;
                 this.Close();
@@ -222,14 +240,14 @@ namespace Costanza.Lucas.PPLabII
             }
         }
         #endregion
-        
+
 
         private void txtCodigoVuelo_TextChanged(object sender, EventArgs e)
         {
             List<Vuelos> vueloFiltrado = new List<Vuelos>();
             string codigoVuelo = txtCodigoVuelo.Text;
 
-            if(String.IsNullOrEmpty(txtCodigoVuelo.Text))
+            if (String.IsNullOrEmpty(txtCodigoVuelo.Text))
             {
                 CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
             }
@@ -244,7 +262,7 @@ namespace Costanza.Lucas.PPLabII
         private void txtDniPasajero_TextChanged(object sender, EventArgs e)
         {
             int dni;
-            if(int.TryParse(txtDniPasajero.Text, out dni))
+            if (int.TryParse(txtDniPasajero.Text, out dni))
             {
                 lblInformacionPasajero.Text = MiAerolinea.BuscarUnPasajero(dni);
             }
@@ -297,7 +315,7 @@ namespace Costanza.Lucas.PPLabII
                     {
                         listaFiltradaIda = MiAerolinea.FiltrarVuelos(origen, destino, dtpFechaIda.Value.Date, servicio);
                         CrearDataGridViewVuelos(dgvVenderVuelosIda, listaFiltradaIda);
-                        if(!cbSoloIda.Checked)
+                        if (!cbSoloIda.Checked)
                         {
                             listaFiltradaVuelta = MiAerolinea.FiltrarVuelos(destino, origen, dtpFechaVuelta.Value.Date, servicio);
                             if (listaFiltradaVuelta.Count == 0)
@@ -307,9 +325,9 @@ namespace Costanza.Lucas.PPLabII
                         }
                     }
                 }
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -319,20 +337,20 @@ namespace Costanza.Lucas.PPLabII
         {
             cmbDestino.Items.Clear();
             cmbOrigen.Items.Clear();
-            
-            foreach(DestinosVuelos destino in MiAerolinea.destinoPorVuelo[tipoVuelo])
+
+            foreach (DestinosVuelos destino in MiAerolinea.destinoPorVuelo[tipoVuelo])
             {
-                string destinoString = destino.ToString().Replace("_",  " ");
-                if(tipoVuelo == 1)
+                string destinoString = destino.ToString().Replace("_", " ");
+                if (tipoVuelo == 1)
                 {
                     cmbDestino.Items.Add(destinoString);
                     cmbOrigen.Items.Add(destinoString);
                 }
-                else if(tipoVuelo == 2)
+                else if (tipoVuelo == 2)
                 {
-                    if(destino != DestinosVuelos.Buenos_aires)
+                    if (destino != DestinosVuelos.Buenos_aires)
                         cmbDestino.Items.Add(destinoString);
-                    else if(destino == DestinosVuelos.Buenos_aires)
+                    else if (destino == DestinosVuelos.Buenos_aires)
                         cmbOrigen.Items.Add(destinoString);
                 }
             }
@@ -371,7 +389,7 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnVenderVuelo_Click(object sender, EventArgs e)
@@ -436,7 +454,7 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnLlamarCliente_Click(object sender, EventArgs e)
         {
-            foreach(Cliente miCliente in MiAerolinea.listaClientes)
+            foreach (Cliente miCliente in MiAerolinea.listaClientes)
             {
                 DatosCliente(miCliente);
                 break;
@@ -475,7 +493,7 @@ namespace Costanza.Lucas.PPLabII
         private void btnEliminarPasajero_Click(object sender, EventArgs e)
         {
             DialogResult resultado = MessageBox.Show("¿Segudo que desea eliminar al pasajero?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if(resultado == DialogResult.Yes)
+            if (resultado == DialogResult.Yes)
             {
                 if (MiAerolinea.EliminarPasajero(int.Parse(txtDniPasajero.Text)))
                 {
@@ -492,7 +510,7 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmVendedor_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
+
         }
     }
 }

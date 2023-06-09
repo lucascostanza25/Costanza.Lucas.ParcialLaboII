@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
+    [FirestoreData]
     public class Pasajeros : Persona
     {
         private int dni;
@@ -19,13 +21,10 @@ namespace Entidades.PPLabII
         private double pesoEquipajeDos;
         private string codigoVuelo;
 
+
         public Pasajeros()
         {
-            this.dni = 0;
-            this.edad = 0;
-            this.genero = "";
-            this.asientoPremium = false;
-            this.codigoVuelo = "";
+
         }
 
         public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, string codigo) : base(apellido, nombre)
@@ -105,49 +104,57 @@ namespace Entidades.PPLabII
         }
 
         #region Propiedades
-        [XmlElement("dni")]
+        [FirestoreProperty]
+        //[XmlElement("dni")]
         public int Dni
         {
             get { return dni; }
             set { dni = value; }
         }
-        [XmlElement("edad")]
+        [FirestoreProperty]
+        //[XmlElement("edad")]
         public int Edad
         {
             get { return edad; }
             set { edad = value; }
         }
-        [XmlElement("genero")]
+        [FirestoreProperty]
+        //[XmlElement("genero")]
         public string Genero
         {
             get { return genero; }
             set { genero = value; }
         }
-        [XmlElement("premium")]
+        [FirestoreProperty]
+       // [XmlElement("premium")]
         public bool AsientoPremium
         {
             get { return asientoPremium; }
             set { asientoPremium = value; }
         }
-        [XmlElement("cantiad_equipajes")]
+        [FirestoreProperty]
+        //[XmlElement("cantiad_equipajes")]
         public int CantidadEquipaje
         {
             get { return cantidadEquipajes; }
             set { cantidadEquipajes = value; }
         }
-        [XmlElement("peso_quipaje_uno")]
+        [FirestoreProperty]
+        //[XmlElement("peso_quipaje_uno")]
         public double PesoEquipajeUno
         {
             get { return pesoEquipajeUno; }
             set { pesoEquipajeUno = value; }
         }
-        [XmlElement("peso_equipaje_dos")]
+        [FirestoreProperty]
+        //[XmlElement("peso_equipaje_dos")]
         public double PesoEquipajeDos
         {
             get { return pesoEquipajeDos; }
             set { pesoEquipajeDos = value; }
         }
-        [XmlElement("codigo_vuelo")]
+        [FirestoreProperty]
+        //[XmlElement("codigo_vuelo")]
         public string CodigoVuelo
         {
             get { return codigoVuelo; }

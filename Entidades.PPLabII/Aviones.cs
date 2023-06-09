@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
+    [FirestoreData]
     public class Aviones
     {
         private string matricula;
@@ -45,6 +47,7 @@ namespace Entidades.PPLabII
         #region Propiedades
         [XmlElement("matricula")]
         [JsonPropertyName("matricula")]
+        [FirestoreProperty]
         public string Matricula
         {
             get { return matricula; }
@@ -52,6 +55,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("cantidad_asientos")]
         [JsonPropertyName("cantidad_asientos")]
+        [FirestoreProperty]
         public double CantidadAsientos
         {
             get { return cantidadAsientos; }
@@ -59,6 +63,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("cantidad_asientos_premium")]
         [JsonPropertyName("cantidad_asientos_premium")]
+        [FirestoreProperty]
         public double CantidadAsientosPremium
         {
             get { return cantidadAsientosPremium; }
@@ -66,6 +71,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("servicio_internet")]
         [JsonPropertyName("servicio_internet")]
+        [FirestoreProperty]
         public bool ServicioInternet
         {
             get { return servicioInternet; }
@@ -73,6 +79,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("servicio_comida")]
         [JsonPropertyName("servicio_comida")]
+
         public bool ServicioComida
         {
             get { return servicioComida; }
@@ -80,6 +87,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("capacidad_bodega")]
         [JsonPropertyName("capacidad_bodega")]
+        [FirestoreProperty]
         public double CapacidadBodega
         {
             get { return capacidadBodega; }
@@ -87,6 +95,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("modelo")]
         [JsonPropertyName("modelo")]
+        [FirestoreProperty]
         public string ModeloAvion
         {
             get { return modeloAvion; }

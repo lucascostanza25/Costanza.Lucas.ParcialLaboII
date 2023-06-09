@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
+    [FirestoreData]
     public class Vuelos
     {
         private List<Pasajeros> listaPasajeros = new List<Pasajeros>();
@@ -32,7 +34,7 @@ namespace Entidades.PPLabII
 
         public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion)
         {
-            this.fechaVuelo = fecha;
+            this.fechaVuelo = DateTime.SpecifyKind(fecha, DateTimeKind.Utc);
             this.codigoVuelo = codigo;
             this.destino = destino;
             this.origen = origen;
@@ -151,73 +153,73 @@ namespace Entidades.PPLabII
             return sb.ToString();
         }
 
-        [XmlElement("pasajeros")]
+        [FirestoreProperty]
         public List<Pasajeros> ListaPasajeros
         {
             get { return this.listaPasajeros; }
             set { this.listaPasajeros = value; }
         }
-        [XmlElement("avion")]
+        [FirestoreProperty]
         public Aviones AvionVuelo
         {
             get { return this.avionVuelo; }
             set { this.avionVuelo = value; }
         }
-        [XmlElement("fecha")]
+        [FirestoreProperty]
         public DateTime FechaVuelo
         {
             get { return this.fechaVuelo; }
             set { this.fechaVuelo = value; }
         }
-        [XmlElement("asientos_disponibles")]
+        [FirestoreProperty]
         public int AsientosDisponibles
         {
             get { return this.asientosDisponibles; }
             set { this.asientosDisponibles = value; }
         }
-        [XmlElement("asientos_ocupados")]
+        [FirestoreProperty]
         public int AsientosOcupados
         {
             get { return this.asientosOcupados; }
             set { this.asientosOcupados = value; }
         }
-        [XmlElement("codigo")]
+        [FirestoreProperty]
         public string CodigoVuelo
         {
             get { return this.codigoVuelo; }
             set { this.codigoVuelo = value; }
         }
-        [XmlElement("origen")]
+        [FirestoreProperty]
         public DestinosVuelos Origen
         {
             get { return this.origen; }
             set { this.origen = value; }
         }
-        [XmlElement("destino")]
+        [FirestoreProperty]
         public DestinosVuelos Destino
         {
             get { return this.destino; }
             set { this.destino = value; }
         }
-        [XmlElement("horas")]
+        [FirestoreProperty]
         public int HorasVuelo
         {
             get { return this.horasVuelo; }
             set { this.horasVuelo = value; }
         }
-        [XmlElement("precio")]
+        [FirestoreProperty]
         public double PrecioVuelo
         {
             get { return this.precioVuelo; }
             set { this.precioVuelo = value; }
         }
-
+        [FirestoreProperty]
         public double CantidadDineroRecuadado
         {
             get { return cantidadDineroRecaudado; }
             set { cantidadDineroRecaudado = value; }
         }
-
+        [FirestoreProperty]
         public double CapacidadDisponibleBodega
         {
             get { return capacidadDisponibleBodega; }

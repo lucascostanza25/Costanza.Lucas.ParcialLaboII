@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Xml.Serialization;
 
 namespace Entidades.PPLabII
 {
+    [FirestoreData]
     public abstract class Persona
     {
         private string nombre;
@@ -30,6 +32,7 @@ namespace Entidades.PPLabII
 
         [XmlElement("apellido")]
         [JsonPropertyName("apellido")]
+        [FirestoreProperty]
         public string Apellido
         {
             get { return this.apellido; }
@@ -37,6 +40,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("nombre")]
         [JsonPropertyName("nombre")]
+        [FirestoreProperty]
         public string Nombre
         {
             get { return this.nombre; }

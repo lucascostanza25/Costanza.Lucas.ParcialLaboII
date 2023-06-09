@@ -1,5 +1,6 @@
 using Entidades.PPLabII;
 using Entidades.PPLabII.Entidades_DAO;
+using Entidades.PPLabII.Firebase;
 
 namespace Costanza.Lucas.PPLabII
 {
@@ -22,7 +23,9 @@ namespace Costanza.Lucas.PPLabII
             ////MiAerolinea.CargarPasajerosXml("NuevosPasajeros.xml");
             MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
 
-            CrearDataPrueba();
+            //CrearDataPrueba();
+
+
         }
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
@@ -37,6 +40,11 @@ namespace Costanza.Lucas.PPLabII
         }
 
         private void btnLogearse_Click(object sender, EventArgs e)
+        {
+            IniciarSesion();
+        }
+
+        private void IniciarSesion()
         {
             try
             {

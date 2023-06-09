@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Entidades.PPLabII\Entidades.PPLabII.csproj" />
   </ItemGroup>
 
