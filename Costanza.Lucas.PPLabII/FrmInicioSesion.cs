@@ -18,17 +18,16 @@ namespace Costanza.Lucas.PPLabII
             //MiAerolinea.DeserializarAvionesJson("aviones.json");
             //MiAerolinea.DeserializarVuelosXml();
 
-            MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
-            MiAerolinea.listaAviones = AvionesDao.LeerAviones();
             ////MiAerolinea.CargarPasajerosXml("NuevosPasajeros.xml");
-            MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
+            //MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
+            //MiAerolinea.listaAviones = AvionesDao.LeerAviones();
+            //MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
 
-            //CrearDataPrueba();
-
+            //CrearDataPrueba();;
 
         }
 
-        private void btnIniciarSesion_Click(object sender, EventArgs e)
+        private async void btnIniciarSesion_Click(object sender, EventArgs e)
         {
             pbFotoAvion.Image = System.Drawing.Image.FromFile("FotoAvionEditada.png");
 
@@ -37,6 +36,9 @@ namespace Costanza.Lucas.PPLabII
             txtContrasenia.Visible = true;
             txtMail.Visible = true;
             btnLogearse.Visible = true;
+
+            MiAerolinea.listaVuelos = await Firebase.TraerVuelos();
+            MiAerolinea.listaAviones = await Firebase.TraerAviones();
         }
 
         private void btnLogearse_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -274,7 +275,7 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
-        private void btnEliminarAvion_Click(object sender, EventArgs e)
+        private async void btnEliminarAvion_Click(object sender, EventArgs e)
         {
             try
             {
@@ -283,7 +284,11 @@ namespace Costanza.Lucas.PPLabII
                 avionSeleccionado = MiAerolinea.BuscarUnAvion(matriculaAvion);
                 DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el avion {avionSeleccionado.ModeloAvion}?", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (resutado == DialogResult.Yes)
+                {
                     MiAerolinea.listaAviones.Remove(avionSeleccionado);
+                    Task<bool> respuesta = Firebase.EliminarAvion(matriculaAvion);
+                    bool resultado = await respuesta;
+                }
                 else
                     MessageBox.Show($"No se elminó a el avion {avionSeleccionado.ModeloAvion}", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 CrearDataGridViewAviones(MiAerolinea.listaAviones);

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfVuelos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Vuelos>
+    <ListaPasajeros />
+    <AvionVuelo>
+      <matricula>HTF078P</matricula>
+      <cantidad_asientos>300</cantidad_asientos>
+      <cantidad_asientos_premium>60</cantidad_asientos_premium>
+      <servicio_internet>true</servicio_internet>
+      <servicio_comida>false</servicio_comida>
+      <capacidad_bodega>20000</capacidad_bodega>
+      <modelo>Airbus A380</modelo>
+    </AvionVuelo>
+    <FechaVuelo>2023-06-09T22:30:00Z</FechaVuelo>
+    <AsientosDisponibles>300</AsientosDisponibles>
+    <AsientosOcupados>0</AsientosOcupados>
+    <CodigoVuelo>ITA2353</CodigoVuelo>
+    <Origen>Buenos_aires</Origen>
+    <Destino>Roma</Destino>
+    <HorasVuelo>18</HorasVuelo>
+    <PrecioVuelo>100</PrecioVuelo>
+    <CantidadDineroRecuadado>0</CantidadDineroRecuadado>
+    <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
+  </Vuelos>
+  <Vuelos>
     <ListaPasajeros>
       <Pasajeros>
         <apellido>Buncom</apellido>
@@ -608,7 +630,7 @@
       <cantidad_asientos>65</cantidad_asientos>
       <cantidad_asientos_premium>13</cantidad_asientos_premium>
       <servicio_internet>false</servicio_internet>
-      <servicio_comida>true</servicio_comida>
+      <servicio_comida>false</servicio_comida>
       <capacidad_bodega>12000</capacidad_bodega>
       <modelo>Boeing 787</modelo>
     </AvionVuelo>
@@ -626,22 +648,22 @@
   <Vuelos>
     <ListaPasajeros />
     <AvionVuelo>
-      <matricula>HTF078P</matricula>
-      <cantidad_asientos>300</cantidad_asientos>
-      <cantidad_asientos_premium>60</cantidad_asientos_premium>
+      <matricula>GLT049T</matricula>
+      <cantidad_asientos>120</cantidad_asientos>
+      <cantidad_asientos_premium>24</cantidad_asientos_premium>
       <servicio_internet>true</servicio_internet>
-      <servicio_comida>true</servicio_comida>
-      <capacidad_bodega>20000</capacidad_bodega>
-      <modelo>Airbus A380</modelo>
+      <servicio_comida>false</servicio_comida>
+      <capacidad_bodega>15500</capacidad_bodega>
+      <modelo>Airbus A220</modelo>
     </AvionVuelo>
-    <FechaVuelo>2023-06-09T22:30:00Z</FechaVuelo>
-    <AsientosDisponibles>300</AsientosDisponibles>
+    <FechaVuelo>2023-07-05T00:49:56Z</FechaVuelo>
+    <AsientosDisponibles>0</AsientosDisponibles>
     <AsientosOcupados>0</AsientosOcupados>
-    <CodigoVuelo>ITA2353</CodigoVuelo>
-    <Origen>Buenos_aires</Origen>
-    <Destino>Roma</Destino>
-    <HorasVuelo>18</HorasVuelo>
-    <PrecioVuelo>100</PrecioVuelo>
+    <CodigoVuelo>TRU2455</CodigoVuelo>
+    <Origen>Bariloche</Origen>
+    <Destino>Mendoza</Destino>
+    <HorasVuelo>2</HorasVuelo>
+    <PrecioVuelo>50</PrecioVuelo>
     <CantidadDineroRecuadado>0</CantidadDineroRecuadado>
     <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
   </Vuelos>

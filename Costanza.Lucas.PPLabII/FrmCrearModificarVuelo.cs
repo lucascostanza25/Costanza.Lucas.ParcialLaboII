@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -62,11 +63,11 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             if (btnAceptar.Text == "Crear vuelo")
             {
-                if (CrearVuelo())
+                if (Convert.ToBoolean(CrearVuelo()))
                 {
                     MessageBox.Show("Vuelo creado con exito!", "Vuelo creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
@@ -78,7 +79,7 @@ namespace Costanza.Lucas.PPLabII
             }
             else
             {
-                if (ModificarVuelo(vuelo))
+                if (Convert.ToBoolean(ModificarVuelo(vuelo)))
                 {
                     MessageBox.Show("Vuelo modificado con exito!", "Vuelo modificado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
@@ -135,7 +136,7 @@ namespace Costanza.Lucas.PPLabII
         /// Metodo que crea un vuelo con los datos deseados
         /// </summary>
         /// <returns>retorna true si lo pudo crear, false si no</returns>
-        private bool CrearVuelo()
+        private async Task<bool> CrearVuelo()
         {
             bool estado = false;
 
@@ -165,7 +166,9 @@ namespace Costanza.Lucas.PPLabII
                             }
                             if (!vueloDuplicado)
                             {
-                                MiAerolinea.listaVuelos.Add(new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula));
+                                Vuelos vueloNuevo = new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula);
+                                MiAerolinea.listaVuelos.Add(vueloNuevo);
+                                await Firebase.AgregarVuelo(vueloNuevo);
                                 estado = true;
 
                             }
@@ -205,7 +208,7 @@ namespace Costanza.Lucas.PPLabII
             lblAvion.Text = $"El avion del vuelo es: {avionVuelo.ModeloAvion} - {avionVuelo.Matricula}";
         }
 
-        private bool ModificarVuelo(Vuelos vueloModificar)
+        private async Task<bool> ModificarVuelo(Vuelos vueloModificar)
         {
             bool estado = false;
 
@@ -230,6 +233,7 @@ namespace Costanza.Lucas.PPLabII
                             vueloModificar.PrecioVuelo = precio * (double)nudHoras.Value;
                             vueloModificar.AvionVuelo = vueloAvion;
                             estado = true;
+                            await Firebase.ActualizarVuelo(vueloModificar);
                         }
                     }
                 }

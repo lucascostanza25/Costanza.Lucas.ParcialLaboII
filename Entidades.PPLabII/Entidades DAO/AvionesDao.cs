@@ -37,13 +37,13 @@ namespace Entidades.PPLabII.Entidades_DAO
                     {
                         listaAviones.Add(new Aviones(
                            reader["matricula"].ToString(),
-                           Convert.ToDouble(reader["cantidad_asientos"]),
+                           Convert.ToInt32(reader["cantidad_asientos"]),
                            Convert.ToBoolean(reader["servicio_internet"]),
                            Convert.ToBoolean(reader["servicio_comida"]),
                            Convert.ToDouble(reader["capacidad_bodega"]),
                            reader["modelo"].ToString(),
-                           Convert.ToDouble(reader["cantidad_asientos_normales"]),
-                           Convert.ToDouble(reader["cantidad_asientos_premium"])
+                           Convert.ToInt32(reader["cantidad_asientos_normales"]),
+                           Convert.ToInt32(reader["cantidad_asientos_premium"])
                         ));
                     }
                 }

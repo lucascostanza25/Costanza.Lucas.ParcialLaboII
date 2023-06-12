@@ -13,9 +13,9 @@ namespace Entidades.PPLabII
     public class Aviones
     {
         private string matricula;
-        private double cantidadAsientos;
-        private double cantidadAsientosPremium;
-        private double cantidadAsientosNormales;
+        private int cantidadAsientos;
+        private int cantidadAsientosPremium;
+        private int cantidadAsientosNormales;
         private bool servicioInternet;
         private bool servicioComida;
         private double capacidadBodega;
@@ -28,11 +28,11 @@ namespace Entidades.PPLabII
             this.servicioInternet = false;
             this.servicioComida = false;
             this.capacidadBodega = 0;
-            this.cantidadAsientosPremium = cantidadAsientos * 0.2;
+            this.cantidadAsientosPremium = (int)Math.Round(cantidadAsientos * 0.2);
             this.modeloAvion = "";
         }
         [JsonConstructor]
-        public Aviones(string matricula, double cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion, double cantidadAsientosNormales, double cantidadAsientosPremium)
+        public Aviones(string matricula, int cantidadAsientos, bool servicioInternet, bool servicioComida, double capacidadBodega, string modeloAvion, int cantidadAsientosNormales, int cantidadAsientosPremium)
         {
             this.matricula = matricula;
             this.cantidadAsientos = cantidadAsientos;
@@ -56,7 +56,7 @@ namespace Entidades.PPLabII
         [XmlElement("cantidad_asientos")]
         [JsonPropertyName("cantidad_asientos")]
         [FirestoreProperty]
-        public double CantidadAsientos
+        public int CantidadAsientos
         {
             get { return cantidadAsientos; }
             set { cantidadAsientos = value; }
@@ -64,7 +64,7 @@ namespace Entidades.PPLabII
         [XmlElement("cantidad_asientos_premium")]
         [JsonPropertyName("cantidad_asientos_premium")]
         [FirestoreProperty]
-        public double CantidadAsientosPremium
+        public int CantidadAsientosPremium
         {
             get { return cantidadAsientosPremium; }
             set { cantidadAsientosPremium = value; }

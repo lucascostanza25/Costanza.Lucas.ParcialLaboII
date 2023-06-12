@@ -36,7 +36,6 @@ namespace Entidades.PPLabII.Entidades_DAO
                     while (reader.Read())
                     {
                         listaPasajerosVuelos = MiAerolinea.listaPasajeros.Where(Pasajeros => Pasajeros.CodigoVuelo == reader["codigo"].ToString()).ToList();
-                        Aviones avion = BuscarAvion(reader["matricula_avion"].ToString());
                         string origen = reader["origen"].ToString();
                         string destino = reader["destino"].ToString();
                         DestinosVuelos enumOrigen = (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), origen);
@@ -50,8 +49,7 @@ namespace Entidades.PPLabII.Entidades_DAO
                             Convert.ToInt32(reader["horas"]),
                             Convert.ToDouble(reader["precio"]),
                             reader["matricula_avion"].ToString(),
-                            listaPasajerosVuelos,
-                            avion
+                            listaPasajerosVuelos
                             ));
                     }
                 }
@@ -64,17 +62,6 @@ namespace Entidades.PPLabII.Entidades_DAO
             return listaVuelos;
         }
 
-        public static Aviones BuscarAvion(string matricula)
-        {
-            Aviones avionBuscado = new Aviones();
-            foreach (Aviones avion in MiAerolinea.listaAviones)
-            {
-                if (avion.Matricula == matricula)
-                {
-                    avionBuscado = avion;
-                }
-            }
-            return avionBuscado;
-        }
+
     }
 }

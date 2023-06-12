@@ -166,15 +166,20 @@ namespace Costanza.Lucas.PPLabII
             this.gbVenderVuelos.Visible = false;
             this.gbVerVuelos.Visible = true;
             CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
-            await Agregar();
+            MiAerolinea.listaVuelos = await Firebase.TraerVuelos();
         }
 
         public async Task Agregar()
         { 
             foreach(Vuelos vuelo in MiAerolinea.listaVuelos)
             {
-                await VueloFire.Agregar(vuelo);
-            }    
+                if(await Firebase.AgregarVuelo(vuelo) == false)
+                {
+                    MessageBox.Show("El vuelo ya existe");
+                    //break;
+                }
+            } 
+           
         }
 
         private void dgvDatosVuelos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -40,16 +40,16 @@ namespace Entidades.PPLabII
             this.origen = origen;
             this.horasVuelo = horas;
             this.precioVuelo = precio;
+            this.avionVuelo = BuscarAvion(matriculaAvion);
             if (avionVuelo is not null)
             {
                 this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
             }
         }
 
-        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros, Aviones avionVuelo) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
+        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros ) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
         {
             this.listaPasajeros = listaPasajeros;
-            this.avionVuelo = avionVuelo;
             if (avionVuelo is not null)
             {
                 this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
@@ -60,28 +60,18 @@ namespace Entidades.PPLabII
             }
         }
 
-        //public Vuelos(Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo)
-        //{
-        //    this.avionVuelo = avionVuelo;
-        //    this.fechaVuelo = fechaVuelo;
-        //    this.codigoVuelo = codigo;
-        //    this.horasVuelo = horasVuelo;
-        //    this.precioVuelo = horasVuelo * precioVuelo;
-        //    this.destino = destino;
-        //    this.origen = origen;
-        //    this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
-        //}
-
-        //public Vuelos(List<Pasajeros> listaPasajeros, Aviones avionVuelo, DateTime fechaVuelo, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horasVuelo, double precioVuelo) : this(avionVuelo, fechaVuelo, codigo, origen, destino, horasVuelo, precioVuelo)
-        //{
-        //    this.listaPasajeros = listaPasajeros;
-
-        //    this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
-        //    this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
-        //    this.asientosOcupados = listaPasajeros.Count();
-
-        //    this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
-        //}
+        public static Aviones BuscarAvion(string matricula)
+        {
+            Aviones avionBuscado = new Aviones();
+            foreach (Aviones avion in MiAerolinea.listaAviones)
+            {
+                if (avion.Matricula == matricula)
+                {
+                    avionBuscado = avion;
+                }
+            }
+            return avionBuscado;
+        }
 
         public double CalcularPrecioVuelo(bool estado)
         {
@@ -189,13 +179,13 @@ namespace Entidades.PPLabII
             get { return this.codigoVuelo; }
             set { this.codigoVuelo = value; }
         }
-        [FirestoreProperty]
+        [FirestoreProperty(ConverterType = typeof(FirestoreEnumNameConverter<DestinosVuelos>))]
         public DestinosVuelos Origen
         {
             get { return this.origen; }
             set { this.origen = value; }
         }
-        [FirestoreProperty]
+        [FirestoreProperty(ConverterType = typeof(FirestoreEnumNameConverter<DestinosVuelos>))]
         public DestinosVuelos Destino
         {
             get { return this.destino; }

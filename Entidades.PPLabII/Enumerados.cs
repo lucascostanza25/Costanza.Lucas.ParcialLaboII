@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Google.Cloud.Firestore;
+using System.ComponentModel;
 
+[FirestoreData]
 public enum DestinosVuelos
 {
+
     Buenos_aires,
     //Destinos nacionales
     Santa_Rosa,
