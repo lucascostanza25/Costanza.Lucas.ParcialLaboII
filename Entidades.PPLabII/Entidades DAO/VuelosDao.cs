@@ -62,6 +62,63 @@ namespace Entidades.PPLabII.Entidades_DAO
             return listaVuelos;
         }
 
+        public static void GuardarVuelos(Vuelos vuelo)
+        {
+            string origen, destino;
+            origen = vuelo.Origen.ToString();
+            destino = vuelo.Destino.ToString();
+            try
+            {
+                comando.Parameters.Clear();
+                conexion.Open();
+                comando.CommandText = "INSERT INTO vuelos (fecha, codigo, origen, destino, horas, precio, matricula_avion) VALUES (@fecha, @codigo, @origen, @destino, @horas, @precio, @matricula_avion)";
+                comando.Parameters.AddWithValue("@fecha", vuelo.FechaVuelo);
+                comando.Parameters.AddWithValue("@codigo", vuelo.CodigoVuelo);
+                comando.Parameters.AddWithValue("@origen", origen);
+                comando.Parameters.AddWithValue("@destino", destino);
+                comando.Parameters.AddWithValue("@horas", vuelo.HorasVuelo);
+                comando.Parameters.AddWithValue("@precio", vuelo.PrecioVuelo);
+                comando.Parameters.AddWithValue("@matricula_avion", vuelo.AvionVuelo.Matricula);
+
+                comando.ExecuteNonQuery();
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
+
+        public static bool ActualizarVuelo(Vuelos vueloActualizado)
+        {
+            string origen, destino;
+            origen = vueloActualizado.Origen.ToString();
+            destino = vueloActualizado.Destino.ToString();
+            try
+            {
+                comando.Parameters.Clear();
+                conexion.Open();
+                comando.CommandText = "UPDATE vuelos SET fecha = @fecha, codigo = @codigo, origen = @origen, destino = @destino, horas = @horas, precio = @precio, matricula_avion =  @matricula_avion)";
+                comando.Parameters.AddWithValue("@fecha", vueloActualizado.FechaVuelo);
+                comando.Parameters.AddWithValue("@codigo", vueloActualizado.CodigoVuelo);
+                comando.Parameters.AddWithValue("@origen", origen);
+                comando.Parameters.AddWithValue("@destino", destino);
+                comando.Parameters.AddWithValue("@horas", vueloActualizado.HorasVuelo);
+                comando.Parameters.AddWithValue("@precio", vueloActualizado.PrecioVuelo);
+                comando.Parameters.AddWithValue("@matricula_avion", vueloActualizado.AvionVuelo.Matricula);
+
+                int filasAfeactadas = comando.ExecuteNonQuery();
+
+                if(filasAfeactadas > 0)
+                {
+                    return true;
+                }
+            }
+            finally
+            {
+                conexion.Close();
+            }
+            return false;
+        }
 
     }
 }

@@ -69,6 +69,12 @@ namespace Entidades.PPLabII
             get { return cantidadAsientosPremium; }
             set { cantidadAsientosPremium = value; }
         }
+        [FirestoreProperty]
+        public int CantidadAsientosNormales
+        {
+            get { return cantidadAsientosNormales; }
+            set { cantidadAsientosNormales = value; }
+        }
         [XmlElement("servicio_internet")]
         [JsonPropertyName("servicio_internet")]
         [FirestoreProperty]

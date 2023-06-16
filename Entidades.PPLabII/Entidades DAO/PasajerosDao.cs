@@ -22,7 +22,7 @@ namespace Entidades.PPLabII
             comando.Connection = conexion;
         }
 
-        public static void Guardar(Pasajeros pasajero)
+        public static void GuardarPasajeros(Pasajeros pasajero)
         {
             try
             {

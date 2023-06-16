@@ -34,6 +34,7 @@
             this.lblInformacionTrabajador = new System.Windows.Forms.Label();
             this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.panelMenuVuelos = new System.Windows.Forms.Panel();
+            this.btnBaseDatos = new System.Windows.Forms.Button();
             this.btnAdministrarAviones = new System.Windows.Forms.Button();
             this.btnAdministrarVuelos = new System.Windows.Forms.Button();
             this.btnAdministrar = new System.Windows.Forms.Button();
@@ -55,6 +56,13 @@
             this.btnEditarAvion = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvDatosAviones = new System.Windows.Forms.DataGridView();
+            this.gbBaseDatos = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnFirebase = new System.Windows.Forms.Button();
+            this.btnSql = new System.Windows.Forms.Button();
+            this.lblTextoDb = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelMenu.SuspendLayout();
             this.panelMenuVuelos.SuspendLayout();
@@ -64,6 +72,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatosVuelos)).BeginInit();
             this.gbAdministrarAviones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatosAviones)).BeginInit();
+            this.gbBaseDatos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -120,13 +131,29 @@
             // panelMenuVuelos
             // 
             this.panelMenuVuelos.BackColor = System.Drawing.Color.DarkSlateBlue;
+            this.panelMenuVuelos.Controls.Add(this.btnBaseDatos);
             this.panelMenuVuelos.Controls.Add(this.btnAdministrarAviones);
             this.panelMenuVuelos.Controls.Add(this.btnAdministrarVuelos);
             this.panelMenuVuelos.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMenuVuelos.Location = new System.Drawing.Point(0, 224);
             this.panelMenuVuelos.Name = "panelMenuVuelos";
-            this.panelMenuVuelos.Size = new System.Drawing.Size(200, 116);
+            this.panelMenuVuelos.Size = new System.Drawing.Size(200, 171);
             this.panelMenuVuelos.TabIndex = 18;
+            // 
+            // btnBaseDatos
+            // 
+            this.btnBaseDatos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnBaseDatos.FlatAppearance.BorderSize = 0;
+            this.btnBaseDatos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBaseDatos.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnBaseDatos.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnBaseDatos.Location = new System.Drawing.Point(0, 114);
+            this.btnBaseDatos.Name = "btnBaseDatos";
+            this.btnBaseDatos.Size = new System.Drawing.Size(200, 57);
+            this.btnBaseDatos.TabIndex = 19;
+            this.btnBaseDatos.Text = "Bases de datos";
+            this.btnBaseDatos.UseVisualStyleBackColor = true;
+            this.btnBaseDatos.Click += new System.EventHandler(this.btnBaseDatos_Click);
             // 
             // btnAdministrarAviones
             // 
@@ -399,11 +426,91 @@
             this.dgvDatosAviones.TabIndex = 26;
             this.dgvDatosAviones.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatosAviones_CellDoubleClick);
             // 
+            // gbBaseDatos
+            // 
+            this.gbBaseDatos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.gbBaseDatos.Controls.Add(this.pictureBox3);
+            this.gbBaseDatos.Controls.Add(this.pictureBox2);
+            this.gbBaseDatos.Controls.Add(this.btnFirebase);
+            this.gbBaseDatos.Controls.Add(this.btnSql);
+            this.gbBaseDatos.Controls.Add(this.lblTextoDb);
+            this.gbBaseDatos.Controls.Add(this.label6);
+            this.gbBaseDatos.Location = new System.Drawing.Point(200, 167);
+            this.gbBaseDatos.Name = "gbBaseDatos";
+            this.gbBaseDatos.Size = new System.Drawing.Size(1709, 874);
+            this.gbBaseDatos.TabIndex = 35;
+            this.gbBaseDatos.TabStop = false;
+            this.gbBaseDatos.Visible = false;
+            this.gbBaseDatos.Enter += new System.EventHandler(this.gbBaseDatos_Enter);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(23, 297);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(74, 74);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 33;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(23, 171);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(74, 74);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 32;
+            this.pictureBox2.TabStop = false;
+            // 
+            // btnFirebase
+            // 
+            this.btnFirebase.Location = new System.Drawing.Point(103, 297);
+            this.btnFirebase.Name = "btnFirebase";
+            this.btnFirebase.Size = new System.Drawing.Size(207, 74);
+            this.btnFirebase.TabIndex = 31;
+            this.btnFirebase.Text = "Google Firebase";
+            this.btnFirebase.UseVisualStyleBackColor = true;
+            this.btnFirebase.Click += new System.EventHandler(this.btnFirebase_Click);
+            // 
+            // btnSql
+            // 
+            this.btnSql.Location = new System.Drawing.Point(103, 171);
+            this.btnSql.Name = "btnSql";
+            this.btnSql.Size = new System.Drawing.Size(207, 74);
+            this.btnSql.TabIndex = 30;
+            this.btnSql.Text = "SQL Server";
+            this.btnSql.UseVisualStyleBackColor = true;
+            this.btnSql.Click += new System.EventHandler(this.btnSql_Click);
+            // 
+            // lblTextoDb
+            // 
+            this.lblTextoDb.AutoSize = true;
+            this.lblTextoDb.BackColor = System.Drawing.Color.Transparent;
+            this.lblTextoDb.Font = new System.Drawing.Font("Gadugi", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.lblTextoDb.Location = new System.Drawing.Point(23, 99);
+            this.lblTextoDb.Name = "lblTextoDb";
+            this.lblTextoDb.Size = new System.Drawing.Size(510, 44);
+            this.lblTextoDb.TabIndex = 29;
+            this.lblTextoDb.Text = "Base de datos seleccionada: ";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Gadugi", 27.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(23, 33);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(301, 44);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "BASE DE DATOS";
+            // 
             // FrmAdministrador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1907, 1045);
+            this.Controls.Add(this.gbBaseDatos);
             this.Controls.Add(this.gbAdministrarAviones);
             this.Controls.Add(this.gbAdministrarVuelos);
             this.Controls.Add(this.pictureBox1);
@@ -428,6 +535,10 @@
             this.gbAdministrarAviones.ResumeLayout(false);
             this.gbAdministrarAviones.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatosAviones)).EndInit();
+            this.gbBaseDatos.ResumeLayout(false);
+            this.gbBaseDatos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -460,5 +571,13 @@
         private Label label4;
         protected DataGridView dgvDatosAviones;
         private Label lblInformacionTrabajador;
+        protected Button btnBaseDatos;
+        private GroupBox gbBaseDatos;
+        private Label lblTextoDb;
+        private Label label6;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox2;
+        private Button btnFirebase;
+        private Button btnSql;
     }
 }

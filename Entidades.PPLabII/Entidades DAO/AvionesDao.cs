@@ -55,5 +55,43 @@ namespace Entidades.PPLabII.Entidades_DAO
 
             return listaAviones;
         }
+
+        public static void GuardarAviones(Aviones avion)
+        {
+            
+            try
+            {
+                conexion.Open();
+                comando.CommandText = "INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)";
+                comando.Parameters.AddWithValue("@matricula", avion.Matricula);
+                comando.Parameters.AddWithValue("@servicio_comida", Convert.ToByte(avion.ServicioComida));
+                comando.Parameters.AddWithValue("@servicio_internet", Convert.ToByte(avion.ServicioInternet));
+                comando.Parameters.AddWithValue("@capacidad_bodega", avion.CapacidadBodega);
+                comando.Parameters.AddWithValue("@modelo", avion.ModeloAvion);
+                comando.Parameters.AddWithValue("@cantidad_asientos", avion.CantidadAsientos);
+                comando.Parameters.AddWithValue("@cantidad_asientos_premium", avion.CantidadAsientosPremium);
+                comando.Parameters.AddWithValue("@cantidad_asientos_normales", avion.CantidadAsientosNormales);
+                comando.ExecuteNonQuery();
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
+
+        public static void EliminarAvion(Aviones avionEliminar)
+        {
+            try
+            {
+                conexion.Open();
+                comando.CommandText = "DELETE FROM aviones WHERE matricula = @matricula";
+                comando.Parameters.AddWithValue("@matricula", avionEliminar.Matricula);
+                comando.ExecuteNonQuery();
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
     }
 }

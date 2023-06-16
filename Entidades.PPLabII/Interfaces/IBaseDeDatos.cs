@@ -8,12 +8,12 @@ namespace Entidades.PPLabII.Interfaces
 {
     public interface IBaseDeDatos<T>
     {
-        Task<bool> Agregar(T item, string coleccion);
+        Task<bool> Agregar(T objeto, string coleccion, string documento);
 
-        Task<List<T>> Traer();
+        Task<List<T>> Traer(string dato);
 
-        Task<bool> Actualizar();
+        Task<bool> Actualizar(T objeto, string coleccion, string documento);
 
-        Task<bool> Eliminar();
+        Task<bool> Eliminar(string coleccion, string documento);
     }
 }

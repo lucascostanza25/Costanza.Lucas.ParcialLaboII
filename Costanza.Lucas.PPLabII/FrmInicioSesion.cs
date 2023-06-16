@@ -1,6 +1,7 @@
 using Entidades.PPLabII;
 using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
+using Google.Cloud.Firestore.V1;
 
 namespace Costanza.Lucas.PPLabII
 {
@@ -23,7 +24,6 @@ namespace Costanza.Lucas.PPLabII
             //MiAerolinea.listaAviones = AvionesDao.LeerAviones();
             //MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
 
-            //CrearDataPrueba();;
 
         }
 
@@ -37,8 +37,7 @@ namespace Costanza.Lucas.PPLabII
             txtMail.Visible = true;
             btnLogearse.Visible = true;
 
-            MiAerolinea.listaVuelos = await Firebase.TraerVuelos();
-            MiAerolinea.listaAviones = await Firebase.TraerAviones();
+            
         }
 
         private void btnLogearse_Click(object sender, EventArgs e)
@@ -113,19 +112,9 @@ namespace Costanza.Lucas.PPLabII
             if (resultado == DialogResult.Yes)
                 Application.Exit();
         }
-        private void CrearDataPrueba()
-        {
-            // MiAerolinea.listaAviones = new List<Aviones>();
-            //// MiAerolinea.listaPasajeros = new List<Pasajeros>();
-            // MiAerolinea.listaAviones.Add(new Aviones("FJS50OP", 65, false, true, 3500, "Boeing 787"));
-            // MiAerolinea.listaAviones.Add(new Aviones("GLT049T", 120, true, true, 5500, "Airbus A220"));
-            // MiAerolinea.listaAviones.Add(new Aviones("TRF053T", 80, false, false, 4500, "Airbus A110"));
-            // MiAerolinea.listaAviones.Add(new Aviones("UYI5904", 65, false, false, 4000, "Boeing 678"));
-            // MiAerolinea.listaAviones.Add(new Aviones("HLY095N", 250, true, true, 13000, "Boeing 777"));
-            // MiAerolinea.listaAviones.Add(new Aviones("HTF078P", 300, true, true, 15000, "Airbus A380"));
-            // MiAerolinea.listaAviones.Add(new Aviones("HCV0952", 350, true, true, 15000, "Boeing 777"));
 
-            //MiAerolinea.DeserializarAvionesJson("aviones.json");
+        private async void CrearDataPrueba()
+        {
         
             //MiAerolinea.SerializarAvionesJson(MiAerolinea.listaAviones);
             //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros1.xml");
@@ -150,9 +139,14 @@ namespace Costanza.Lucas.PPLabII
             //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 07, 07, 13, 30, 00), "NEQ2685", 2, DestinosVuelos.Neuquen, DestinosVuelos.Trelew, 50, "FJS50OP");
             //MiAerolinea.listaPasajeros = null;
 
-
+            List<Pasajeros> listaPasajeros = new List<Pasajeros>();
+            listaPasajeros = MiAerolinea.CargarPasajerosXml("NuevosPasajeros305.xml");
+            MiAerolinea.DespacharEquipajeDePasajerosHechos(listaPasajeros);
+            Vuelos vueloNuevo = new Vuelos(new DateTime(2023, 06, 29, 17, 00, 00), "MIA8956", DestinosVuelos.Buenos_aires, DestinosVuelos.Miami, 10, 100, "HCV0952", listaPasajeros);
+            BaseDeDatos<Vuelos> firebaseVuelo = new BaseDeDatos<Vuelos>();
+            await firebaseVuelo.Agregar(vueloNuevo, "vuelos", vueloNuevo.CodigoVuelo);
             //MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
-            
+
 
             //MiAerolinea.DespacharEquipajeDePasajerosHechos();
         }

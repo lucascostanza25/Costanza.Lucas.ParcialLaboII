@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,13 @@ namespace Costanza.Lucas.PPLabII
     public partial class FrmCrearModificarAvion : Form
     {
         Aviones avion;
+        BaseDeDatos<Aviones> firebaseAviones;
         public FrmCrearModificarAvion()
         {
             InitializeComponent();
             btnAceptar.Text = "Crear avion";
             avion = new Aviones();
+            firebaseAviones = new BaseDeDatos<Aviones>();
         }
         /// <summary>
         /// Sobrecarga del constructor destinado a modificar aviones
@@ -84,45 +87,53 @@ namespace Costanza.Lucas.PPLabII
             double asientos, bodega, asientosNormales, asientosPremium;
             asientos = Convert.ToDouble(nudCantidadAsientos.Value);
             bodega = Convert.ToDouble(nudCapacidadBodega.Value);
-            asientosPremium = asientos * 0.2;
+            asientosPremium = (int)Math.Round(asientos * 0.2);
             asientosNormales = asientos - asientosPremium;
             Aviones avionNuevo;
 
-            foreach (Aviones miAvion in MiAerolinea.listaAviones)
+            if (MiAerolinea.listaAviones is not null)
             {
-                if (miAvion.Matricula == txtMatricula.Text)
+                foreach (Aviones miAvion in MiAerolinea.listaAviones)
                 {
-                    avionRepetido = true;
-                    break;
+                    if (miAvion.Matricula == txtMatricula.Text)
+                    {
+                        avionRepetido = true;
+                        break;
+                    }
                 }
-            }
-            if (!avionRepetido)
-            {
-                if (cbComida.Checked && cbInternet.Checked)
+
+                if (!avionRepetido)
                 {
-                    avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                    MiAerolinea.listaAviones.Add(avionNuevo);
-                    await Firebase.AgregarAvion(avionNuevo);
+                    if (cbComida.Checked && cbInternet.Checked)
+                    {
+                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                        MiAerolinea.listaAviones.Add(avionNuevo);
+                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                        AvionesDao.GuardarAviones(avionNuevo);
+                    }
+                    if (cbComida.Checked && cbInternet.CheckState == CheckState.Unchecked)
+                    {
+                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                        MiAerolinea.listaAviones.Add(avionNuevo);
+                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                        AvionesDao.GuardarAviones(avionNuevo);
+                    }
+                    if (cbComida.CheckState == CheckState.Unchecked && cbInternet.Checked)
+                    {
+                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                        MiAerolinea.listaAviones.Add(avionNuevo);
+                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                        AvionesDao.GuardarAviones(avionNuevo);
+                    }
+                    if (cbComida.CheckState == CheckState.Unchecked && cbInternet.CheckState == CheckState.Unchecked)
+                    {
+                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                        MiAerolinea.listaAviones.Add(avionNuevo);
+                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                        AvionesDao.GuardarAviones(avionNuevo);
+                    }
+                    estado = true;
                 }
-                if (cbComida.Checked && cbInternet.CheckState == CheckState.Unchecked)
-                {
-                    avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                    MiAerolinea.listaAviones.Add(avionNuevo);
-                    await Firebase.AgregarAvion(avionNuevo);
-                }
-                if (cbComida.CheckState == CheckState.Unchecked && cbInternet.Checked)
-                {
-                    avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                    MiAerolinea.listaAviones.Add(avionNuevo);
-                    await Firebase.AgregarAvion(avionNuevo);
-                }
-                if (cbComida.CheckState == CheckState.Unchecked && cbInternet.CheckState == CheckState.Unchecked)
-                {
-                    avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                    MiAerolinea.listaAviones.Add(avionNuevo);
-                    await Firebase.AgregarAvion(avionNuevo);
-                }
-                estado = true;
             }
 
             return estado;
@@ -197,7 +208,7 @@ namespace Costanza.Lucas.PPLabII
                     avionEditar.ServicioComida = false;
                 }
 
-                await Firebase.ActualizarAvion(avionEditar);
+                await firebaseAviones.Actualizar(avionEditar, "aviones", avionEditar.Matricula);
                 return true;
 
             }

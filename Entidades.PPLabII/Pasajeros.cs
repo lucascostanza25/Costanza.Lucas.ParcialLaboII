@@ -105,56 +105,56 @@ namespace Entidades.PPLabII
 
         #region Propiedades
         [FirestoreProperty]
-        //[XmlElement("dni")]
+        [XmlElement("dni")]
         public int Dni
         {
             get { return dni; }
             set { dni = value; }
         }
         [FirestoreProperty]
-        //[XmlElement("edad")]
+        [XmlElement("edad")]
         public int Edad
         {
             get { return edad; }
             set { edad = value; }
         }
         [FirestoreProperty]
-        //[XmlElement("genero")]
+        [XmlElement("genero")]
         public string Genero
         {
             get { return genero; }
             set { genero = value; }
         }
         [FirestoreProperty]
-       // [XmlElement("premium")]
+        [XmlElement("premium")]
         public bool AsientoPremium
         {
             get { return asientoPremium; }
             set { asientoPremium = value; }
         }
         [FirestoreProperty]
-        //[XmlElement("cantiad_equipajes")]
+        [XmlElement("cantiad_equipajes")]
         public int CantidadEquipaje
         {
             get { return cantidadEquipajes; }
             set { cantidadEquipajes = value; }
         }
         [FirestoreProperty]
-        //[XmlElement("peso_quipaje_uno")]
+        [XmlElement("peso_quipaje_uno")]
         public double PesoEquipajeUno
         {
             get { return pesoEquipajeUno; }
             set { pesoEquipajeUno = value; }
         }
         [FirestoreProperty]
-        //[XmlElement("peso_equipaje_dos")]
+        [XmlElement("peso_equipaje_dos")]
         public double PesoEquipajeDos
         {
             get { return pesoEquipajeDos; }
             set { pesoEquipajeDos = value; }
         }
         [FirestoreProperty]
-        //[XmlElement("codigo_vuelo")]
+        [XmlElement("codigo_vuelo")]
         public string CodigoVuelo
         {
             get { return codigoVuelo; }

@@ -17,10 +17,12 @@ namespace Costanza.Lucas.PPLabII
         private List<Pasajeros>? listaPasajerosVuelo;
         private List<Aviones>? listaAvionesVuelo;
         private bool solicitudCierre = false;
+        private BaseDeDatos<Vuelos> firebaseVuelos;
 
         public FrmVendedor()
         {
             InitializeComponent();
+            firebaseVuelos = new BaseDeDatos<Vuelos>();
         }
 
         public FrmVendedor(string nombre, string apellido, string fecha, string cargo) : this()
@@ -166,21 +168,21 @@ namespace Costanza.Lucas.PPLabII
             this.gbVenderVuelos.Visible = false;
             this.gbVerVuelos.Visible = true;
             CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
-            MiAerolinea.listaVuelos = await Firebase.TraerVuelos();
+            //MiAerolinea.listaVuelos = await Firebase.TraerVuelos();
         }
 
-        public async Task Agregar()
-        { 
-            foreach(Vuelos vuelo in MiAerolinea.listaVuelos)
-            {
-                if(await Firebase.AgregarVuelo(vuelo) == false)
-                {
-                    MessageBox.Show("El vuelo ya existe");
-                    //break;
-                }
-            } 
+        //public async Task Agregar()
+        //{ 
+        //    foreach(Vuelos vuelo in MiAerolinea.listaVuelos)
+        //    {
+        //        if(await Firebase.AgregarVuelo(vuelo) == false)
+        //        {
+        //            MessageBox.Show("El vuelo ya existe");
+        //            //break;
+        //        }
+        //    } 
            
-        }
+        //}
 
         private void dgvDatosVuelos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -472,10 +474,9 @@ namespace Costanza.Lucas.PPLabII
         }
 
 
-        private void btnCrearCliente_Click(object sender, EventArgs e)
+        private async void btnCrearCliente_Click(object sender, EventArgs e)
         {
-            FrmCrearModificarPersonas formCrearCliente = new FrmCrearModificarPersonas("Crear cliente");
-            formCrearCliente.ShowDialog();
+            await GeneradorClientes.GenerarClientes();
         }
 
         private void btnEditarPasajero_Click(object sender, EventArgs e)
@@ -497,11 +498,14 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnEliminarPasajero_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = MessageBox.Show("¿Segudo que desea eliminar al pasajero?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            Pasajeros pasajero = MiAerolinea.RetornarUnPasajero(int.Parse(txtDniPasajero.Text));
+            Vuelos vuelo = MiAerolinea.listaVuelos.FirstOrDefault(v => v.CodigoVuelo == pasajero.CodigoVuelo);
+            DialogResult resultado = MessageBox.Show("¿Seguro que desea eliminar al pasajero?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (resultado == DialogResult.Yes)
             {
                 if (MiAerolinea.EliminarPasajero(int.Parse(txtDniPasajero.Text)))
                 {
+                    firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
                     MessageBox.Show("Pasajero eliminado");
                     CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
                     dgvPasajeros.Rows.Clear();

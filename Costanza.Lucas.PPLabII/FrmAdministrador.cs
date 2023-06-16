@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,10 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmAdministrador : Form
     {
+        private string baseSeleccionada = "Ninguna";
         private bool solicitudCierre = false;
+        BaseDeDatos<Aviones> firebaseAviones;
+        BaseDeDatos<Vuelos> firebaseVuelos;
         /// <summary>
         /// Constructor del form
         /// </summary>
@@ -27,6 +31,8 @@ namespace Costanza.Lucas.PPLabII
             InitializeComponent();
             this.gbAdministrarVuelos.Visible = false;
             OcultarMenu();
+            firebaseAviones = new BaseDeDatos<Aviones>();
+            firebaseVuelos = new BaseDeDatos<Vuelos>();
 
             lblInformacionTrabajador.Text = $"¡Bienvenido {cargo}!\n" +
                 $"¡{nombre} {apellido}!\n" +
@@ -86,7 +92,8 @@ namespace Costanza.Lucas.PPLabII
         private void btnAdministrarVuelos_Click(object sender, EventArgs e)
         {
             this.gbAdministrarAviones.Visible = false;
-            this.gbAdministrarVuelos.Visible = true;
+            this.gbBaseDatos.Visible = false;
+            this.gbAdministrarVuelos.Visible = true; 
             CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
         }
         /// <summary>
@@ -202,6 +209,7 @@ namespace Costanza.Lucas.PPLabII
         private void btnAdministrarAviones_Click(object sender, EventArgs e)
         {
             this.gbAdministrarVuelos.Visible = false;
+            this.gbBaseDatos.Visible = false;
             this.gbAdministrarAviones.Visible = true;
             CrearDataGridViewAviones(MiAerolinea.listaAviones);
         }
@@ -277,30 +285,45 @@ namespace Costanza.Lucas.PPLabII
 
         private async void btnEliminarAvion_Click(object sender, EventArgs e)
         {
+            await ElimiarAvion();
+        }
+
+        private async Task<bool> ElimiarAvion()
+        {
             try
             {
                 string? matriculaAvion = dgvDatosAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
                 Aviones avionSeleccionado = new Aviones();
                 avionSeleccionado = MiAerolinea.BuscarUnAvion(matriculaAvion);
-                DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el avion {avionSeleccionado.ModeloAvion}?", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (resutado == DialogResult.Yes)
+                DialogResult resultado = MessageBox.Show($"¿Seguro que desea eliminar el avion {avionSeleccionado.ModeloAvion}?", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (resultado == DialogResult.Yes)
                 {
                     MiAerolinea.listaAviones.Remove(avionSeleccionado);
-                    Task<bool> respuesta = Firebase.EliminarAvion(matriculaAvion);
-                    bool resultado = await respuesta;
+                    Task<bool> respuesta = firebaseAviones.Eliminar("aviones", avionSeleccionado.Matricula);
+                    bool resultadoRespuesta = await respuesta;
+                    AvionesDao.EliminarAvion(avionSeleccionado);
+                    return true;
                 }
                 else
                     MessageBox.Show($"No se elminó a el avion {avionSeleccionado.ModeloAvion}", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                CrearDataGridViewAviones(MiAerolinea.listaAviones);
+                if (MiAerolinea.listaAviones is not null)
+                    CrearDataGridViewAviones(MiAerolinea.listaAviones);
                 lblInformacionAvion.Text = "Seleccione un avion clickeando en la primera columna con la flecha de la fila deseada";
             }
-            catch(ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show("Seleccione un vuelo para eliminar primero");
             }
+
+            return false;
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private async void btnEliminar_Click(object sender, EventArgs e)
+        {
+            await ElimiarVuelo();
+        }
+
+        private async Task<bool> ElimiarVuelo()
         {
             try
             {
@@ -308,16 +331,62 @@ namespace Costanza.Lucas.PPLabII
                 Vuelos vuelo = MiAerolinea.BuscarUnVuelo(codigoVueloSeleccionado);
                 DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el vuelo {vuelo.CodigoVuelo}?", "Eliminar vuelo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (resutado == DialogResult.Yes)
+                {
                     MiAerolinea.listaVuelos.Remove(vuelo);
+                    return true;
+                }
                 else
                     MessageBox.Show($"No se elminó el vuelo {vuelo.CodigoVuelo}", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
                 lblInformacionVuelo.Text = "Seleccione un vuelo clickeando en la primera columna con la fecla de la fila deseada";
             }
-            catch(ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
                 MessageBox.Show("Seleccione un vuelo para eliminar primero");
             }
+
+            return false;
+        }
+
+        private void btnSql_Click(object sender, EventArgs e)
+        {
+            baseSeleccionada = "SQL Server";
+            lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
+            LimpiarDatos();
+            MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
+            MiAerolinea.listaAviones = AvionesDao.LeerAviones();
+            MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
+        }
+
+        private void btnBaseDatos_Click(object sender, EventArgs e)
+        {
+            lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
+            this.gbAdministrarAviones.Visible = false;
+            this.gbAdministrarVuelos.Visible = false;
+            this.gbBaseDatos.Visible = true;
+        }
+
+        private void LimpiarDatos()
+        {
+            MiAerolinea.listaAviones.Clear();
+            MiAerolinea.listaPasajeros.Clear();
+            MiAerolinea.listaVuelos.Clear();
+        }
+
+        private async void btnFirebase_Click(object sender, EventArgs e)
+        {
+            baseSeleccionada = "Google Firebase";
+            lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
+            LimpiarDatos();
+            BaseDeDatos<Aviones> firebaseAviones = new BaseDeDatos<Aviones>();
+            MiAerolinea.listaAviones = await firebaseAviones.Traer("aviones");
+            BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
+            MiAerolinea.listaVuelos = await firebaseVuelos.Traer("vuelos");
+        }
+
+        private void gbBaseDatos_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Costanza.Lucas.PPLabII
     public partial class FrmCrearModificarVuelo : Form
     {
         Vuelos vuelo = new Vuelos();
+        BaseDeDatos<Vuelos> firebaseVuelo = new BaseDeDatos<Vuelos>();
         public FrmCrearModificarVuelo()
         {
             InitializeComponent();
@@ -67,7 +68,9 @@ namespace Costanza.Lucas.PPLabII
         {
             if (btnAceptar.Text == "Crear vuelo")
             {
-                if (Convert.ToBoolean(CrearVuelo()))
+                Task<bool> respuesta = CrearVuelo();
+                bool resultado = await respuesta;
+                if (resultado)
                 {
                     MessageBox.Show("Vuelo creado con exito!", "Vuelo creado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
@@ -79,7 +82,9 @@ namespace Costanza.Lucas.PPLabII
             }
             else
             {
-                if (Convert.ToBoolean(ModificarVuelo(vuelo)))
+                Task<bool> respuesta = ModificarVuelo(vuelo);
+                bool resultado = await respuesta;
+                if (resultado)
                 {
                     MessageBox.Show("Vuelo modificado con exito!", "Vuelo modificado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
@@ -168,7 +173,7 @@ namespace Costanza.Lucas.PPLabII
                             {
                                 Vuelos vueloNuevo = new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula);
                                 MiAerolinea.listaVuelos.Add(vueloNuevo);
-                                await Firebase.AgregarVuelo(vueloNuevo);
+                                await firebaseVuelo.Agregar(vueloNuevo, "vuelos", vueloNuevo.CodigoVuelo);
                                 estado = true;
 
                             }
@@ -233,7 +238,7 @@ namespace Costanza.Lucas.PPLabII
                             vueloModificar.PrecioVuelo = precio * (double)nudHoras.Value;
                             vueloModificar.AvionVuelo = vueloAvion;
                             estado = true;
-                            await Firebase.ActualizarVuelo(vueloModificar);
+                            await firebaseVuelo.Actualizar(vueloModificar, "vuelos", vueloModificar.CodigoVuelo);
                         }
                     }
                 }
