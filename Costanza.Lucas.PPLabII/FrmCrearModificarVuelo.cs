@@ -78,6 +78,7 @@ namespace Costanza.Lucas.PPLabII
                 else
                 {
                     MessageBox.Show("No se pudo crear el vuelo", "Error al crear el vuelo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Agregar exception
                 }
             }
             else
@@ -92,6 +93,7 @@ namespace Costanza.Lucas.PPLabII
                 else
                 {
                     MessageBox.Show("No se pudo modificar el vuelo", "Error al modificar el vuelo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Agregar exception
                 }
             }
         }

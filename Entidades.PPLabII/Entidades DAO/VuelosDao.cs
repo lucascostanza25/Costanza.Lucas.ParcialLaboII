@@ -53,6 +53,10 @@ namespace Entidades.PPLabII.Entidades_DAO
                             ));
                     }
                 }
+                if (listaVuelos.Count == 0)
+                {
+                    throw new ExcepcionBaseDatos();
+                }
             }
             finally
             {

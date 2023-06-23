@@ -14,18 +14,26 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmVendedor : Form
     {
-        private List<Pasajeros>? listaPasajerosVuelo;
-        private List<Aviones>? listaAvionesVuelo;
         private bool solicitudCierre = false;
         private BaseDeDatos<Vuelos> firebaseVuelos;
+        private List<Panel> paneles;
+        TimeSpan tiempoRestante;
+        Vuelos vueloMasCercano;
 
         public FrmVendedor()
         {
             InitializeComponent();
             firebaseVuelos = new BaseDeDatos<Vuelos>();
+            paneles = new List<Panel>
+            {
+                panelMenuEstadisticas, panelMenuVuelos, panelTema
+            };
+
+
+            
         }
 
-        public FrmVendedor(string nombre, string apellido, string fecha, string cargo) : this()
+        public FrmVendedor(string nombre, string apellido, string fecha, string cargo, TimeSpan tiempo) : this()
         {
 
             OcultarMenu();
@@ -36,9 +44,8 @@ namespace Costanza.Lucas.PPLabII
                 $"Fecha: {fecha}";
             lblInformacionTrabajador.BackColor = Color.Transparent;
 
-            listaPasajerosVuelo = new List<Pasajeros>();
-            listaAvionesVuelo = new List<Aviones>();
-
+            FrmAdministrador form = new FrmAdministrador();
+            form.Enviar += Recibir;
 
         }
         #region Menu lateral
@@ -46,6 +53,7 @@ namespace Costanza.Lucas.PPLabII
         {
             this.gbVerVuelos.Visible = false;
             this.gbVenderVuelos.Visible = false;
+            this.panelTema.Visible = false;
 
         }
 
@@ -64,6 +72,10 @@ namespace Costanza.Lucas.PPLabII
             if (panelMenuEstadisticas.Visible == true)
             {
                 panelMenuEstadisticas.Visible = false;
+            }
+            if(panelTema.Visible == true)
+            {
+                panelTema.Visible = false;
             }
         }
 
@@ -396,36 +408,41 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
-
+            timerVuelo.Start();
         }
 
-        private void btnVenderVuelo_Click(object sender, EventArgs e)
+        private async void btnVenderVuelo_Click(object sender, EventArgs e)
         {
             if (lblInformacionCliente.Text != "Llame a un cliente")
             {
                 Vuelos vueloAVenderIda = BuscarVuelo(BuscarCodigoDgv(dgvVenderVuelosIda));
-                foreach (Cliente cliente in MiAerolinea.listaClientes)
+                if (MiAerolinea.listaClientes is not null)
                 {
-                    try
+                    foreach (Cliente cliente in MiAerolinea.listaClientes)
                     {
-                        if (MiAerolinea.VenderVuelo(vueloAVenderIda, cliente))
+                        try
                         {
-                            if (lblViajeVuelta.Enabled)
+                            Task<bool> resultado = MiAerolinea.VenderVuelo(vueloAVenderIda, cliente);
+                            bool respuesta = await resultado;
+                            if (respuesta)
                             {
-                                Vuelos vueloAVenderVuelta = BuscarVuelo(BuscarCodigoDgv(dgvVenderVuelosVuelta));
-                                MiAerolinea.VenderVuelo(vueloAVenderVuelta, cliente);
-                                MessageBox.Show("¡El vuelo de ida y vuelta fueron vendidos exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (lblViajeVuelta.Enabled)
+                                {
+                                    Vuelos vueloAVenderVuelta = BuscarVuelo(BuscarCodigoDgv(dgvVenderVuelosVuelta));
+                                    await MiAerolinea.VenderVuelo(vueloAVenderVuelta, cliente);
+                                    MessageBox.Show("¡El vuelo de ida y vuelta fueron vendidos exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                    MessageBox.Show("¡El vuelo de ida fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
                             }
-                            else
-                                MessageBox.Show("¡El vuelo de ida fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            break;
                         }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    break;
                 }
             }
             else
@@ -481,9 +498,29 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnEditarPasajero_Click(object sender, EventArgs e)
         {
-            FrmCrearModificarPersonas formEditarPasajero = new FrmCrearModificarPersonas("Editar pasajero", int.Parse(txtDniPasajero.Text));
-            formEditarPasajero.ShowDialog();
+            EditarPasajero();
         }
+
+        private void EditarPasajero()
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(MiAerolinea.BuscarUnPasajero(int.Parse(txtDniPasajero.Text))))
+                {
+                    throw new Exception("No se encontró el pasajero en el sistema");
+                }
+                FrmCrearModificarPersonas formEditarPasajero = new FrmCrearModificarPersonas("Editar pasajero", int.Parse(txtDniPasajero.Text));
+                formEditarPasajero.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
+                guardador.GuardarExcepcion(ex);
+            }
+
+        }
+
         private void btnVerEstadisticas_Click(object sender, EventArgs e)
         {
             this.gbVerVuelos.Visible = false;
@@ -496,7 +533,7 @@ namespace Costanza.Lucas.PPLabII
             lblRecaudacionTodosVuelos.Text = MiAerolinea.EstadisticaRecaudacionTodosLosVuelo();
         }
 
-        private void btnEliminarPasajero_Click(object sender, EventArgs e)
+        private async void btnEliminarPasajero_Click(object sender, EventArgs e)
         {
             Pasajeros pasajero = MiAerolinea.RetornarUnPasajero(int.Parse(txtDniPasajero.Text));
             Vuelos vuelo = MiAerolinea.listaVuelos.FirstOrDefault(v => v.CodigoVuelo == pasajero.CodigoVuelo);
@@ -505,7 +542,9 @@ namespace Costanza.Lucas.PPLabII
             {
                 if (MiAerolinea.EliminarPasajero(int.Parse(txtDniPasajero.Text)))
                 {
-                    firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
+                    if(vuelo is not null)
+                        await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
+                    PasajerosDao.EliminarPasajero(pasajero);
                     MessageBox.Show("Pasajero eliminado");
                     CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
                     dgvPasajeros.Rows.Clear();
@@ -521,5 +560,67 @@ namespace Costanza.Lucas.PPLabII
         {
 
         }
+
+        private void btnTema_Click(object sender, EventArgs e)
+        {
+            MostrarMenu(panelTema);
+        }
+
+        private void btnEstadisticas_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbTemaOscuro_CheckedChanged(object sender, EventArgs e)
+        {
+            CambiarTema(Color.Black, Color.DimGray);
+        }
+
+        private void CambiarTema(Color primario, Color secundario)
+        {
+            foreach(Panel p in paneles)
+            {
+                p.BackColor = primario;
+            }
+            this.panelMenu.BackColor = secundario;
+
+            foreach(GroupBox gb in Controls.OfType<GroupBox>())
+            {
+                gb.BackColor = primario;
+                foreach(Label lbl in gb.Controls.OfType<Label>())
+                {
+                    lbl.ForeColor = Color.White;
+                }
+                foreach(RadioButton rb in gb.Controls.OfType<RadioButton>())
+                {
+                    rb.ForeColor = Color.White;
+                }
+                foreach(CheckBox cb in gb.Controls.OfType<CheckBox>())
+                {
+                    cb.ForeColor = Color.White;
+                }
+            }
+        }
+
+        private void rbTemaClaro_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Recibir(TimeSpan tiempo, Vuelos vuelo)
+        {
+            tiempoRestante = tiempo;
+            vueloMasCercano = vuelo;
+            timerVuelo.Start();
+        }
+
+        private void timerVuelo_Tick(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"El proximo vuelo {vueloMasCercano.CodigoVuelo}, con destino a {vueloMasCercano.Destino.ToString().Replace("_", " ")} sale en: ");
+            sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
+            lblTimerVuelo.Text = sb.ToString();
+        }
+
     }
 }

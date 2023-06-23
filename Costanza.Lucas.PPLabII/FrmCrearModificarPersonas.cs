@@ -226,6 +226,8 @@ namespace Costanza.Lucas.PPLabII
             }
             estado = true;
 
+            PasajerosDao.ActualizarPasajero(miPasajero);
+
             return estado;
         }
         /// <summary>
@@ -256,7 +258,7 @@ namespace Costanza.Lucas.PPLabII
                             //svuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, false, 1, pesoEquipajeUno, pesoEquipajeDos));
                         }
                         MessageBox.Show("Pasajero agregado correctamente");
-                        vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
+                        //vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
                         return true;
                     }
                 }

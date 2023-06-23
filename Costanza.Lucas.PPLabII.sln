@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Costanza.Lucas.PPLabII", "Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII.csproj", "{3647631F-2168-4DE1-BCCC-B186B9B7D61C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Costanza.Lucas.PPLabII", "Costanza.Lucas.PPLabII\Costanza.Lucas.PPLabII.csproj", "{3647631F-2168-4DE1-BCCC-B186B9B7D61C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades.PPLabII", "Entidades.PPLabII\Entidades.PPLabII.csproj", "{A35138D0-07F7-4EC1-9BE2-575BDA697B42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entidades.PPLabII", "Entidades.PPLabII\Entidades.PPLabII.csproj", "{A35138D0-07F7-4EC1-9BE2-575BDA697B42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{57A8CA07-E8F5-4377-9CE7-95597C5AFF99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A35138D0-07F7-4EC1-9BE2-575BDA697B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A35138D0-07F7-4EC1-9BE2-575BDA697B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A35138D0-07F7-4EC1-9BE2-575BDA697B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57A8CA07-E8F5-4377-9CE7-95597C5AFF99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57A8CA07-E8F5-4377-9CE7-95597C5AFF99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57A8CA07-E8F5-4377-9CE7-95597C5AFF99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57A8CA07-E8F5-4377-9CE7-95597C5AFF99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

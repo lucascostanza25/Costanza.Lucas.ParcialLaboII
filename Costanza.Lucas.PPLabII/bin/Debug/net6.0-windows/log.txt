@@ -1,75 +1,16 @@
-17/5/2023 01:13:55 -> INICIO SESION: Michael Jordan - administrador
-17/5/2023 01:15:23 -> INICIO SESION: Corey Gorgen - vendedor
-17/5/2023 01:36:15 -> INICIO SESION: Corey Gorgen - vendedor
-7/6/2023 12:47:59 -> INICIO SESION: Corey Gorgen - vendedor
-7/6/2023 13:15:47 -> INICIO SESION: Corey Gorgen - vendedor
-8/6/2023 20:54:08 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 01:36:32 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 01:48:45 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 01:54:59 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 13:58:01 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 13:59:00 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:24:46 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:25:30 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:29:01 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:29:31 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:33:03 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:37:26 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:38:00 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:41:26 -> INICIO SESION: Corey Gorgen - vendedor
-9/6/2023 14:57:29 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 19:36:22 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 19:37:13 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 19:45:50 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 19:46:10 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 19:53:57 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 19:57:09 -> INICIO SESION: Corey Gorgen - vendedor
-10/6/2023 20:28:28 -> INICIO SESION: Michael Jordan - administrador
-10/6/2023 20:29:29 -> INICIO SESION: Michael Jordan - administrador
-10/6/2023 20:30:42 -> INICIO SESION: Michael Jordan - administrador
-10/6/2023 20:33:17 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 17:49:02 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 17:50:14 -> INICIO SESION: Corey Gorgen - vendedor
-11/6/2023 17:52:54 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 18:05:49 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 19:50:35 -> INICIO SESION: Corey Gorgen - vendedor
-11/6/2023 19:50:51 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 20:03:23 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 20:13:36 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 20:28:51 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 20:29:39 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 20:33:18 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 20:36:49 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 21:21:42 -> INICIO SESION: Corey Gorgen - vendedor
-11/6/2023 21:34:39 -> INICIO SESION: Corey Gorgen - vendedor
-11/6/2023 21:34:59 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 22:50:43 -> INICIO SESION: Corey Gorgen - vendedor
-11/6/2023 22:52:23 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 22:54:48 -> INICIO SESION: Michael Jordan - administrador
-11/6/2023 22:58:25 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 19:49:52 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 19:54:40 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 20:15:10 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 20:35:12 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 20:38:23 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 20:39:19 -> INICIO SESION: Michael Jordan - administrador
-12/6/2023 21:05:23 -> INICIO SESION: Michael Jordan - administrador
-15/6/2023 18:01:05 -> INICIO SESION: Corey Gorgen - vendedor
-15/6/2023 18:02:13 -> INICIO SESION: Corey Gorgen - vendedor
-15/6/2023 20:41:16 -> INICIO SESION: Michael Jordan - administrador
-15/6/2023 20:41:46 -> INICIO SESION: Corey Gorgen - vendedor
-15/6/2023 20:42:00 -> INICIO SESION: Michael Jordan - administrador
-15/6/2023 20:42:15 -> INICIO SESION: Corey Gorgen - vendedor
-16/6/2023 00:33:12 -> INICIO SESION: Corey Gorgen - vendedor
-16/6/2023 00:33:24 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 00:33:45 -> INICIO SESION: Corey Gorgen - vendedor
-16/6/2023 00:34:20 -> INICIO SESION: Tilda Robinson - supervisor
-16/6/2023 00:34:36 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 01:06:46 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 13:02:43 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 13:02:56 -> INICIO SESION: Corey Gorgen - vendedor
-16/6/2023 13:54:03 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 13:54:15 -> INICIO SESION: Corey Gorgen - vendedor
-16/6/2023 14:04:40 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 14:07:46 -> INICIO SESION: Michael Jordan - administrador
-16/6/2023 14:15:16 -> INICIO SESION: Michael Jordan - administrador
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 99
+----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 99
+----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 101
+----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 101
+----------------------------------------

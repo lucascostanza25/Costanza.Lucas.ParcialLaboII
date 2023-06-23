@@ -1,4 +1,5 @@
-﻿using Google.Cloud.Firestore;
+﻿using Entidades.PPLabII.Firebase;
+using Google.Cloud.Firestore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,12 @@ namespace Entidades.PPLabII
             this.cantidadAsientosNormales = cantidadAsientosNormales;
             this.modeloAvion = modeloAvion;
         }
-
+        public void ActualizarAviones(Aviones avion)
+        {
+            this.cantidadAsientosNormales = cantidadAsientos - cantidadAsientosPremium;
+            BaseDeDatos<Aviones> firebaseAviones = new BaseDeDatos<Aviones>();
+            firebaseAviones.Actualizar(avion, "aviones", avion.matricula);
+        }
         #region Propiedades
         [XmlElement("matricula")]
         [JsonPropertyName("matricula")]

@@ -42,7 +42,11 @@ namespace Entidades.PPLabII
                 comando.Parameters.AddWithValue("@peso_dos", (float)pasajero.PesoEquipajeDos);
                 comando.Parameters.AddWithValue("@codigo_vuelo", pasajero.CodigoVuelo);
                 comando.Parameters.AddWithValue("@edad", pasajero.Edad);
-                comando.ExecuteNonQuery();
+                
+                if(comando.ExecuteNonQuery() == 0)
+                {
+                    throw new ExcepcionBaseDatos();
+                }
             }
             finally
             {
@@ -77,6 +81,10 @@ namespace Entidades.PPLabII
                             ));
                     }
                 }
+                if(listaPasajeros.Count == 0)
+                {
+                    throw new ExcepcionBaseDatos();
+                }
             }
             finally
             {
@@ -84,6 +92,52 @@ namespace Entidades.PPLabII
             }
 
             return listaPasajeros;
+        }
+
+        public static void ActualizarPasajero(Pasajeros pasajero)
+        {
+            try
+            {
+                comando.Parameters.Clear();
+                conexion.Open();
+                comando.CommandText = "UPDATE pasajeros SET nombre = @nombre, apellido = @apellido, genero = @genero, asiento_premium = @asiento_premium, cantidad_equipaje = @cantidad_equipaje, peso_uno = @peso_uno, peso_dos = @peso_dos, edad = @edad WHERE dni = @dni";
+                comando.Parameters.AddWithValue("@nombre", pasajero.Nombre);
+                comando.Parameters.AddWithValue("@apellido", pasajero.Apellido);
+                comando.Parameters.AddWithValue("@genero", pasajero.Genero);
+                if (pasajero.AsientoPremium)
+                    comando.Parameters.AddWithValue("@asiento_premium", 1);
+                else
+                    comando.Parameters.AddWithValue("@asiento_premium", 0);
+                comando.Parameters.AddWithValue("@cantidad_equipaje", (int)pasajero.CantidadEquipaje);
+                comando.Parameters.AddWithValue("@peso_uno", (float)pasajero.PesoEquipajeUno);
+                comando.Parameters.AddWithValue("@peso_dos", (float)pasajero.PesoEquipajeDos);
+                comando.Parameters.AddWithValue("@edad", pasajero.Edad);
+                comando.Parameters.AddWithValue("@dni", pasajero.Dni);
+
+                if (comando.ExecuteNonQuery() == 0)
+                {
+                    throw new ExcepcionBaseDatos("No se pudo editar al pasajero");
+                }
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
+
+        public static void EliminarPasajero(Pasajeros pasajero)
+        {
+            try
+            {
+                conexion.Open();
+                comando.CommandText = "DELETE FROM pasajeros WHERE dni = @dni";
+                comando.Parameters.AddWithValue("@dni", pasajero.Dni);
+                comando.ExecuteNonQuery();
+            }
+            finally
+            {
+                conexion.Close();
+            }
         }
     }
 

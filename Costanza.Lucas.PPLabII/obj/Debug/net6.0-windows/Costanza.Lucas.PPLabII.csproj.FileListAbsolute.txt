@@ -79,3 +79,4 @@ D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPL
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\bin\Debug\net6.0-windows\System.Linq.Async.dll
+D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\obj\Debug\net6.0-windows\Costanza.Lucas.PPLabII.formprueba.resources

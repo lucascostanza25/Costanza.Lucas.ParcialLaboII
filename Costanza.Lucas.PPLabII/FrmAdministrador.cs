@@ -19,6 +19,20 @@ namespace Costanza.Lucas.PPLabII
         private bool solicitudCierre = false;
         BaseDeDatos<Aviones> firebaseAviones;
         BaseDeDatos<Vuelos> firebaseVuelos;
+
+        TimeSpan tiempoRestante;
+
+        public delegate void DelegadoTiempo(TimeSpan tiempo, Vuelos vuelo);
+        public event DelegadoTiempo Enviar;
+
+        public FrmAdministrador()
+        {
+            InitializeComponent();
+            if(MiAerolinea.listaVuelos.Count() > 0)
+            {
+                timerVueloAdmin.Start();
+            }
+        }
         /// <summary>
         /// Constructor del form
         /// </summary>
@@ -26,9 +40,8 @@ namespace Costanza.Lucas.PPLabII
         /// <param name="apellido">Apellido del administrador</param>
         /// <param name="fecha">Fecha que se inicia sesion</param>
         /// <param name="cargo">Cargo</param>
-        public FrmAdministrador(string nombre, string apellido, string fecha, string cargo)
+        public FrmAdministrador(string nombre, string apellido, string fecha, string cargo) : this()
         {
-            InitializeComponent();
             this.gbAdministrarVuelos.Visible = false;
             OcultarMenu();
             firebaseAviones = new BaseDeDatos<Aviones>();
@@ -49,15 +62,20 @@ namespace Costanza.Lucas.PPLabII
         protected void OcultarMenu()
         {
             this.panelMenuVuelos.Visible = false;
+            this.panelTema.Visible = false;
         }
         /// <summary>
         /// Metodo que pinta el submenu del panel lateral
         /// </summary>
         protected void PintarSubMenu()
         {
-            if (panelMenuVuelos.Visible == true)
+            if(panelMenuVuelos.Visible == true)
             {
                 panelMenuVuelos.Visible = false;
+            }
+            if(panelTema.Visible == true)
+            {
+                panelTema.Visible = false;
             }
         }
         /// <summary>
@@ -350,12 +368,19 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnSql_Click(object sender, EventArgs e)
         {
-            baseSeleccionada = "SQL Server";
-            lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
-            LimpiarDatos();
-            MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
-            MiAerolinea.listaAviones = AvionesDao.LeerAviones();
-            MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
+            try
+            {
+                baseSeleccionada = "SQL Server";
+                lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
+                LimpiarDatos();
+                MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
+                MiAerolinea.listaAviones = AvionesDao.LeerAviones();
+                MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
+            }
+            catch (ExcepcionBaseDatos exB)
+            {
+                MessageBox.Show(exB.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnBaseDatos_Click(object sender, EventArgs e)
@@ -375,18 +400,66 @@ namespace Costanza.Lucas.PPLabII
 
         private async void btnFirebase_Click(object sender, EventArgs e)
         {
-            baseSeleccionada = "Google Firebase";
-            lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
-            LimpiarDatos();
-            BaseDeDatos<Aviones> firebaseAviones = new BaseDeDatos<Aviones>();
-            MiAerolinea.listaAviones = await firebaseAviones.Traer("aviones");
-            BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
-            MiAerolinea.listaVuelos = await firebaseVuelos.Traer("vuelos");
+            try
+            {
+                baseSeleccionada = "Google Firebase";
+                lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
+                LimpiarDatos();
+                BaseDeDatos<Aviones> firebaseAviones = new BaseDeDatos<Aviones>();
+                MiAerolinea.listaAviones = await firebaseAviones.Traer("aviones");
+                BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
+                MiAerolinea.listaVuelos = await firebaseVuelos.Traer("vuelos");
+            
+                foreach(Aviones a in MiAerolinea.listaAviones)
+                {
+                    a.ActualizarAviones(a);
+                }
+
+                foreach(Vuelos v in MiAerolinea.listaVuelos)
+                {
+                    v.ActualizarDatosVuelo(v);
+                }
+                timerVueloAdmin.Start();
+            }
+            catch(ExcepcionBaseDatos exB)
+            {
+                MessageBox.Show(exB.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void gbBaseDatos_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            List<Vuelos> lista = MiAerolinea.listaVuelos;
+            Vuelos vuelo = lista[0];
+            foreach(Vuelos v in lista)
+            {
+                if (v.FechaVuelo > DateTime.Now)
+                {
+                    if (v.FechaVuelo < vuelo.FechaVuelo)
+                    {
+                        vuelo = v;
+                    }
+
+                }
+            }
+            tiempoRestante = vuelo.FechaVuelo - DateTime.Now;
+            sb.Append($"El proximo vuelo {vuelo.CodigoVuelo}, con destino a {vuelo.Destino.ToString().Replace("_", " ")} sale en: ");
+            sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
+            lblTimerVuelo.Text = sb.ToString();
+            Enviar?.Invoke(tiempoRestante, vuelo);
+
+        }
+
+        private void btnTema_Click(object sender, EventArgs e)
+        {
+            MostrarMenu(panelTema);
         }
     }
 }

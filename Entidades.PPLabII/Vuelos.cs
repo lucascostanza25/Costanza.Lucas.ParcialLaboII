@@ -1,4 +1,5 @@
-﻿using Google.Cloud.Firestore;
+﻿using Entidades.PPLabII.Firebase;
+using Google.Cloud.Firestore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace Entidades.PPLabII
         private List<Pasajeros> listaPasajeros = new List<Pasajeros>();
         private Aviones? avionVuelo;
         private DateTime fechaVuelo;
-        private int asientosDisponibles;
-        private int asientosOcupados;
+        private int asientosDisponiblesTotal;
+        private int asientosOcupadosTotal;
         private int asientosPremium;
         private int asientosPremiumOcupados;
         private string? codigoVuelo;
@@ -26,6 +27,8 @@ namespace Entidades.PPLabII
         private double capacidadDisponibleBodega;
         private double capacidadTotalBodega;
         private double cantidadDineroRecaudado;
+        private int asientosNormales;
+        private int asientosNormalesOcupados;
 
         public Vuelos()
         {
@@ -50,13 +53,24 @@ namespace Entidades.PPLabII
         public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros ) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
         {
             this.listaPasajeros = listaPasajeros;
+            double pesoTotal = 0;
             if (avionVuelo is not null)
             {
-                this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
-                this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium;
-                this.asientosOcupados = listaPasajeros.Count();
-
+                this.asientosDisponiblesTotal = (int)avionVuelo.CantidadAsientos - listaPasajeros.Count();
+                this.asientosOcupadosTotal = listaPasajeros.Count();
                 this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
+                this.asientosPremiumOcupados = 0;
+                foreach(Pasajeros pasajero in this.listaPasajeros)
+                {
+                    if (pasajero.AsientoPremium)
+                    {
+                        this.asientosPremiumOcupados++;
+                    }
+                    pesoTotal += pasajero.PesoEquipajeUno + pasajero.PesoEquipajeDos;
+                }
+                this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium - asientosPremiumOcupados;
+                this.asientosNormales = asientosDisponiblesTotal - asientosPremium;
+                this.capacidadDisponibleBodega = capacidadDisponibleBodega - pesoTotal;
             }
         }
 
@@ -90,23 +104,32 @@ namespace Entidades.PPLabII
             return precioFinal;
         }
 
-        public void ActualizarDatosVuelo(List<Pasajeros> listaNuevaPasajeros)
-        {
-            this.asientosDisponibles = 0;
-            this.asientosDisponibles = (int)avionVuelo.CantidadAsientos - listaNuevaPasajeros.Count();
-            this.asientosOcupados = listaNuevaPasajeros.Count();
-            this.asientosPremiumOcupados = 0;
-            this.capacidadDisponibleBodega = 0;
+        public async void ActualizarDatosVuelo(Vuelos vuelo)
+        { 
+            this.asientosDisponiblesTotal = (int)vuelo.AvionVuelo.CantidadAsientos - vuelo.listaPasajeros.Count();
+            this.asientosOcupadosTotal = vuelo.listaPasajeros.Count();
+
             double pesoTotal = 0;
-            foreach (Pasajeros pasajero in listaNuevaPasajeros)
+            this.asientosPremiumOcupados = 0;
+            int cantidadAsientosNormales = 0;
+            foreach (Pasajeros pasajero in vuelo.listaPasajeros)
             {
                 if (pasajero.AsientoPremium)
                 {
                     this.asientosPremiumOcupados++;
                 }
+                else
+                {
+                    cantidadAsientosNormales++;
+                }
                 pesoTotal += pasajero.PesoEquipajeUno + pasajero.PesoEquipajeDos;
             }
-            this.capacidadDisponibleBodega = this.capacidadTotalBodega - pesoTotal;
+            this.asientosPremium = (int)vuelo.AvionVuelo.CantidadAsientosPremium - asientosPremiumOcupados;
+            this.capacidadDisponibleBodega = vuelo.avionVuelo.CapacidadBodega;
+            this.capacidadDisponibleBodega = capacidadDisponibleBodega - pesoTotal;
+            this.asientosNormalesOcupados = cantidadAsientosNormales;
+            BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
+            await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.codigoVuelo);
         }
 
         public static bool operator ==(Vuelos v1, Vuelos v2)
@@ -164,14 +187,14 @@ namespace Entidades.PPLabII
         [FirestoreProperty]
         public int AsientosDisponibles
         {
-            get { return this.asientosDisponibles; }
-            set { this.asientosDisponibles = value; }
+            get { return this.asientosDisponiblesTotal; }
+            set { this.asientosDisponiblesTotal = value; }
         }
         [FirestoreProperty]
         public int AsientosOcupados
         {
-            get { return this.asientosOcupados; }
-            set { this.asientosOcupados = value; }
+            get { return this.asientosOcupadosTotal; }
+            set { this.asientosOcupadosTotal = value; }
         }
         [FirestoreProperty]
         public string CodigoVuelo
@@ -214,6 +237,18 @@ namespace Entidades.PPLabII
         {
             get { return capacidadDisponibleBodega; }
             set { capacidadDisponibleBodega = value; }
+        }
+        [FirestoreProperty]
+        public int AsientosPremium
+        {
+            get { return asientosPremium; }
+            set { asientosPremium = value; }
+        }
+        [FirestoreProperty]
+        public int AsientosPremiumOcupados
+        {
+            get { return asientosPremiumOcupados; }
+            set { asientosPremiumOcupados = value; }
         }
     }
 }

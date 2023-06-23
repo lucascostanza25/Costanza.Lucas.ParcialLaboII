@@ -29,85 +29,22 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInicioSesion));
-            this.panelMenu = new System.Windows.Forms.Panel();
-            this.btnSalir = new System.Windows.Forms.Button();
-            this.btnIniciarSesion = new System.Windows.Forms.Button();
-            this.panelLogo = new System.Windows.Forms.Panel();
-            this.pbLogo = new System.Windows.Forms.PictureBox();
             this.pbFotoAvion = new System.Windows.Forms.PictureBox();
             this.btnLogearse = new System.Windows.Forms.Button();
             this.lblMail = new System.Windows.Forms.Label();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtContrasenia = new System.Windows.Forms.TextBox();
             this.lblContrasenia = new System.Windows.Forms.Label();
-            this.panelMenu.SuspendLayout();
+            this.panelLogo = new System.Windows.Forms.Panel();
+            this.pbLogo = new System.Windows.Forms.PictureBox();
+            this.btnIniciarSesion = new System.Windows.Forms.Button();
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.panelMenu = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFotoAvion)).BeginInit();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFotoAvion)).BeginInit();
+            this.panelMenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelMenu
-            // 
-            this.panelMenu.BackColor = System.Drawing.Color.SteelBlue;
-            this.panelMenu.Controls.Add(this.btnSalir);
-            this.panelMenu.Controls.Add(this.btnIniciarSesion);
-            this.panelMenu.Controls.Add(this.panelLogo);
-            this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelMenu.Location = new System.Drawing.Point(0, 0);
-            this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(207, 429);
-            this.panelMenu.TabIndex = 5;
-            // 
-            // btnSalir
-            // 
-            this.btnSalir.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnSalir.FlatAppearance.BorderSize = 0;
-            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalir.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnSalir.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnSalir.Location = new System.Drawing.Point(0, 372);
-            this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(207, 57);
-            this.btnSalir.TabIndex = 2;
-            this.btnSalir.Text = "Salir";
-            this.btnSalir.UseVisualStyleBackColor = true;
-            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
-            // 
-            // btnIniciarSesion
-            // 
-            this.btnIniciarSesion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnIniciarSesion.FlatAppearance.BorderSize = 0;
-            this.btnIniciarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIniciarSesion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnIniciarSesion.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnIniciarSesion.Location = new System.Drawing.Point(0, 167);
-            this.btnIniciarSesion.Name = "btnIniciarSesion";
-            this.btnIniciarSesion.Size = new System.Drawing.Size(207, 57);
-            this.btnIniciarSesion.TabIndex = 1;
-            this.btnIniciarSesion.Text = "Iniciar sesión";
-            this.btnIniciarSesion.UseVisualStyleBackColor = true;
-            this.btnIniciarSesion.Click += new System.EventHandler(this.btnIniciarSesion_Click);
-            // 
-            // panelLogo
-            // 
-            this.panelLogo.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.panelLogo.Controls.Add(this.pbLogo);
-            this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelLogo.Location = new System.Drawing.Point(0, 0);
-            this.panelLogo.Name = "panelLogo";
-            this.panelLogo.Size = new System.Drawing.Size(207, 167);
-            this.panelLogo.TabIndex = 0;
-            // 
-            // pbLogo
-            // 
-            this.pbLogo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
-            this.pbLogo.Location = new System.Drawing.Point(0, 0);
-            this.pbLogo.Name = "pbLogo";
-            this.pbLogo.Size = new System.Drawing.Size(207, 167);
-            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbLogo.TabIndex = 1;
-            this.pbLogo.TabStop = false;
             // 
             // pbFotoAvion
             // 
@@ -165,6 +102,69 @@
             this.lblContrasenia.TabIndex = 10;
             this.lblContrasenia.Text = "CONTRASEÑA";
             // 
+            // panelLogo
+            // 
+            this.panelLogo.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.panelLogo.Controls.Add(this.pbLogo);
+            this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelLogo.Location = new System.Drawing.Point(0, 0);
+            this.panelLogo.Name = "panelLogo";
+            this.panelLogo.Size = new System.Drawing.Size(207, 167);
+            this.panelLogo.TabIndex = 0;
+            // 
+            // pbLogo
+            // 
+            this.pbLogo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
+            this.pbLogo.Location = new System.Drawing.Point(0, 0);
+            this.pbLogo.Name = "pbLogo";
+            this.pbLogo.Size = new System.Drawing.Size(207, 167);
+            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLogo.TabIndex = 1;
+            this.pbLogo.TabStop = false;
+            // 
+            // btnIniciarSesion
+            // 
+            this.btnIniciarSesion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnIniciarSesion.FlatAppearance.BorderSize = 0;
+            this.btnIniciarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIniciarSesion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnIniciarSesion.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnIniciarSesion.Location = new System.Drawing.Point(0, 167);
+            this.btnIniciarSesion.Name = "btnIniciarSesion";
+            this.btnIniciarSesion.Size = new System.Drawing.Size(207, 57);
+            this.btnIniciarSesion.TabIndex = 1;
+            this.btnIniciarSesion.Text = "Iniciar sesión";
+            this.btnIniciarSesion.UseVisualStyleBackColor = true;
+            this.btnIniciarSesion.Click += new System.EventHandler(this.btnIniciarSesion_Click);
+            // 
+            // btnSalir
+            // 
+            this.btnSalir.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnSalir.FlatAppearance.BorderSize = 0;
+            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalir.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnSalir.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnSalir.Location = new System.Drawing.Point(0, 372);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(207, 57);
+            this.btnSalir.TabIndex = 2;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
+            // 
+            // panelMenu
+            // 
+            this.panelMenu.BackColor = System.Drawing.Color.SteelBlue;
+            this.panelMenu.Controls.Add(this.btnSalir);
+            this.panelMenu.Controls.Add(this.btnIniciarSesion);
+            this.panelMenu.Controls.Add(this.panelLogo);
+            this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelMenu.Location = new System.Drawing.Point(0, 0);
+            this.panelMenu.Name = "panelMenu";
+            this.panelMenu.Size = new System.Drawing.Size(207, 429);
+            this.panelMenu.TabIndex = 5;
+            // 
             // FrmInicioSesion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -182,26 +182,26 @@
             this.Name = "FrmInicioSesion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bienvenido";
-            this.panelMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbFotoAvion)).EndInit();
             this.panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbFotoAvion)).EndInit();
+            this.panelMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        protected Button btnSalir;
-        protected Panel panelMenu;
-        protected PictureBox pbLogo;
-        protected Panel panelLogo;
-        public Button btnIniciarSesion;
         public Label lblMail;
         public TextBox txtMail;
         public TextBox txtContrasenia;
         public Label lblContrasenia;
         public Button btnLogearse;
         public PictureBox pbFotoAvion;
+        protected Panel panelLogo;
+        protected PictureBox pbLogo;
+        public Button btnIniciarSesion;
+        protected Button btnSalir;
+        protected Panel panelMenu;
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entidades.PPLabII.Entidades_DAO;
+using Entidades.PPLabII.Firebase;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -313,8 +315,9 @@ namespace Entidades.PPLabII
         /// <param name="miCliente">cliente a vender el vuelo</param>
         /// <returns>retorna true si lo pudo vender, false si no</returns>
         /// <exception cref="Exception">lanza una excepcion si el cliente no tiene dinero suficiente</exception>
-        public static bool VenderVuelo(Vuelos vuelo, Cliente miCliente)
+        public static async Task<bool> VenderVuelo(Vuelos vuelo, Cliente miCliente)
         {
+            BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
             bool estadoVenta = false;
             double precioDelPasaje;
             if (miCliente.AsientoPremium)
@@ -331,12 +334,15 @@ namespace Entidades.PPLabII
                 {
                     miCliente.DineroDisponible = miCliente.DineroDisponible - precioDelPasaje;
                     vuelo.CantidadDineroRecuadado += precioDelPasaje;
-                    //vuelo.ListaPasajeros.Add(new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos));
+                    Pasajeros pasajeroNuevo = new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, vuelo.CodigoVuelo, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos);
+                    vuelo.ListaPasajeros.Add(pasajeroNuevo);
                     listaClientes.Remove(miCliente);
                     vuelo.AsientosOcupados++;
                     vuelo.AsientosDisponibles--;
                     vuelo.CapacidadDisponibleBodega = vuelo.AvionVuelo.CapacidadBodega - (miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos);
                     estadoVenta = true;
+                    await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
+                    PasajerosDao.GuardarPasajeros(pasajeroNuevo);
                 }
                 else
                 {
@@ -469,7 +475,7 @@ namespace Entidades.PPLabII
                     if (pasajero.Dni == dni)
                     {
                         vuelo.ListaPasajeros.Remove(pasajero);
-                        vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
+                        //uelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
                         return true;
                     }
                 }
@@ -497,7 +503,5 @@ namespace Entidades.PPLabII
 
             return avionBuscado;
         }
-
-
     }
 }

@@ -7,6 +7,7 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmInicioSesion : Form
     {
+        TimeSpan tiempoRestante;   
         public FrmInicioSesion()
         {
             InitializeComponent();
@@ -51,7 +52,7 @@ namespace Costanza.Lucas.PPLabII
             {
                 DateTime fecha = DateTime.Now;
                 string fechaSinHora = fecha.ToString("dd/MM/yyyy");
-                string rutaArchivo = "log.txt";
+                string rutaArchivo = "logUsuarios.txt";
                 bool usuarioEncontrado = false;
 
                 foreach (Usuarios miUsuario in MiAerolinea.listaUsuarios)
@@ -66,7 +67,7 @@ namespace Costanza.Lucas.PPLabII
                                 case "vendedor":
                                     archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
                                     this.Hide();
-                                    FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                    FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil, tiempoRestante);
                                     formMenu.ShowDialog();
                                     this.Show();
                                     break;
@@ -102,6 +103,8 @@ namespace Costanza.Lucas.PPLabII
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
+                guardador.GuardarExcepcion(ex);
             }
         }
 
@@ -113,42 +116,6 @@ namespace Costanza.Lucas.PPLabII
                 Application.Exit();
         }
 
-        private async void CrearDataPrueba()
-        {
         
-            //MiAerolinea.SerializarAvionesJson(MiAerolinea.listaAviones);
-            //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros1.xml");
-            //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 07, 07, 11, 30, 00), "BRC2023", 2, DestinosVuelos.Trelew, DestinosVuelos.Neuquen, 50, "FJS50OP");
-            //MiAerolinea.listaPasajeros = null;
-            //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros100.xml");
-            //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 06, 09, 22, 30, 00), "ITA2353", 18, DestinosVuelos.Roma, DestinosVuelos.Buenos_aires, 100, "HTF078P");
-            //MiAerolinea.listaPasajeros = null;
-            //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros100_2.xml");
-            //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 06, 10, 19, 00, 00), "BUE2452", 18, DestinosVuelos.Buenos_aires, DestinosVuelos.Roma, 100, "HTF078P");
-            //MiAerolinea.listaPasajeros = null;
-            //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros310.xml");
-            //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 05, 29, 15, 30, 00), "USA5793", 12, DestinosVuelos.Buenos_aires, DestinosVuelos.Miami, 100, "HCV0952");
-            //MiAerolinea.listaPasajeros = null;
-            //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros305.xml");
-            //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 05, 29, 22, 30, 00), "BUE2432", 12, DestinosVuelos.Miami, DestinosVuelos.Buenos_aires, 100, "HCV0952");
-            //MiAerolinea.listaPasajeros = null;
-            ////MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros220.xml");
-            ////MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 05, 20, 12, 00, 00), "RCF9865", 6, DestinosVuelos.Buenos_aires, DestinosVuelos.Recife, 100, "HLY095N");
-            ////MiAerolinea.listaPasajeros = null;
-            //MiAerolinea.listaPasajeros = MiAerolinea.CargarPasajerosXml("Pasajeros62.xml");
-            //MiAerolinea.CrearVuelo(MiAerolinea.listaPasajeros, MiAerolinea.listaAviones, new DateTime(2023, 07, 07, 13, 30, 00), "NEQ2685", 2, DestinosVuelos.Neuquen, DestinosVuelos.Trelew, 50, "FJS50OP");
-            //MiAerolinea.listaPasajeros = null;
-
-            List<Pasajeros> listaPasajeros = new List<Pasajeros>();
-            listaPasajeros = MiAerolinea.CargarPasajerosXml("NuevosPasajeros305.xml");
-            MiAerolinea.DespacharEquipajeDePasajerosHechos(listaPasajeros);
-            Vuelos vueloNuevo = new Vuelos(new DateTime(2023, 06, 29, 17, 00, 00), "MIA8956", DestinosVuelos.Buenos_aires, DestinosVuelos.Miami, 10, 100, "HCV0952", listaPasajeros);
-            BaseDeDatos<Vuelos> firebaseVuelo = new BaseDeDatos<Vuelos>();
-            await firebaseVuelo.Agregar(vueloNuevo, "vuelos", vueloNuevo.CodigoVuelo);
-            //MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
-
-
-            //MiAerolinea.DespacharEquipajeDePasajerosHechos();
-        }
     }
 }

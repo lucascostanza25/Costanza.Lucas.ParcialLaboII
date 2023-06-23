@@ -208,7 +208,24 @@ namespace Costanza.Lucas.PPLabII
                     avionEditar.ServicioComida = false;
                 }
 
-                await firebaseAviones.Actualizar(avionEditar, "aviones", avionEditar.Matricula);
+                try
+                {
+                    AvionesDao.EditarAvion(avionEditar);
+                }
+                catch(ExcepcionBaseDatos exB)
+                {
+                    GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
+                    guardador.GuardarExcepcion(exB);
+                }
+                try
+                {
+                    await firebaseAviones.Actualizar(avionEditar, "aviones", avionEditar.Matricula);
+                }
+                catch(Exception ex) 
+                {
+                                        GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
+                    guardador.GuardarExcepcion(ex);
+                }
                 return true;
 
             }

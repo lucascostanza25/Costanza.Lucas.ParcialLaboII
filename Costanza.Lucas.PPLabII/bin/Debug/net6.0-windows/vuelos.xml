@@ -579,18 +579,6 @@
         <codigo_vuelo>BRC2023</codigo_vuelo>
       </Pasajeros>
       <Pasajeros>
-        <apellido>Premble</apellido>
-        <nombre>Cammi</nombre>
-        <dni>22290126</dni>
-        <edad>30</edad>
-        <genero>Female</genero>
-        <premium>false</premium>
-        <cantiad_equipajes>1</cantiad_equipajes>
-        <peso_quipaje_uno>3</peso_quipaje_uno>
-        <peso_equipaje_dos>0</peso_equipaje_dos>
-        <codigo_vuelo>BRC2023</codigo_vuelo>
-      </Pasajeros>
-      <Pasajeros>
         <apellido>Furmonger</apellido>
         <nombre>Hurleigh</nombre>
         <dni>33820475</dni>
@@ -614,15 +602,17 @@
       <modelo>Boeing 787</modelo>
     </AvionVuelo>
     <FechaVuelo>2023-07-07T11:30:00Z</FechaVuelo>
-    <AsientosDisponibles>15</AsientosDisponibles>
-    <AsientosOcupados>50</AsientosOcupados>
+    <AsientosDisponibles>16</AsientosDisponibles>
+    <AsientosOcupados>49</AsientosOcupados>
     <CodigoVuelo>BRC2023</CodigoVuelo>
     <Origen>Trelew</Origen>
     <Destino>Neuquen</Destino>
     <HorasVuelo>2</HorasVuelo>
     <PrecioVuelo>50</PrecioVuelo>
     <CantidadDineroRecuadado>2500</CantidadDineroRecuadado>
-    <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
+    <CapacidadDisponibleBodega>11368</CapacidadDisponibleBodega>
+    <AsientosPremium>9</AsientosPremium>
+    <AsientosPremiumOcupados>4</AsientosPremiumOcupados>
   </Vuelos>
   <Vuelos>
     <ListaPasajeros>
@@ -3046,7 +3036,9 @@
     <HorasVuelo>18</HorasVuelo>
     <PrecioVuelo>100</PrecioVuelo>
     <CantidadDineroRecuadado>20000</CantidadDineroRecuadado>
-    <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
+    <CapacidadDisponibleBodega>17507</CapacidadDisponibleBodega>
+    <AsientosPremium>45</AsientosPremium>
+    <AsientosPremiumOcupados>15</AsientosPremiumOcupados>
   </Vuelos>
   <Vuelos>
     <ListaPasajeros />
@@ -3061,7 +3053,7 @@
       <modelo>Airbus A110</modelo>
     </AvionVuelo>
     <FechaVuelo>2023-08-25T15:30:56Z</FechaVuelo>
-    <AsientosDisponibles>0</AsientosDisponibles>
+    <AsientosDisponibles>80</AsientosDisponibles>
     <AsientosOcupados>0</AsientosOcupados>
     <CodigoVuelo>IGU2673</CodigoVuelo>
     <Origen>Mendoza</Origen>
@@ -3069,7 +3061,9 @@
     <HorasVuelo>3</HorasVuelo>
     <PrecioVuelo>150</PrecioVuelo>
     <CantidadDineroRecuadado>0</CantidadDineroRecuadado>
-    <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
+    <CapacidadDisponibleBodega>14000</CapacidadDisponibleBodega>
+    <AsientosPremium>16</AsientosPremium>
+    <AsientosPremiumOcupados>0</AsientosPremiumOcupados>
   </Vuelos>
   <Vuelos>
     <ListaPasajeros />
@@ -3092,7 +3086,9 @@
     <HorasVuelo>18</HorasVuelo>
     <PrecioVuelo>100</PrecioVuelo>
     <CantidadDineroRecuadado>0</CantidadDineroRecuadado>
-    <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
+    <CapacidadDisponibleBodega>20000</CapacidadDisponibleBodega>
+    <AsientosPremium>60</AsientosPremium>
+    <AsientosPremiumOcupados>0</AsientosPremiumOcupados>
   </Vuelos>
   <Vuelos>
     <ListaPasajeros>
@@ -6776,6 +6772,8 @@
     <HorasVuelo>10</HorasVuelo>
     <PrecioVuelo>100</PrecioVuelo>
     <CantidadDineroRecuadado>30500</CantidadDineroRecuadado>
-    <CapacidadDisponibleBodega>0</CapacidadDisponibleBodega>
+    <CapacidadDisponibleBodega>21330</CapacidadDisponibleBodega>
+    <AsientosPremium>43</AsientosPremium>
+    <AsientosPremiumOcupados>27</AsientosPremiumOcupados>
   </Vuelos>
 </ArrayOfVuelos>

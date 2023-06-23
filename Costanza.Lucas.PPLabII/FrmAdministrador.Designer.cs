@@ -28,18 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAdministrador));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelMenu = new System.Windows.Forms.Panel();
-            this.lblInformacionTrabajador = new System.Windows.Forms.Label();
-            this.btnCerrarSesion = new System.Windows.Forms.Button();
+            this.panelTema = new System.Windows.Forms.Panel();
+            this.rbTemaRojo = new System.Windows.Forms.RadioButton();
+            this.rbTemaClaro = new System.Windows.Forms.RadioButton();
+            this.rbTemaVerde = new System.Windows.Forms.RadioButton();
+            this.rbTemaOscuro = new System.Windows.Forms.RadioButton();
+            this.btnTema = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
             this.panelMenuVuelos = new System.Windows.Forms.Panel();
             this.btnBaseDatos = new System.Windows.Forms.Button();
             this.btnAdministrarAviones = new System.Windows.Forms.Button();
             this.btnAdministrarVuelos = new System.Windows.Forms.Button();
             this.btnAdministrar = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pbFotoPerfil = new System.Windows.Forms.PictureBox();
+            this.lblInformacionTrabajador = new System.Windows.Forms.Label();
+            this.btnCerrarSesion = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.pbLogo = new System.Windows.Forms.PictureBox();
+            this.lblTimerVuelo = new System.Windows.Forms.Label();
             this.gbAdministrarVuelos = new System.Windows.Forms.GroupBox();
             this.lblInformacionVuelo = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,9 +74,14 @@
             this.btnSql = new System.Windows.Forms.Button();
             this.lblTextoDb = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.timerVueloAdmin = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelMenu.SuspendLayout();
+            this.panelTema.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.panelMenuVuelos.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFotoPerfil)).BeginInit();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.gbAdministrarVuelos.SuspendLayout();
@@ -75,58 +91,126 @@
             this.gbBaseDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(200, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1709, 1045);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
             // 
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.SteelBlue;
-            this.panelMenu.Controls.Add(this.lblInformacionTrabajador);
-            this.panelMenu.Controls.Add(this.btnCerrarSesion);
+            this.panelMenu.Controls.Add(this.panelTema);
+            this.panelMenu.Controls.Add(this.btnTema);
+            this.panelMenu.Controls.Add(this.panel2);
             this.panelMenu.Controls.Add(this.panelMenuVuelos);
             this.panelMenu.Controls.Add(this.btnAdministrar);
+            this.panelMenu.Controls.Add(this.panel1);
+            this.panelMenu.Controls.Add(this.btnCerrarSesion);
             this.panelMenu.Controls.Add(this.panelLogo);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(200, 1045);
+            this.panelMenu.Size = new System.Drawing.Size(234, 779);
             this.panelMenu.TabIndex = 2;
             // 
-            // lblInformacionTrabajador
+            // panelTema
             // 
-            this.lblInformacionTrabajador.AutoSize = true;
-            this.lblInformacionTrabajador.BackColor = System.Drawing.Color.Transparent;
-            this.lblInformacionTrabajador.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblInformacionTrabajador.ForeColor = System.Drawing.SystemColors.Window;
-            this.lblInformacionTrabajador.Location = new System.Drawing.Point(0, 877);
-            this.lblInformacionTrabajador.Name = "lblInformacionTrabajador";
-            this.lblInformacionTrabajador.Size = new System.Drawing.Size(61, 22);
-            this.lblInformacionTrabajador.TabIndex = 34;
-            this.lblInformacionTrabajador.Text = "label2";
+            this.panelTema.BackColor = System.Drawing.Color.DarkSlateBlue;
+            this.panelTema.Controls.Add(this.rbTemaRojo);
+            this.panelTema.Controls.Add(this.rbTemaClaro);
+            this.panelTema.Controls.Add(this.rbTemaVerde);
+            this.panelTema.Controls.Add(this.rbTemaOscuro);
+            this.panelTema.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelTema.Location = new System.Drawing.Point(0, 540);
+            this.panelTema.Name = "panelTema";
+            this.panelTema.Size = new System.Drawing.Size(234, 99);
+            this.panelTema.TabIndex = 40;
             // 
-            // btnCerrarSesion
+            // rbTemaRojo
             // 
-            this.btnCerrarSesion.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnCerrarSesion.FlatAppearance.BorderSize = 0;
-            this.btnCerrarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrarSesion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCerrarSesion.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCerrarSesion.Location = new System.Drawing.Point(0, 988);
-            this.btnCerrarSesion.Name = "btnCerrarSesion";
-            this.btnCerrarSesion.Size = new System.Drawing.Size(200, 57);
-            this.btnCerrarSesion.TabIndex = 21;
-            this.btnCerrarSesion.Text = "Cerrar sesion";
-            this.btnCerrarSesion.UseVisualStyleBackColor = true;
-            this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click);
+            this.rbTemaRojo.AutoSize = true;
+            this.rbTemaRojo.Font = new System.Drawing.Font("Gadugi", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rbTemaRojo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.rbTemaRojo.Location = new System.Drawing.Point(15, 60);
+            this.rbTemaRojo.Name = "rbTemaRojo";
+            this.rbTemaRojo.Size = new System.Drawing.Size(58, 23);
+            this.rbTemaRojo.TabIndex = 0;
+            this.rbTemaRojo.TabStop = true;
+            this.rbTemaRojo.Text = "Rojo";
+            this.rbTemaRojo.UseVisualStyleBackColor = true;
+            // 
+            // rbTemaClaro
+            // 
+            this.rbTemaClaro.AutoSize = true;
+            this.rbTemaClaro.Font = new System.Drawing.Font("Gadugi", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rbTemaClaro.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.rbTemaClaro.Location = new System.Drawing.Point(15, 20);
+            this.rbTemaClaro.Name = "rbTemaClaro";
+            this.rbTemaClaro.Size = new System.Drawing.Size(62, 23);
+            this.rbTemaClaro.TabIndex = 0;
+            this.rbTemaClaro.TabStop = true;
+            this.rbTemaClaro.Text = "Claro";
+            this.rbTemaClaro.UseVisualStyleBackColor = true;
+            // 
+            // rbTemaVerde
+            // 
+            this.rbTemaVerde.AutoSize = true;
+            this.rbTemaVerde.Font = new System.Drawing.Font("Gadugi", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rbTemaVerde.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.rbTemaVerde.Location = new System.Drawing.Point(115, 60);
+            this.rbTemaVerde.Name = "rbTemaVerde";
+            this.rbTemaVerde.Size = new System.Drawing.Size(66, 23);
+            this.rbTemaVerde.TabIndex = 0;
+            this.rbTemaVerde.TabStop = true;
+            this.rbTemaVerde.Text = "Verde";
+            this.rbTemaVerde.UseVisualStyleBackColor = true;
+            // 
+            // rbTemaOscuro
+            // 
+            this.rbTemaOscuro.AutoSize = true;
+            this.rbTemaOscuro.Font = new System.Drawing.Font("Gadugi", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rbTemaOscuro.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.rbTemaOscuro.Location = new System.Drawing.Point(115, 20);
+            this.rbTemaOscuro.Name = "rbTemaOscuro";
+            this.rbTemaOscuro.Size = new System.Drawing.Size(73, 23);
+            this.rbTemaOscuro.TabIndex = 0;
+            this.rbTemaOscuro.TabStop = true;
+            this.rbTemaOscuro.Text = "Oscuro";
+            this.rbTemaOscuro.UseVisualStyleBackColor = true;
+            // 
+            // btnTema
+            // 
+            this.btnTema.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnTema.FlatAppearance.BorderSize = 0;
+            this.btnTema.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTema.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnTema.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnTema.Location = new System.Drawing.Point(0, 639);
+            this.btnTema.Name = "btnTema";
+            this.btnTema.Size = new System.Drawing.Size(234, 57);
+            this.btnTema.TabIndex = 39;
+            this.btnTema.Text = "Seleccionar tema";
+            this.btnTema.UseVisualStyleBackColor = true;
+            this.btnTema.Click += new System.EventHandler(this.btnTema_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label16);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 696);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(234, 26);
+            this.panel2.TabIndex = 38;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.Transparent;
+            this.label16.Font = new System.Drawing.Font("Gadugi", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label16.ForeColor = System.Drawing.SystemColors.Window;
+            this.label16.Location = new System.Drawing.Point(32, 4);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(177, 19);
+            this.label16.TabIndex = 34;
+            this.label16.Text = "____________________________";
             // 
             // panelMenuVuelos
             // 
@@ -135,10 +219,10 @@
             this.panelMenuVuelos.Controls.Add(this.btnAdministrarAviones);
             this.panelMenuVuelos.Controls.Add(this.btnAdministrarVuelos);
             this.panelMenuVuelos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelMenuVuelos.Location = new System.Drawing.Point(0, 224);
+            this.panelMenuVuelos.Location = new System.Drawing.Point(0, 309);
             this.panelMenuVuelos.Name = "panelMenuVuelos";
-            this.panelMenuVuelos.Size = new System.Drawing.Size(200, 171);
-            this.panelMenuVuelos.TabIndex = 18;
+            this.panelMenuVuelos.Size = new System.Drawing.Size(234, 171);
+            this.panelMenuVuelos.TabIndex = 37;
             // 
             // btnBaseDatos
             // 
@@ -149,7 +233,7 @@
             this.btnBaseDatos.ForeColor = System.Drawing.SystemColors.Window;
             this.btnBaseDatos.Location = new System.Drawing.Point(0, 114);
             this.btnBaseDatos.Name = "btnBaseDatos";
-            this.btnBaseDatos.Size = new System.Drawing.Size(200, 57);
+            this.btnBaseDatos.Size = new System.Drawing.Size(234, 57);
             this.btnBaseDatos.TabIndex = 19;
             this.btnBaseDatos.Text = "Bases de datos";
             this.btnBaseDatos.UseVisualStyleBackColor = true;
@@ -164,7 +248,7 @@
             this.btnAdministrarAviones.ForeColor = System.Drawing.SystemColors.Window;
             this.btnAdministrarAviones.Location = new System.Drawing.Point(0, 57);
             this.btnAdministrarAviones.Name = "btnAdministrarAviones";
-            this.btnAdministrarAviones.Size = new System.Drawing.Size(200, 57);
+            this.btnAdministrarAviones.Size = new System.Drawing.Size(234, 57);
             this.btnAdministrarAviones.TabIndex = 18;
             this.btnAdministrarAviones.Text = "Aviones";
             this.btnAdministrarAviones.UseVisualStyleBackColor = true;
@@ -179,7 +263,7 @@
             this.btnAdministrarVuelos.ForeColor = System.Drawing.SystemColors.Window;
             this.btnAdministrarVuelos.Location = new System.Drawing.Point(0, 0);
             this.btnAdministrarVuelos.Name = "btnAdministrarVuelos";
-            this.btnAdministrarVuelos.Size = new System.Drawing.Size(200, 57);
+            this.btnAdministrarVuelos.Size = new System.Drawing.Size(234, 57);
             this.btnAdministrarVuelos.TabIndex = 8;
             this.btnAdministrarVuelos.Text = "Vuelos";
             this.btnAdministrarVuelos.UseVisualStyleBackColor = true;
@@ -192,13 +276,60 @@
             this.btnAdministrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdministrar.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAdministrar.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnAdministrar.Location = new System.Drawing.Point(0, 167);
+            this.btnAdministrar.Location = new System.Drawing.Point(0, 252);
             this.btnAdministrar.Name = "btnAdministrar";
-            this.btnAdministrar.Size = new System.Drawing.Size(200, 57);
-            this.btnAdministrar.TabIndex = 16;
+            this.btnAdministrar.Size = new System.Drawing.Size(234, 57);
+            this.btnAdministrar.TabIndex = 36;
             this.btnAdministrar.Text = "Administrar";
             this.btnAdministrar.UseVisualStyleBackColor = true;
             this.btnAdministrar.Click += new System.EventHandler(this.btnAdministrar_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pbFotoPerfil);
+            this.panel1.Controls.Add(this.lblInformacionTrabajador);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 167);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(234, 85);
+            this.panel1.TabIndex = 35;
+            // 
+            // pbFotoPerfil
+            // 
+            this.pbFotoPerfil.Image = ((System.Drawing.Image)(resources.GetObject("pbFotoPerfil.Image")));
+            this.pbFotoPerfil.Location = new System.Drawing.Point(12, 15);
+            this.pbFotoPerfil.Name = "pbFotoPerfil";
+            this.pbFotoPerfil.Size = new System.Drawing.Size(57, 58);
+            this.pbFotoPerfil.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbFotoPerfil.TabIndex = 35;
+            this.pbFotoPerfil.TabStop = false;
+            // 
+            // lblInformacionTrabajador
+            // 
+            this.lblInformacionTrabajador.AutoSize = true;
+            this.lblInformacionTrabajador.BackColor = System.Drawing.Color.Transparent;
+            this.lblInformacionTrabajador.Font = new System.Drawing.Font("Gadugi", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblInformacionTrabajador.ForeColor = System.Drawing.SystemColors.Window;
+            this.lblInformacionTrabajador.Location = new System.Drawing.Point(75, 15);
+            this.lblInformacionTrabajador.Name = "lblInformacionTrabajador";
+            this.lblInformacionTrabajador.Size = new System.Drawing.Size(42, 16);
+            this.lblInformacionTrabajador.TabIndex = 34;
+            this.lblInformacionTrabajador.Text = "label2";
+            // 
+            // btnCerrarSesion
+            // 
+            this.btnCerrarSesion.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnCerrarSesion.FlatAppearance.BorderSize = 0;
+            this.btnCerrarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrarSesion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnCerrarSesion.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnCerrarSesion.Location = new System.Drawing.Point(0, 722);
+            this.btnCerrarSesion.Name = "btnCerrarSesion";
+            this.btnCerrarSesion.Size = new System.Drawing.Size(234, 57);
+            this.btnCerrarSesion.TabIndex = 21;
+            this.btnCerrarSesion.Text = "Cerrar sesion";
+            this.btnCerrarSesion.UseVisualStyleBackColor = true;
+            this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click);
             // 
             // panelLogo
             // 
@@ -206,7 +337,7 @@
             this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelLogo.Location = new System.Drawing.Point(0, 0);
             this.panelLogo.Name = "panelLogo";
-            this.panelLogo.Size = new System.Drawing.Size(200, 167);
+            this.panelLogo.Size = new System.Drawing.Size(234, 167);
             this.panelLogo.TabIndex = 0;
             // 
             // pbLogo
@@ -215,10 +346,20 @@
             this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
             this.pbLogo.Location = new System.Drawing.Point(0, 0);
             this.pbLogo.Name = "pbLogo";
-            this.pbLogo.Size = new System.Drawing.Size(200, 167);
+            this.pbLogo.Size = new System.Drawing.Size(234, 167);
             this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbLogo.TabIndex = 0;
             this.pbLogo.TabStop = false;
+            // 
+            // lblTimerVuelo
+            // 
+            this.lblTimerVuelo.AutoSize = true;
+            this.lblTimerVuelo.Font = new System.Drawing.Font("Gadugi", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTimerVuelo.Location = new System.Drawing.Point(378, 742);
+            this.lblTimerVuelo.Name = "lblTimerVuelo";
+            this.lblTimerVuelo.Size = new System.Drawing.Size(293, 21);
+            this.lblTimerVuelo.TabIndex = 35;
+            this.lblTimerVuelo.Text = "Calculando vuelo mas cercano...";
             // 
             // gbAdministrarVuelos
             // 
@@ -230,9 +371,9 @@
             this.gbAdministrarVuelos.Controls.Add(this.btnEditar);
             this.gbAdministrarVuelos.Controls.Add(this.lblTituloAdministarVuelos);
             this.gbAdministrarVuelos.Controls.Add(this.dgvDatosVuelos);
-            this.gbAdministrarVuelos.Location = new System.Drawing.Point(200, 167);
+            this.gbAdministrarVuelos.Location = new System.Drawing.Point(233, 0);
             this.gbAdministrarVuelos.Name = "gbAdministrarVuelos";
-            this.gbAdministrarVuelos.Size = new System.Drawing.Size(1709, 874);
+            this.gbAdministrarVuelos.Size = new System.Drawing.Size(1437, 723);
             this.gbAdministrarVuelos.TabIndex = 22;
             this.gbAdministrarVuelos.TabStop = false;
             this.gbAdministrarVuelos.Visible = false;
@@ -240,7 +381,7 @@
             // lblInformacionVuelo
             // 
             this.lblInformacionVuelo.AutoSize = true;
-            this.lblInformacionVuelo.Location = new System.Drawing.Point(1002, 143);
+            this.lblInformacionVuelo.Location = new System.Drawing.Point(890, 126);
             this.lblInformacionVuelo.Name = "lblInformacionVuelo";
             this.lblInformacionVuelo.Size = new System.Drawing.Size(450, 15);
             this.lblInformacionVuelo.TabIndex = 33;
@@ -252,7 +393,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Gadugi", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(1002, 114);
+            this.label1.Location = new System.Drawing.Point(890, 97);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(296, 25);
             this.label1.TabIndex = 32;
@@ -264,9 +405,9 @@
             this.btnCrearVuelo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrearVuelo.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCrearVuelo.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCrearVuelo.Location = new System.Drawing.Point(1465, 297);
+            this.btnCrearVuelo.Location = new System.Drawing.Point(1183, 423);
             this.btnCrearVuelo.Name = "btnCrearVuelo";
-            this.btnCrearVuelo.Size = new System.Drawing.Size(218, 59);
+            this.btnCrearVuelo.Size = new System.Drawing.Size(135, 37);
             this.btnCrearVuelo.TabIndex = 31;
             this.btnCrearVuelo.Text = "CREAR";
             this.btnCrearVuelo.UseVisualStyleBackColor = false;
@@ -277,9 +418,9 @@
             this.btnEliminar.BackColor = System.Drawing.Color.LightCoral;
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnEliminar.Location = new System.Drawing.Point(1465, 190);
+            this.btnEliminar.Location = new System.Drawing.Point(1042, 423);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(218, 38);
+            this.btnEliminar.Size = new System.Drawing.Size(135, 37);
             this.btnEliminar.TabIndex = 30;
             this.btnEliminar.Text = "ELIMINAR";
             this.btnEliminar.UseVisualStyleBackColor = false;
@@ -290,9 +431,9 @@
             this.btnEditar.BackColor = System.Drawing.Color.Bisque;
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnEditar.Location = new System.Drawing.Point(1465, 114);
+            this.btnEditar.Location = new System.Drawing.Point(901, 423);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(218, 70);
+            this.btnEditar.Size = new System.Drawing.Size(135, 37);
             this.btnEditar.TabIndex = 29;
             this.btnEditar.Text = "EDITAR";
             this.btnEditar.UseVisualStyleBackColor = false;
@@ -315,11 +456,11 @@
             this.dgvDatosVuelos.AllowUserToResizeColumns = false;
             this.dgvDatosVuelos.AllowUserToResizeRows = false;
             this.dgvDatosVuelos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDatosVuelos.Location = new System.Drawing.Point(23, 114);
+            this.dgvDatosVuelos.Location = new System.Drawing.Point(33, 97);
             this.dgvDatosVuelos.Name = "dgvDatosVuelos";
             this.dgvDatosVuelos.ReadOnly = true;
             this.dgvDatosVuelos.RowTemplate.Height = 25;
-            this.dgvDatosVuelos.Size = new System.Drawing.Size(973, 705);
+            this.dgvDatosVuelos.Size = new System.Drawing.Size(851, 363);
             this.dgvDatosVuelos.TabIndex = 26;
             this.dgvDatosVuelos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatosVuelos_CellDoubleClick);
             // 
@@ -333,9 +474,9 @@
             this.gbAdministrarAviones.Controls.Add(this.btnEditarAvion);
             this.gbAdministrarAviones.Controls.Add(this.label4);
             this.gbAdministrarAviones.Controls.Add(this.dgvDatosAviones);
-            this.gbAdministrarAviones.Location = new System.Drawing.Point(200, 167);
+            this.gbAdministrarAviones.Location = new System.Drawing.Point(233, 0);
             this.gbAdministrarAviones.Name = "gbAdministrarAviones";
-            this.gbAdministrarAviones.Size = new System.Drawing.Size(1709, 874);
+            this.gbAdministrarAviones.Size = new System.Drawing.Size(1437, 723);
             this.gbAdministrarAviones.TabIndex = 34;
             this.gbAdministrarAviones.TabStop = false;
             this.gbAdministrarAviones.Visible = false;
@@ -343,7 +484,7 @@
             // lblInformacionAvion
             // 
             this.lblInformacionAvion.AutoSize = true;
-            this.lblInformacionAvion.Location = new System.Drawing.Point(1002, 143);
+            this.lblInformacionAvion.Location = new System.Drawing.Point(889, 143);
             this.lblInformacionAvion.Name = "lblInformacionAvion";
             this.lblInformacionAvion.Size = new System.Drawing.Size(457, 15);
             this.lblInformacionAvion.TabIndex = 33;
@@ -355,7 +496,7 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Gadugi", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(1002, 114);
+            this.label3.Location = new System.Drawing.Point(889, 114);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(296, 25);
             this.label3.TabIndex = 32;
@@ -367,9 +508,9 @@
             this.btnCrearAvion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrearAvion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCrearAvion.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCrearAvion.Location = new System.Drawing.Point(1465, 297);
+            this.btnCrearAvion.Location = new System.Drawing.Point(905, 440);
             this.btnCrearAvion.Name = "btnCrearAvion";
-            this.btnCrearAvion.Size = new System.Drawing.Size(218, 59);
+            this.btnCrearAvion.Size = new System.Drawing.Size(135, 37);
             this.btnCrearAvion.TabIndex = 31;
             this.btnCrearAvion.Text = "CREAR";
             this.btnCrearAvion.UseVisualStyleBackColor = false;
@@ -380,9 +521,9 @@
             this.btnEliminarAvion.BackColor = System.Drawing.Color.LightCoral;
             this.btnEliminarAvion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminarAvion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnEliminarAvion.Location = new System.Drawing.Point(1465, 190);
+            this.btnEliminarAvion.Location = new System.Drawing.Point(1187, 440);
             this.btnEliminarAvion.Name = "btnEliminarAvion";
-            this.btnEliminarAvion.Size = new System.Drawing.Size(218, 38);
+            this.btnEliminarAvion.Size = new System.Drawing.Size(135, 37);
             this.btnEliminarAvion.TabIndex = 30;
             this.btnEliminarAvion.Text = "ELIMINAR";
             this.btnEliminarAvion.UseVisualStyleBackColor = false;
@@ -393,9 +534,9 @@
             this.btnEditarAvion.BackColor = System.Drawing.Color.Bisque;
             this.btnEditarAvion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditarAvion.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnEditarAvion.Location = new System.Drawing.Point(1465, 114);
+            this.btnEditarAvion.Location = new System.Drawing.Point(1046, 440);
             this.btnEditarAvion.Name = "btnEditarAvion";
-            this.btnEditarAvion.Size = new System.Drawing.Size(218, 70);
+            this.btnEditarAvion.Size = new System.Drawing.Size(135, 37);
             this.btnEditarAvion.TabIndex = 29;
             this.btnEditarAvion.Text = "EDITAR";
             this.btnEditarAvion.UseVisualStyleBackColor = false;
@@ -422,7 +563,7 @@
             this.dgvDatosAviones.Name = "dgvDatosAviones";
             this.dgvDatosAviones.ReadOnly = true;
             this.dgvDatosAviones.RowTemplate.Height = 25;
-            this.dgvDatosAviones.Size = new System.Drawing.Size(973, 705);
+            this.dgvDatosAviones.Size = new System.Drawing.Size(851, 363);
             this.dgvDatosAviones.TabIndex = 26;
             this.dgvDatosAviones.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatosAviones_CellDoubleClick);
             // 
@@ -435,9 +576,9 @@
             this.gbBaseDatos.Controls.Add(this.btnSql);
             this.gbBaseDatos.Controls.Add(this.lblTextoDb);
             this.gbBaseDatos.Controls.Add(this.label6);
-            this.gbBaseDatos.Location = new System.Drawing.Point(200, 167);
+            this.gbBaseDatos.Location = new System.Drawing.Point(233, 0);
             this.gbBaseDatos.Name = "gbBaseDatos";
-            this.gbBaseDatos.Size = new System.Drawing.Size(1709, 874);
+            this.gbBaseDatos.Size = new System.Drawing.Size(1437, 723);
             this.gbBaseDatos.TabIndex = 35;
             this.gbBaseDatos.TabStop = false;
             this.gbBaseDatos.Visible = false;
@@ -446,7 +587,7 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(23, 297);
+            this.pictureBox3.Location = new System.Drawing.Point(340, 171);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(74, 74);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -465,7 +606,7 @@
             // 
             // btnFirebase
             // 
-            this.btnFirebase.Location = new System.Drawing.Point(103, 297);
+            this.btnFirebase.Location = new System.Drawing.Point(420, 171);
             this.btnFirebase.Name = "btnFirebase";
             this.btnFirebase.Size = new System.Drawing.Size(207, 74);
             this.btnFirebase.TabIndex = 31;
@@ -505,28 +646,48 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "BASE DE DATOS";
             // 
+            // timerVueloAdmin
+            // 
+            this.timerVueloAdmin.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(239, 726);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(132, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 73;
+            this.pictureBox1.TabStop = false;
+            // 
             // FrmAdministrador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1907, 1045);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.ClientSize = new System.Drawing.Size(1664, 779);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblTimerVuelo);
+            this.Controls.Add(this.gbAdministrarVuelos);
             this.Controls.Add(this.gbBaseDatos);
             this.Controls.Add(this.gbAdministrarAviones);
-            this.Controls.Add(this.gbAdministrarVuelos);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmAdministrador";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Administrador";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmAdministrador_FormClosing);
             this.Load += new System.EventHandler(this.FrmAdministrador_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelMenu.ResumeLayout(false);
-            this.panelMenu.PerformLayout();
+            this.panelTema.ResumeLayout(false);
+            this.panelTema.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panelMenuVuelos.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFotoPerfil)).EndInit();
             this.panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.gbAdministrarVuelos.ResumeLayout(false);
@@ -539,21 +700,17 @@
             this.gbBaseDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private PictureBox pictureBox1;
         protected Panel panelMenu;
         private Button btnCerrarSesion;
-        private Panel panelMenuVuelos;
-        protected Button btnAdministrarAviones;
-        private Button btnAdministrarVuelos;
         private Panel panelLogo;
         private PictureBox pbLogo;
-        private Button btnAdministrar;
         private GroupBox gbAdministrarVuelos;
         protected DataGridView dgvDatosVuelos;
         private Label label1;
@@ -571,7 +728,6 @@
         private Label label4;
         protected DataGridView dgvDatosAviones;
         private Label lblInformacionTrabajador;
-        protected Button btnBaseDatos;
         private GroupBox gbBaseDatos;
         private Label lblTextoDb;
         private Label label6;
@@ -579,5 +735,23 @@
         private PictureBox pictureBox2;
         private Button btnFirebase;
         private Button btnSql;
+        private Label lblTimerVuelo;
+        private System.Windows.Forms.Timer timerVueloAdmin;
+        private Panel panelMenuVuelos;
+        protected Button btnBaseDatos;
+        protected Button btnAdministrarAviones;
+        private Button btnAdministrarVuelos;
+        private Button btnAdministrar;
+        private Panel panel1;
+        private PictureBox pbFotoPerfil;
+        private Panel panel2;
+        protected Label label16;
+        private Panel panelTema;
+        private RadioButton rbTemaRojo;
+        private RadioButton rbTemaClaro;
+        private RadioButton rbTemaVerde;
+        private RadioButton rbTemaOscuro;
+        private Button btnTema;
+        private PictureBox pictureBox1;
     }
 }

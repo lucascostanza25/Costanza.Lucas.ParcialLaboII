@@ -47,6 +47,10 @@ namespace Entidades.PPLabII.Entidades_DAO
                         ));
                     }
                 }
+                if (listaAviones.Count == 0)
+                {
+                    throw new ExcepcionBaseDatos();
+                }
             }
             finally
             {
@@ -72,6 +76,34 @@ namespace Entidades.PPLabII.Entidades_DAO
                 comando.Parameters.AddWithValue("@cantidad_asientos_premium", avion.CantidadAsientosPremium);
                 comando.Parameters.AddWithValue("@cantidad_asientos_normales", avion.CantidadAsientosNormales);
                 comando.ExecuteNonQuery();
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
+
+        public static void EditarAvion(Aviones avion)
+        {
+            try
+            {
+                conexion.Open();
+                comando.CommandText = "UPDATE aviones SET servicio_comida = @servicio_comida, servicio_internet = @servicio_internet, capacidad_bodega = @capacidada_bodega, modelo = @modelo, cantidad_asientos = @cantidad_asientos, cantidad_asientos_premium = @cantidad_asientos_premium, cantidad_asientos_normales = @cantidad_asientos_normales WHERE matricula = @matricula";
+                comando.Parameters.AddWithValue("@servicio_comida", Convert.ToByte(avion.ServicioComida));
+                comando.Parameters.AddWithValue("@servicio_internet", Convert.ToByte(avion.ServicioInternet));
+                comando.Parameters.AddWithValue("@capacidad_bodega", avion.CapacidadBodega);
+                comando.Parameters.AddWithValue("@modelo", avion.ModeloAvion);
+                comando.Parameters.AddWithValue("@cantidad_asientos", avion.CantidadAsientos);
+                comando.Parameters.AddWithValue("@cantidad_asientos_premium", avion.CantidadAsientosPremium);
+                comando.Parameters.AddWithValue("@cantidad_asientos_normales", avion.CantidadAsientosNormales);
+                comando.Parameters.AddWithValue("@matricula", avion.Matricula);
+
+                if(comando.ExecuteNonQuery() == 0)
+                {
+                    throw new ExcepcionBaseDatos("Error al actualizar un avion en SQL");
+
+                }
+                
             }
             finally
             {
