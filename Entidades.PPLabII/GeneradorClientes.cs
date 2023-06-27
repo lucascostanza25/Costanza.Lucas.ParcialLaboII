@@ -8,6 +8,7 @@ namespace Entidades.PPLabII
 {
     public class GeneradorClientes
     {
+        //Suplantar a database
         private static readonly Random random = new Random();
         private static readonly List<string> nombres = new List<string>
         {
@@ -31,7 +32,8 @@ namespace Entidades.PPLabII
                 Task task = Task.Run(() => 
                 {
                     Cliente clienteNuevo = GenerarClienteNuevo();
-                    MiAerolinea.listaClientes.Add(clienteNuevo);
+                    if(MiAerolinea.listaClientes is not null)
+                        MiAerolinea.listaClientes.Add(clienteNuevo);
                 });
 
                 listaTask.Add(task);

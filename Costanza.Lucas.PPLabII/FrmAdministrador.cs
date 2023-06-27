@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Base_de_datos;
 using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
@@ -17,21 +18,26 @@ namespace Costanza.Lucas.PPLabII
     {
         private string baseSeleccionada = "Ninguna";
         private bool solicitudCierre = false;
-        BaseDeDatos<Aviones> firebaseAviones;
-        BaseDeDatos<Vuelos> firebaseVuelos;
+        Firebase<Aviones> firebaseAviones;
+        Firebase<Vuelos> firebaseVuelos;
 
         TimeSpan tiempoRestante;
 
         public delegate void DelegadoTiempo(TimeSpan tiempo, Vuelos vuelo);
         public event DelegadoTiempo Enviar;
 
-        public FrmAdministrador()
+        private string temaActual;
+        Serializadora<ConfigAPP> jsonConfig;
+        public FrmAdministrador() 
         {
             InitializeComponent();
             if(MiAerolinea.listaVuelos.Count() > 0)
             {
                 timerVueloAdmin.Start();
             }
+            firebaseAviones = new Firebase<Aviones>();
+            firebaseVuelos = new Firebase<Vuelos>();
+            jsonConfig = new Serializadora<ConfigAPP>();
         }
         /// <summary>
         /// Constructor del form
@@ -44,8 +50,7 @@ namespace Costanza.Lucas.PPLabII
         {
             this.gbAdministrarVuelos.Visible = false;
             OcultarMenu();
-            firebaseAviones = new BaseDeDatos<Aviones>();
-            firebaseVuelos = new BaseDeDatos<Vuelos>();
+
 
             lblInformacionTrabajador.Text = $"¡Bienvenido {cargo}!\n" +
                 $"¡{nombre} {apellido}!\n" +
@@ -54,7 +59,27 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmAdministrador_Load(object sender, EventArgs e)
         {
+            ConfigAPP nuevaConfig = jsonConfig.Deserializar<ConfigAPP>("config.json");
+            this.temaActual = nuevaConfig.Tema;
 
+            switch (this.temaActual)
+            {
+                case "Oscuro":
+                    TemaOscuro();
+                    break;
+
+                case "Claro":
+                    TemaClaro();
+                    break;
+
+                case "Verde":
+                    TemaVerde();
+                    break;
+
+                case "Rojo":
+                    TemaRojo();
+                    break;
+            }
         }
         /// <summary>
         /// Metodo que oculta el menu del panel lateral
@@ -104,7 +129,8 @@ namespace Costanza.Lucas.PPLabII
         {
             FrmCrearModificarVuelo formCrearVuelo = new FrmCrearModificarVuelo();
             formCrearVuelo.ShowDialog();
-            CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+            if(MiAerolinea.listaVuelos is not null)
+                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
         }
 
         private void btnAdministrarVuelos_Click(object sender, EventArgs e)
@@ -112,7 +138,8 @@ namespace Costanza.Lucas.PPLabII
             this.gbAdministrarAviones.Visible = false;
             this.gbBaseDatos.Visible = false;
             this.gbAdministrarVuelos.Visible = true; 
-            CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+            if(MiAerolinea.listaVuelos is not null)
+                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
         }
         /// <summary>
         /// Metodo que crear la informacion del data grid view
@@ -167,7 +194,8 @@ namespace Costanza.Lucas.PPLabII
                     Vuelos vuelo = MiAerolinea.BuscarUnVuelo(codigoVueloSeleccionado);
                     FrmCrearModificarVuelo formEditarVuelo = new FrmCrearModificarVuelo(vuelo);
                     formEditarVuelo.ShowDialog();
-                    CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+                    if(MiAerolinea.listaVuelos is not null)
+                        CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
                     lblInformacionVuelo.Text = "Seleccione un vuelo clickeando en la primera columna con la fecla de la fila deseada";
                 }
                 catch (ArgumentOutOfRangeException)
@@ -229,13 +257,17 @@ namespace Costanza.Lucas.PPLabII
             this.gbAdministrarVuelos.Visible = false;
             this.gbBaseDatos.Visible = false;
             this.gbAdministrarAviones.Visible = true;
-            CrearDataGridViewAviones(MiAerolinea.listaAviones);
+            if(MiAerolinea.listaAviones is not null)
+                CrearDataGridViewAviones(MiAerolinea.listaAviones);
         }
 
         private void FrmAdministrador_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MiAerolinea.SerializarAvionesJson(MiAerolinea.listaAviones);
-            MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
+            if (MiAerolinea.listaAviones is not null && MiAerolinea.listaVuelos is not null)
+            {
+                MiAerolinea.SerializarAvionesJson(MiAerolinea.listaAviones);
+                MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
+            }
             if (!solicitudCierre)
             {
                 DialogResult resultado = MessageBox.Show("¿Seguro que desea salir del programa?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -255,7 +287,8 @@ namespace Costanza.Lucas.PPLabII
         {
             FrmCrearModificarAvion formCrearAvion = new FrmCrearModificarAvion();
             formCrearAvion.ShowDialog();
-            CrearDataGridViewAviones(MiAerolinea.listaAviones);
+            if(MiAerolinea.listaAviones is not null)
+                CrearDataGridViewAviones(MiAerolinea.listaAviones);
         }
 
         private void btnEditarAvion_Click(object sender, EventArgs e)
@@ -269,7 +302,8 @@ namespace Costanza.Lucas.PPLabII
                     avionEditar = MiAerolinea.BuscarUnAvion(matriculaAvion);
                     FrmCrearModificarAvion formEditarAvion = new FrmCrearModificarAvion(avionEditar);
                     formEditarAvion.ShowDialog();
-                    CrearDataGridViewAviones(MiAerolinea.listaAviones);
+                    if(MiAerolinea.listaAviones is not null)
+                        CrearDataGridViewAviones(MiAerolinea.listaAviones);
                     lblInformacionAvion.Text = "Seleccione un avion clickeando en la primera columna con la flecha de la fila deseada";
                 }
                 catch (ArgumentOutOfRangeException)
@@ -316,10 +350,11 @@ namespace Costanza.Lucas.PPLabII
                 DialogResult resultado = MessageBox.Show($"¿Seguro que desea eliminar el avion {avionSeleccionado.ModeloAvion}?", "Eliminar avion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (resultado == DialogResult.Yes)
                 {
-                    MiAerolinea.listaAviones.Remove(avionSeleccionado);
+                    if(MiAerolinea.listaAviones is not null)
+                        MiAerolinea.listaAviones.Remove(avionSeleccionado);
+                    EliminarAvionSql("DELETE FROM aviones WHERE matricula = @matricula", avionSeleccionado);
                     Task<bool> respuesta = firebaseAviones.Eliminar("aviones", avionSeleccionado.Matricula);
                     bool resultadoRespuesta = await respuesta;
-                    AvionesDao.EliminarAvion(avionSeleccionado);
                     return true;
                 }
                 else
@@ -336,9 +371,28 @@ namespace Costanza.Lucas.PPLabII
             return false;
         }
 
+        private void EliminarAvionSql(string query, Aviones avionEliminar)
+        {
+            Sql<Aviones> sqlAviones = new Sql<Aviones>();
+            sqlAviones.Eliminar(query, (comando) =>
+            {
+                comando.Parameters.AddWithValue("@matricula", avionEliminar.Matricula);
+                comando.ExecuteNonQuery();
+            });
+        }
+
         private async void btnEliminar_Click(object sender, EventArgs e)
         {
-            await ElimiarVuelo();
+            Task<bool> resultado = ElimiarVuelo();
+            bool respuesta = await resultado;
+            if(respuesta)
+            {
+                MessageBox.Show($"Se elminó el vuelo seleccionado exitosamente", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"No se elminó el vuelo seleccionado", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private async Task<bool> ElimiarVuelo()
@@ -350,12 +404,15 @@ namespace Costanza.Lucas.PPLabII
                 DialogResult resutado = MessageBox.Show($"¿Seguro que desea eliminar el vuelo {vuelo.CodigoVuelo}?", "Eliminar vuelo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (resutado == DialogResult.Yes)
                 {
-                    MiAerolinea.listaVuelos.Remove(vuelo);
+                    if (MiAerolinea.listaVuelos is not null)
+                    {
+                        MiAerolinea.listaVuelos.Remove(vuelo);
+                        await firebaseVuelos.Eliminar("vuelos", vuelo.CodigoVuelo);
+                    }
                     return true;
                 }
-                else
-                    MessageBox.Show($"No se elminó el vuelo {vuelo.CodigoVuelo}", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+                if(MiAerolinea.listaVuelos is not null)
+                    CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
                 lblInformacionVuelo.Text = "Seleccione un vuelo clickeando en la primera columna con la fecla de la fila deseada";
             }
             catch (ArgumentOutOfRangeException)
@@ -368,13 +425,47 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnSql_Click(object sender, EventArgs e)
         {
+            LimpiarDatos();
+            Sql<Aviones> sqlAvion = new Sql<Aviones>();
+            Sql<Vuelos> sqlVuelos = new Sql<Vuelos>();
+            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
+            List<Pasajeros> listaPasajerosVuelos = new List<Pasajeros>();
+
             try
             {
                 baseSeleccionada = "SQL Server";
                 lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
-                LimpiarDatos();
-                MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
-                MiAerolinea.listaAviones = AvionesDao.LeerAviones();
+                //MiAerolinea.listaPasajeros = sqlPasajeros.Leer("SELECT * FROM pasajeros", (reader) =>
+                //{
+                //    return new Pasajeros
+                //    {
+                //        Apellido = reader["apellido"].ToString(),
+                //        Nombre = reader["nombre"].ToString(),
+                //        Dni = Convert.ToInt32(reader["dni"]),
+                //        Edad = Convert.ToInt32(reader["edad"]),
+                //        Genero = reader["genero"].ToString(),
+                //        AsientoPremium = Convert.ToBoolean(reader["asiento_premium"]),
+                //        CodigoVuelo = reader["codigo_vuelo"].ToString(),
+                //        CantidadEquipaje = Convert.ToInt32(reader["cantidad_equipaje"]),
+                //        PesoEquipajeUno = Convert.ToDouble(reader["peso_uno"]),
+                //        PesoEquipajeDos = Convert.ToDouble(reader["peso_dos"])
+                //    };
+                //});
+
+                MiAerolinea.listaAviones = sqlAvion.Leer("SELECT * FROM aviones", (reader) =>
+                {
+                    return new Aviones
+                    {
+                        Matricula = reader["matricula"].ToString(),
+                        CantidadAsientos = Convert.ToInt32(reader["cantidad_asientos"]),
+                        ServicioInternet = Convert.ToBoolean(reader["servicio_internet"]),
+                        ServicioComida = Convert.ToBoolean(reader["servicio_comida"]),
+                        CapacidadBodega = Convert.ToDouble(reader["capacidad_bodega"]),
+                        ModeloAvion = reader["modelo"].ToString(),
+                        CantidadAsientosNormales = Convert.ToInt32(reader["cantidad_asientos_normales"]),
+                        CantidadAsientosPremium = Convert.ToInt32(reader["cantidad_asientos_premium"])
+                    };
+                });
                 MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
             }
             catch (ExcepcionBaseDatos exB)
@@ -393,9 +484,12 @@ namespace Costanza.Lucas.PPLabII
 
         private void LimpiarDatos()
         {
-            MiAerolinea.listaAviones.Clear();
-            MiAerolinea.listaPasajeros.Clear();
-            MiAerolinea.listaVuelos.Clear();
+            if (MiAerolinea.listaAviones is not null && MiAerolinea.listaPasajeros is not null && MiAerolinea.listaVuelos is not null)
+            {
+                MiAerolinea.listaAviones.Clear();
+                MiAerolinea.listaPasajeros.Clear();
+                MiAerolinea.listaVuelos.Clear();
+            }
         }
 
         private async void btnFirebase_Click(object sender, EventArgs e)
@@ -405,20 +499,20 @@ namespace Costanza.Lucas.PPLabII
                 baseSeleccionada = "Google Firebase";
                 lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
                 LimpiarDatos();
-                BaseDeDatos<Aviones> firebaseAviones = new BaseDeDatos<Aviones>();
+                Firebase<Aviones> firebaseAviones = new Firebase<Aviones>();
                 MiAerolinea.listaAviones = await firebaseAviones.Traer("aviones");
-                BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
+                Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
                 MiAerolinea.listaVuelos = await firebaseVuelos.Traer("vuelos");
             
-                foreach(Aviones a in MiAerolinea.listaAviones)
-                {
-                    a.ActualizarAviones(a);
-                }
+                //foreach(Aviones a in MiAerolinea.listaAviones)
+                //{
+                //    a.ActualizarAviones(a);
+                //}
 
-                foreach(Vuelos v in MiAerolinea.listaVuelos)
-                {
-                    v.ActualizarDatosVuelo(v);
-                }
+                //foreach(Vuelos v in MiAerolinea.listaVuelos)
+                //{
+                //    v.ActualizarDatosVuelo(v);
+                //}
                 timerVueloAdmin.Start();
             }
             catch(ExcepcionBaseDatos exB)
@@ -436,7 +530,11 @@ namespace Costanza.Lucas.PPLabII
         private void timer1_Tick(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
-            List<Vuelos> lista = MiAerolinea.listaVuelos;
+            List<Vuelos> lista = new List<Vuelos>();
+            if (MiAerolinea.listaVuelos is not null)
+            {
+                lista = MiAerolinea.listaVuelos;
+            }
             Vuelos vuelo = lista[0];
             foreach(Vuelos v in lista)
             {
@@ -460,6 +558,89 @@ namespace Costanza.Lucas.PPLabII
         private void btnTema_Click(object sender, EventArgs e)
         {
             MostrarMenu(panelTema);
+        }
+
+        private void TemaRojo()
+        {
+            Color primario = Color.FromArgb(243, 139, 139);
+            Color secundario = Color.FromArgb(194, 95, 95);
+            Color terciario = Color.FromArgb(243, 37, 37);
+            this.temaActual = "Rojo";
+            CambiarTema(primario, secundario, terciario, Color.Black);
+        }
+
+        private void TemaOscuro()
+        {
+            Color primario = Color.FromArgb(60, 60, 60);
+            Color secundario = Color.FromArgb(84, 84, 84);
+            Color terciario = Color.DimGray;
+            this.temaActual = "Oscuro";
+            CambiarTema(primario, secundario, terciario, Color.White);
+        }
+
+        private void TemaVerde()
+        {
+            this.temaActual = "Verde";
+            Color primario = Color.FromArgb(193, 231, 170);
+            Color secundario = Color.FromArgb(109, 143, 88);
+            Color terciario = Color.FromArgb(109, 122, 101);
+            CambiarTema(primario, secundario, terciario, Color.Black);
+        }
+
+        private void TemaClaro()
+        {
+            this.temaActual = "Claro";
+            Color primario = Color.FromArgb(239, 247, 255);
+            Color secundario = Color.SteelBlue;
+            Color terciario = Color.DarkSlateBlue;
+            CambiarTema(primario, secundario, terciario, Color.Black);
+        }
+
+        private void CambiarTema(Color primario, Color secundario, Color terciario, Color colorLabel)
+        {
+            List<Panel> paneles = new List<Panel> { panelTema, panelMenuVuelos };
+            foreach (Panel p in paneles)
+            {
+                p.BackColor = terciario;
+            }
+            this.panelMenu.BackColor = secundario;
+
+            foreach (GroupBox gb in Controls.OfType<GroupBox>())
+            {
+                gb.BackColor = primario;
+                foreach (Label lbl in gb.Controls.OfType<Label>())
+                {
+                    lbl.ForeColor = colorLabel;
+                }
+                foreach (RadioButton rb in gb.Controls.OfType<RadioButton>())
+                {
+                    rb.ForeColor = colorLabel;
+                }
+                foreach (CheckBox cb in gb.Controls.OfType<CheckBox>())
+                {
+                    cb.ForeColor = colorLabel;
+                }
+            }
+        }
+
+        private void rbTemaClaro_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaClaro();
+        }
+
+        private void rbTemaOscuro_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaOscuro();
+        }
+
+        private void rbTemaRojo_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaRojo();
+        }
+
+        private void rbTemaVerde_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaVerde();
         }
     }
 }

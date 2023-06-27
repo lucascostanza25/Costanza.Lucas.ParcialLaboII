@@ -1,6 +1,7 @@
-﻿using Google.Type;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,16 +10,19 @@ namespace Entidades.PPLabII
 {
     public class ConfigAPP
     {
-        Color colorPrimario;
-        Color colorSecundario;
+        string tema;
 
-        public ConfigAPP(Color primario, Color secundario)
+        [JsonConstructor]
+        public ConfigAPP(string tema)
         {
-            this.colorPrimario = primario;
-            this.colorSecundario = secundario;
+            this.tema = tema;
         }
 
-        public Color ColorSecundario { get => colorSecundario; set => colorSecundario = value; }
-        public Color ColorPrimario { get => colorPrimario; set => colorPrimario = value; }
+        public string Tema
+        {
+            get { return tema; }
+            set { tema = value; }
+        }
+
     }
 }

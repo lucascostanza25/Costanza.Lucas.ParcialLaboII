@@ -10,6 +10,6 @@ namespace Entidades.PPLabII.Interfaces
     {
         bool Serializar(T objeto, string path);
 
-        T Deserializar(string path);
+        T Deserializar<T>(string path);
     }
 }

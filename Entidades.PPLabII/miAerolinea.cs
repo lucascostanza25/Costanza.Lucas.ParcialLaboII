@@ -49,9 +49,14 @@ namespace Entidades.PPLabII
             using (StreamReader streamReader = new StreamReader(path))
             {
                 ListaPasajerosXml lista = (ListaPasajerosXml)xmlSerializer.Deserialize(streamReader);
-                listaPasajerosXml = lista.Pasajeros;
+                if(lista is not null)
+                    listaPasajerosXml = lista.Pasajeros;
             }
-            listaPasajeros.AddRange(listaPasajerosXml);
+            if (listaPasajeros is not null)
+            {
+                if(listaPasajerosXml is not null)
+                    listaPasajeros.AddRange(listaPasajerosXml);
+            }
             return listaPasajerosXml;
         }
         /// <summary>
@@ -63,11 +68,14 @@ namespace Entidades.PPLabII
         {
             List<Pasajeros>? listaPasajerosBuscados;
 
-            foreach (Vuelos vueloBuscado in listaVuelos)
+            if (listaVuelos is not null)
             {
-                if (vueloBuscado.CodigoVuelo == codigoVuelo)
+                foreach (Vuelos vueloBuscado in listaVuelos)
                 {
-                    listaPasajerosBuscados = vueloBuscado.ListaPasajeros;
+                    if (vueloBuscado.CodigoVuelo == codigoVuelo)
+                    {
+                        listaPasajerosBuscados = vueloBuscado.ListaPasajeros;
+                    }
                 }
             }
 
@@ -82,14 +90,17 @@ namespace Entidades.PPLabII
         {
             Pasajeros pasajeroBuscado = new Pasajeros();
 
-            foreach (Vuelos miVuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                foreach (Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                foreach (Vuelos miVuelo in listaVuelos)
                 {
-                    if (miPasajero.Dni == dni)
+                    foreach (Pasajeros miPasajero in miVuelo.ListaPasajeros)
                     {
-                        pasajeroBuscado = miPasajero;
-                        break;
+                        if (miPasajero.Dni == dni)
+                        {
+                            pasajeroBuscado = miPasajero;
+                            break;
+                        }
                     }
                 }
             }
@@ -216,10 +227,13 @@ namespace Entidades.PPLabII
         {
             List<Vuelos> vueloBuscado = new List<Vuelos>();
 
-            foreach (Vuelos miVuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                if (miVuelo.CodigoVuelo == codigoVuelo)
-                    vueloBuscado.Add(miVuelo);
+                foreach (Vuelos miVuelo in listaVuelos)
+                {
+                    if (miVuelo.CodigoVuelo == codigoVuelo)
+                        vueloBuscado.Add(miVuelo);
+                }
             }
 
             return vueloBuscado;
@@ -233,15 +247,18 @@ namespace Entidades.PPLabII
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (Vuelos miVuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                foreach (Pasajeros miPasajero in miVuelo.ListaPasajeros)
+                foreach (Vuelos miVuelo in listaVuelos)
                 {
-                    if (miPasajero.Dni == dni)
+                    foreach (Pasajeros miPasajero in miVuelo.ListaPasajeros)
                     {
-                        sb.Append(miPasajero.ToString());
-                        sb.AppendLine("----------------------");
-                        sb.AppendLine(miVuelo.ToString());
+                        if (miPasajero.Dni == dni)
+                        {
+                            sb.Append(miPasajero.ToString());
+                            sb.AppendLine("----------------------");
+                            sb.AppendLine(miVuelo.ToString());
+                        }
                     }
                 }
             }
@@ -257,10 +274,13 @@ namespace Entidades.PPLabII
         {
             Vuelos vueloBuscado = new Vuelos();
 
-            foreach (Vuelos miVuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                if (miVuelo.CodigoVuelo == codigoVuelo)
-                    vueloBuscado = miVuelo;
+                foreach (Vuelos miVuelo in listaVuelos)
+                {
+                    if (miVuelo.CodigoVuelo == codigoVuelo)
+                        vueloBuscado = miVuelo;
+                }
             }
 
             return vueloBuscado;
@@ -278,28 +298,31 @@ namespace Entidades.PPLabII
         {
             List<Vuelos> listaFiltrada = new List<Vuelos>();
 
-            foreach (Vuelos vuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                if (vuelo.Origen == origen && vuelo.Destino == destino && vuelo.FechaVuelo.Date == fecha.Date)
+                foreach (Vuelos vuelo in listaVuelos)
                 {
-                    switch (servicio)
+                    if (vuelo.Origen == origen && vuelo.Destino == destino && vuelo.FechaVuelo.Date == fecha.Date)
                     {
-                        case 0:
-                            if (!vuelo.AvionVuelo.ServicioComida && !vuelo.AvionVuelo.ServicioInternet)
-                                listaFiltrada.Add(vuelo);
-                            break;
-                        case 1:
-                            if (vuelo.AvionVuelo.ServicioComida && vuelo.AvionVuelo.ServicioInternet)
-                                listaFiltrada.Add(vuelo);
-                            break;
-                        case 2:
-                            if (vuelo.AvionVuelo.ServicioComida)
-                                listaFiltrada.Add(vuelo);
-                            break;
-                        case 3:
-                            if (vuelo.AvionVuelo.ServicioInternet)
-                                listaFiltrada.Add(vuelo);
-                            break;
+                        switch (servicio)
+                        {
+                            case 0:
+                                if (!vuelo.AvionVuelo.ServicioComida && !vuelo.AvionVuelo.ServicioInternet)
+                                    listaFiltrada.Add(vuelo);
+                                break;
+                            case 1:
+                                if (vuelo.AvionVuelo.ServicioComida && vuelo.AvionVuelo.ServicioInternet)
+                                    listaFiltrada.Add(vuelo);
+                                break;
+                            case 2:
+                                if (vuelo.AvionVuelo.ServicioComida)
+                                    listaFiltrada.Add(vuelo);
+                                break;
+                            case 3:
+                                if (vuelo.AvionVuelo.ServicioInternet)
+                                    listaFiltrada.Add(vuelo);
+                                break;
+                        }
                     }
                 }
             }
@@ -307,6 +330,7 @@ namespace Entidades.PPLabII
             if (listaFiltrada.Count == 0)
                 throw new Exception("No se encontraron vuelos con las caracteristicas buscadas");
             return listaFiltrada;
+            //Implementar lambda
         }
         /// <summary>
         /// Metodo que vende un vuelo y lo agrega a la lista de los pasajeros del vuelo
@@ -317,7 +341,7 @@ namespace Entidades.PPLabII
         /// <exception cref="Exception">lanza una excepcion si el cliente no tiene dinero suficiente</exception>
         public static async Task<bool> VenderVuelo(Vuelos vuelo, Cliente miCliente)
         {
-            BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
+            Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
             bool estadoVenta = false;
             double precioDelPasaje;
             if (miCliente.AsientoPremium)
@@ -336,10 +360,20 @@ namespace Entidades.PPLabII
                     vuelo.CantidadDineroRecuadado += precioDelPasaje;
                     Pasajeros pasajeroNuevo = new Pasajeros(miCliente.Apellido, miCliente.Nombre, miCliente.Dni, miCliente.Edad, miCliente.Genero, miCliente.AsientoPremium, vuelo.CodigoVuelo, miCliente.CantidadEquipaje, miCliente.PesoEquipajeUno, miCliente.PesoEquipajeDos);
                     vuelo.ListaPasajeros.Add(pasajeroNuevo);
-                    listaClientes.Remove(miCliente);
+                    if(listaClientes is not null)
+                        listaClientes.Remove(miCliente);
                     vuelo.AsientosOcupados++;
                     vuelo.AsientosDisponibles--;
-                    vuelo.CapacidadDisponibleBodega = vuelo.AvionVuelo.CapacidadBodega - (miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos);
+                    if(pasajeroNuevo.AsientoPremium)
+                    {
+                        vuelo.AsientosPremiumOcupados++;
+
+                    }
+                    else
+                    {
+                        vuelo.AsientosNormalesOcupados++;
+                    }
+                    vuelo.CapacidadDisponibleBodega = vuelo.CapacidadDisponibleBodega - (miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos);
                     estadoVenta = true;
                     await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
                     PasajerosDao.GuardarPasajeros(pasajeroNuevo);
@@ -413,9 +447,12 @@ namespace Entidades.PPLabII
             StringBuilder sb = new StringBuilder();
             double recaudacionTotal = 0;
 
-            foreach (Vuelos vuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                recaudacionTotal += vuelo.CantidadDineroRecuadado;
+                foreach (Vuelos vuelo in listaVuelos)
+                {
+                    recaudacionTotal += vuelo.CantidadDineroRecuadado;
+                }
             }
 
             sb.AppendLine($"La recaudación total fue de {recaudacionTotal.ToString()}USD");
@@ -432,13 +469,16 @@ namespace Entidades.PPLabII
             StringBuilder sb = new StringBuilder();
             double maxRecaudacion = 0;
             double recaudacion = 0;
-            foreach (Vuelos vuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                recaudacion = vuelo.CantidadDineroRecuadado;
-                if (recaudacion > maxRecaudacion)
+                foreach (Vuelos vuelo in listaVuelos)
                 {
-                    maxRecaudacion = recaudacion;
-                    vueloMasRecaudado = vuelo;
+                    recaudacion = vuelo.CantidadDineroRecuadado;
+                    if (recaudacion > maxRecaudacion)
+                    {
+                        maxRecaudacion = recaudacion;
+                        vueloMasRecaudado = vuelo;
+                    }
                 }
             }
 
@@ -454,9 +494,12 @@ namespace Entidades.PPLabII
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (Vuelos vuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                sb.AppendLine($"Vuelo: {vuelo.CodigoVuelo} - Recaudación: {vuelo.CantidadDineroRecuadado}");
+                foreach (Vuelos vuelo in listaVuelos)
+                {
+                    sb.AppendLine($"Vuelo: {vuelo.CodigoVuelo} - Recaudación: {vuelo.CantidadDineroRecuadado}");
+                }
             }
 
             return sb.ToString();
@@ -468,15 +511,18 @@ namespace Entidades.PPLabII
         /// <returns>retorna true si lo pudo eliminar, false si no</returns>
         public static bool EliminarPasajero(int dni)
         {
-            foreach (Vuelos vuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
+                foreach (Vuelos vuelo in listaVuelos)
                 {
-                    if (pasajero.Dni == dni)
+                    foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
                     {
-                        vuelo.ListaPasajeros.Remove(pasajero);
-                        //uelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
-                        return true;
+                        if (pasajero.Dni == dni)
+                        {
+                            vuelo.ListaPasajeros.Remove(pasajero);
+                            //uelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
+                            return true;
+                        }
                     }
                 }
             }
@@ -492,12 +538,15 @@ namespace Entidades.PPLabII
         {
             Aviones avionBuscado = new Aviones();
 
-            foreach (Aviones avion in listaAviones)
+            if (listaAviones is not null)
             {
-                if (avion.Matricula == matricula)
+                foreach (Aviones avion in listaAviones)
                 {
-                    avionBuscado = avion;
-                    break;
+                    if (avion.Matricula == matricula)
+                    {
+                        avionBuscado = avion;
+                        break;
+                    }
                 }
             }
 

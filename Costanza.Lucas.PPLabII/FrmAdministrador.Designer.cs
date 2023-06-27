@@ -136,6 +136,7 @@
             this.rbTemaRojo.TabStop = true;
             this.rbTemaRojo.Text = "Rojo";
             this.rbTemaRojo.UseVisualStyleBackColor = true;
+            this.rbTemaRojo.CheckedChanged += new System.EventHandler(this.rbTemaRojo_CheckedChanged);
             // 
             // rbTemaClaro
             // 
@@ -149,6 +150,7 @@
             this.rbTemaClaro.TabStop = true;
             this.rbTemaClaro.Text = "Claro";
             this.rbTemaClaro.UseVisualStyleBackColor = true;
+            this.rbTemaClaro.CheckedChanged += new System.EventHandler(this.rbTemaClaro_CheckedChanged);
             // 
             // rbTemaVerde
             // 
@@ -162,6 +164,7 @@
             this.rbTemaVerde.TabStop = true;
             this.rbTemaVerde.Text = "Verde";
             this.rbTemaVerde.UseVisualStyleBackColor = true;
+            this.rbTemaVerde.CheckedChanged += new System.EventHandler(this.rbTemaVerde_CheckedChanged);
             // 
             // rbTemaOscuro
             // 
@@ -175,6 +178,7 @@
             this.rbTemaOscuro.TabStop = true;
             this.rbTemaOscuro.Text = "Oscuro";
             this.rbTemaOscuro.UseVisualStyleBackColor = true;
+            this.rbTemaOscuro.CheckedChanged += new System.EventHandler(this.rbTemaOscuro_CheckedChanged);
             // 
             // btnTema
             // 
@@ -664,7 +668,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1664, 779);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTimerVuelo);
@@ -736,7 +740,6 @@
         private Button btnFirebase;
         private Button btnSql;
         private Label lblTimerVuelo;
-        private System.Windows.Forms.Timer timerVueloAdmin;
         private Panel panelMenuVuelos;
         protected Button btnBaseDatos;
         protected Button btnAdministrarAviones;
@@ -753,5 +756,6 @@
         private RadioButton rbTemaOscuro;
         private Button btnTema;
         private PictureBox pictureBox1;
+        public System.Windows.Forms.Timer timerVueloAdmin;
     }
 }

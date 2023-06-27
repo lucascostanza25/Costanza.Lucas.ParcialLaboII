@@ -29,6 +29,7 @@ namespace Entidades.PPLabII
         private double cantidadDineroRecaudado;
         private int asientosNormales;
         private int asientosNormalesOcupados;
+        private string matriculaAvionVuelo;
 
         public Vuelos()
         {
@@ -43,14 +44,15 @@ namespace Entidades.PPLabII
             this.origen = origen;
             this.horasVuelo = horas;
             this.precioVuelo = precio;
-            this.avionVuelo = BuscarAvion(matriculaAvion);
+            this.matriculaAvionVuelo = matriculaAvion;
+            //this.avionVuelo = BuscarAvion(matriculaAvionVuelo);
             if (avionVuelo is not null)
             {
                 this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
             }
         }
 
-        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros ) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
+        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros, Aviones avion) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
         {
             this.listaPasajeros = listaPasajeros;
             double pesoTotal = 0;
@@ -60,7 +62,7 @@ namespace Entidades.PPLabII
                 this.asientosOcupadosTotal = listaPasajeros.Count();
                 this.cantidadDineroRecaudado = precioVuelo * listaPasajeros.Count();
                 this.asientosPremiumOcupados = 0;
-                foreach(Pasajeros pasajero in this.listaPasajeros)
+                foreach (Pasajeros pasajero in this.listaPasajeros)
                 {
                     if (pasajero.AsientoPremium)
                     {
@@ -71,17 +73,21 @@ namespace Entidades.PPLabII
                 this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium - asientosPremiumOcupados;
                 this.asientosNormales = asientosDisponiblesTotal - asientosPremium;
                 this.capacidadDisponibleBodega = capacidadDisponibleBodega - pesoTotal;
+                this.avionVuelo = avion;
             }
         }
 
         public static Aviones BuscarAvion(string matricula)
         {
             Aviones avionBuscado = new Aviones();
-            foreach (Aviones avion in MiAerolinea.listaAviones)
+            if (MiAerolinea.listaAviones is not null)
             {
-                if (avion.Matricula == matricula)
+                foreach (Aviones avion in MiAerolinea.listaAviones)
                 {
-                    avionBuscado = avion;
+                    if (avion.Matricula == matricula)
+                    {
+                        avionBuscado = avion;
+                    }
                 }
             }
             return avionBuscado;
@@ -103,9 +109,9 @@ namespace Entidades.PPLabII
 
             return precioFinal;
         }
-
+        //No usado de momento
         public async void ActualizarDatosVuelo(Vuelos vuelo)
-        { 
+        {
             this.asientosDisponiblesTotal = (int)vuelo.AvionVuelo.CantidadAsientos - vuelo.listaPasajeros.Count();
             this.asientosOcupadosTotal = vuelo.listaPasajeros.Count();
 
@@ -128,7 +134,7 @@ namespace Entidades.PPLabII
             this.capacidadDisponibleBodega = vuelo.avionVuelo.CapacidadBodega;
             this.capacidadDisponibleBodega = capacidadDisponibleBodega - pesoTotal;
             this.asientosNormalesOcupados = cantidadAsientosNormales;
-            BaseDeDatos<Vuelos> firebaseVuelos = new BaseDeDatos<Vuelos>();
+            Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
             await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.codigoVuelo);
         }
 
@@ -249,6 +255,24 @@ namespace Entidades.PPLabII
         {
             get { return asientosPremiumOcupados; }
             set { asientosPremiumOcupados = value; }
+        }
+
+        public int AsientosNormales
+        {
+            get { return asientosNormales; }
+            set { asientosNormales = value; }
+        }
+
+        public int AsientosNormalesOcupados
+        {
+            get { return asientosNormalesOcupados; }
+            set { asientosNormalesOcupados = value; }
+        }
+
+        public string MatriculaAvionVuelo
+        {
+            get { return matriculaAvionVuelo; }
+            set { matriculaAvionVuelo = value; }
         }
     }
 }

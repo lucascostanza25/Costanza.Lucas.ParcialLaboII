@@ -14,3 +14,42 @@ Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo n
 Excepción interna: 
 Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 101
 ----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 100
+----------------------------------------
+Mensaje de excepción: Exception has been thrown by the target of an invocation.
+Excepción interna: Path cannot contain empty elements (Parameter 'path')
+Stack trace:    at System.RuntimeMethodHandle.InvokeMethod(Object target, Span`1& arguments, Signature sig, Boolean constructor, Boolean wrapExceptions)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Delegate.DynamicInvokeImpl(Object[] args)
+   at System.Delegate.DynamicInvoke(Object[] args)
+   at System.Windows.Forms.Control.InvokeMarshaledCallbackDo(ThreadMethodEntry tme)
+   at System.Windows.Forms.Control.InvokeMarshaledCallbackHelper(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Windows.Forms.Control.InvokeMarshaledCallback(ThreadMethodEntry tme)
+   at System.Windows.Forms.Control.InvokeMarshaledCallbacks()
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, WM msg, IntPtr wparam, IntPtr lparam)
+   at Interop.User32.DispatchMessageW(MSG& msg)
+   at System.Windows.Forms.Application.ComponentManager.Interop.Mso.IMsoComponentManager.FPushMessageLoop(UIntPtr dwComponentID, msoloop uReason, Void* pvLoopData)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(msoloop reason, ApplicationContext context)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoop(msoloop reason, ApplicationContext context)
+   at System.Windows.Forms.Application.RunDialog(Form form)
+   at System.Windows.Forms.Form.ShowDialog(IWin32Window owner)
+   at System.Windows.Forms.Form.ShowDialog()
+   at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 78
+----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 95
+----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 95
+----------------------------------------

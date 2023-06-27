@@ -15,25 +15,28 @@ namespace Costanza.Lucas.PPLabII
     public partial class FrmVendedor : Form
     {
         private bool solicitudCierre = false;
-        private BaseDeDatos<Vuelos> firebaseVuelos;
+        private Firebase<Vuelos> firebaseVuelos;
         private List<Panel> paneles;
         TimeSpan tiempoRestante;
         Vuelos vueloMasCercano;
+        Serializadora<ConfigAPP> jsonConfig;
 
+        private string temaActual;
+        Color colorPrimario;
+        Color colorSecundario;
         public FrmVendedor()
         {
             InitializeComponent();
-            firebaseVuelos = new BaseDeDatos<Vuelos>();
+            firebaseVuelos = new Firebase<Vuelos>();
             paneles = new List<Panel>
             {
                 panelMenuEstadisticas, panelMenuVuelos, panelTema
             };
 
-
-            
+            jsonConfig = new Serializadora<ConfigAPP>();
         }
 
-        public FrmVendedor(string nombre, string apellido, string fecha, string cargo, TimeSpan tiempo) : this()
+        public FrmVendedor(string nombre, string apellido, string fecha, string cargo) : this()
         {
 
             OcultarMenu();
@@ -179,51 +182,40 @@ namespace Costanza.Lucas.PPLabII
             this.gbEstadisticas.Visible = false;
             this.gbVenderVuelos.Visible = false;
             this.gbVerVuelos.Visible = true;
-            CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
-            //MiAerolinea.listaVuelos = await Firebase.TraerVuelos();
+            if(MiAerolinea.listaVuelos is not null)
+                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
         }
-
-        //public async Task Agregar()
-        //{ 
-        //    foreach(Vuelos vuelo in MiAerolinea.listaVuelos)
-        //    {
-        //        if(await Firebase.AgregarVuelo(vuelo) == false)
-        //        {
-        //            MessageBox.Show("El vuelo ya existe");
-        //            //break;
-        //        }
-        //    } 
-           
-        //}
 
         private void dgvDatosVuelos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             List<Pasajeros> listaPasajerosPorVuelo = new List<Pasajeros>(); ;
 
-            if (dgvDatosVuelos.SelectedRows.Count > 0)
+            try
             {
-                string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
-                listaPasajerosPorVuelo = MiAerolinea.RetornarPasajerosPorVuelo(codigoVueloSeleccionado);
-
-                foreach (Vuelos miVuelo in MiAerolinea.listaVuelos)
+                if (dgvDatosVuelos.SelectedRows.Count > 0)
                 {
-                    if (miVuelo.CodigoVuelo == codigoVueloSeleccionado)
-                    {
-                        listaPasajerosPorVuelo = miVuelo.ListaPasajeros;
-                        lblPasajerosVuelo.Text = $"PASAJEROS DEL VUELO: {miVuelo.CodigoVuelo}";
+                    string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
+                    listaPasajerosPorVuelo = MiAerolinea.RetornarPasajerosPorVuelo(codigoVueloSeleccionado);
 
-                        lblInformacionVuelo.Text = MiAerolinea.RetornarDatosVuelo(miVuelo);
-                        break;
+                    if (MiAerolinea.listaVuelos is not null)
+                    {
+                        foreach (Vuelos miVuelo in MiAerolinea.listaVuelos)
+                        {
+                            if (miVuelo.CodigoVuelo == codigoVueloSeleccionado)
+                            {
+                                listaPasajerosPorVuelo = miVuelo.ListaPasajeros;
+                                lblPasajerosVuelo.Text = $"PASAJEROS DEL VUELO: {miVuelo.CodigoVuelo}";
+
+                                lblInformacionVuelo.Text = MiAerolinea.RetornarDatosVuelo(miVuelo);
+                                break;
+                            }
+                        }
                     }
                 }
-                //List<Pasajeros> lista = MiAerolinea.CargarPasajerosXml("NuevosPasajeros.xml");
-                //MiAerolinea.DespacharEquipajeDePasajerosHechos(lista);
-                //foreach (Pasajeros pasajero in lista)
-                //{
-                //    pasajero.CodigoVuelo = codigoVueloSeleccionado;
-                //    PasajerosDao.Guardar(pasajero);
-                //}
-
+            }
+            catch(NullReferenceException) 
+            {
+                
             }
             CrearDataGridViewPasajeros(dgvPasajeros, listaPasajerosPorVuelo);
             
@@ -236,6 +228,8 @@ namespace Costanza.Lucas.PPLabII
             DialogResult resultado = MessageBox.Show("¿Seguro que desea cerrar sesion?", "Cerrar sesion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (resultado == DialogResult.Yes)
             {
+                ConfigAPP config = new ConfigAPP(this.temaActual);
+                jsonConfig.Serializar(config, "config.json");
                 solicitudCierre = true;
                 this.Close();
             }
@@ -243,7 +237,8 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmMenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
+            if(MiAerolinea.listaVuelos is not null)
+                MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
             if (!solicitudCierre)
             {
                 DialogResult resultado = MessageBox.Show("¿Seguro que desea salir del programa?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -268,7 +263,8 @@ namespace Costanza.Lucas.PPLabII
 
             if (String.IsNullOrEmpty(txtCodigoVuelo.Text))
             {
-                CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+                if(MiAerolinea.listaVuelos is not null)
+                    CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
             }
             else
             {
@@ -409,6 +405,27 @@ namespace Costanza.Lucas.PPLabII
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
             timerVuelo.Start();
+            ConfigAPP nuevaConfig = jsonConfig.Deserializar<ConfigAPP>("config.json");
+            this.temaActual = nuevaConfig.Tema;
+
+            switch (this.temaActual)
+            {
+                case "Oscuro":
+                    TemaOscuro();
+                    break;
+
+                case "Claro":
+                    TemaClaro();
+                    break;
+
+                case "Verde":
+                    TemaVerde();
+                    break;
+
+                case "Rojo":
+                    TemaRojo();
+                    break;
+            }
         }
 
         private async void btnVenderVuelo_Click(object sender, EventArgs e)
@@ -478,10 +495,13 @@ namespace Costanza.Lucas.PPLabII
 
         private void btnLlamarCliente_Click(object sender, EventArgs e)
         {
-            foreach (Cliente miCliente in MiAerolinea.listaClientes)
+            if (MiAerolinea.listaClientes is not null)
             {
-                DatosCliente(miCliente);
-                break;
+                foreach (Cliente miCliente in MiAerolinea.listaClientes)
+                {
+                    DatosCliente(miCliente);
+                    break;
+                }
             }
         }
 
@@ -535,6 +555,12 @@ namespace Costanza.Lucas.PPLabII
 
         private async void btnEliminarPasajero_Click(object sender, EventArgs e)
         {
+            Task<bool> respuesta = EliminarPasajero();
+            bool resultado = await respuesta;
+        }
+
+        private async Task<bool> EliminarPasajero()
+        {
             Pasajeros pasajero = MiAerolinea.RetornarUnPasajero(int.Parse(txtDniPasajero.Text));
             Vuelos vuelo = MiAerolinea.listaVuelos.FirstOrDefault(v => v.CodigoVuelo == pasajero.CodigoVuelo);
             DialogResult resultado = MessageBox.Show("¿Seguro que desea eliminar al pasajero?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -542,18 +568,20 @@ namespace Costanza.Lucas.PPLabII
             {
                 if (MiAerolinea.EliminarPasajero(int.Parse(txtDniPasajero.Text)))
                 {
-                    if(vuelo is not null)
+                    if (vuelo is not null)
                         await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
                     PasajerosDao.EliminarPasajero(pasajero);
                     MessageBox.Show("Pasajero eliminado");
                     CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
                     dgvPasajeros.Rows.Clear();
+                    return true;
                 }
             }
             else
             {
                 MessageBox.Show("Se canceló la eliminación del pasajero");
             }
+            return false;
         }
 
         private void FrmVendedor_FormClosed(object sender, FormClosedEventArgs e)
@@ -566,61 +594,113 @@ namespace Costanza.Lucas.PPLabII
             MostrarMenu(panelTema);
         }
 
-        private void btnEstadisticas_Click_1(object sender, EventArgs e)
-        {
 
-        }
-
-        private void rbTemaOscuro_CheckedChanged(object sender, EventArgs e)
+        private void CambiarTema(Color primario, Color secundario, Color terciario, Color colorLabel)
         {
-            CambiarTema(Color.Black, Color.DimGray);
-        }
-
-        private void CambiarTema(Color primario, Color secundario)
-        {
-            foreach(Panel p in paneles)
+            foreach (Panel p in paneles)
             {
-                p.BackColor = primario;
+                p.BackColor = terciario;
             }
             this.panelMenu.BackColor = secundario;
 
-            foreach(GroupBox gb in Controls.OfType<GroupBox>())
+            foreach (GroupBox gb in Controls.OfType<GroupBox>())
             {
                 gb.BackColor = primario;
-                foreach(Label lbl in gb.Controls.OfType<Label>())
+                foreach (Label lbl in gb.Controls.OfType<Label>())
                 {
-                    lbl.ForeColor = Color.White;
+                    lbl.ForeColor = colorLabel;
                 }
-                foreach(RadioButton rb in gb.Controls.OfType<RadioButton>())
+                foreach (RadioButton rb in gb.Controls.OfType<RadioButton>())
                 {
-                    rb.ForeColor = Color.White;
+                    rb.ForeColor = colorLabel;
                 }
-                foreach(CheckBox cb in gb.Controls.OfType<CheckBox>())
+                foreach (CheckBox cb in gb.Controls.OfType<CheckBox>())
                 {
-                    cb.ForeColor = Color.White;
+                    cb.ForeColor = colorLabel;
+                }
+                foreach(Button btn in gb.Controls.OfType<Button>())
+                {
+                    btn.ForeColor = colorLabel;
                 }
             }
+        }
+        private void rbTemaOscuro_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaOscuro();
         }
 
         private void rbTemaClaro_CheckedChanged(object sender, EventArgs e)
         {
-
+            TemaClaro();
         }
 
-        private void Recibir(TimeSpan tiempo, Vuelos vuelo)
+        protected void Recibir(TimeSpan tiempo, Vuelos vuelo)
         {
             tiempoRestante = tiempo;
             vueloMasCercano = vuelo;
-            timerVuelo.Start();
+
+            if (MiAerolinea.listaVuelos.Count > 0)
+            {
+                timerVuelo.Start();
+            }
         }
 
         private void timerVuelo_Tick(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"El proximo vuelo {vueloMasCercano.CodigoVuelo}, con destino a {vueloMasCercano.Destino.ToString().Replace("_", " ")} sale en: ");
-            sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
-            lblTimerVuelo.Text = sb.ToString();
+            if(MiAerolinea.listaVuelos.Count > 0)
+            { 
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"El proximo vuelo {vueloMasCercano.CodigoVuelo}, con destino a {vueloMasCercano.Destino.ToString().Replace("_", " ")} sale en: ");
+                sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
+                lblTimerVuelo.Text = sb.ToString();
+            }
         }
 
+        private void rbTemaRojo_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaRojo();
+        }
+
+        private void rbTemaVerde_CheckedChanged(object sender, EventArgs e)
+        {
+            TemaVerde();
+
+        }
+
+        private void TemaRojo()
+        {
+            Color primario = Color.FromArgb(243, 139, 139);
+            Color secundario = Color.FromArgb(194, 95, 95);
+            Color terciario = Color.FromArgb(243, 37, 37);
+            this.temaActual = "Rojo";
+            CambiarTema(primario, secundario, terciario, Color.Black);
+        }
+
+        private void TemaOscuro()
+        {
+            Color primario = Color.FromArgb(60, 60, 60);
+            Color secundario = Color.FromArgb(84, 84, 84);
+            Color terciario = Color.DimGray;
+            this.temaActual = "Oscuro";
+            CambiarTema(primario, secundario, terciario, Color.White);
+        }
+
+        private void TemaVerde()
+        {
+            this.temaActual = "Verde";
+            Color primario = Color.FromArgb(193, 231, 170);
+            Color secundario = Color.FromArgb(109, 143, 88);
+            Color terciario = Color.FromArgb(109, 122, 101);
+            CambiarTema(primario, secundario, terciario, Color.Black);
+        }
+
+        private void TemaClaro()
+        {
+            this.temaActual = "Claro";
+            Color primario = Color.FromArgb(239, 247, 255);
+            Color secundario = Color.SteelBlue;
+            Color terciario = Color.DarkSlateBlue;
+            CambiarTema(primario, secundario, terciario, Color.Black);
+        }
     }
 }

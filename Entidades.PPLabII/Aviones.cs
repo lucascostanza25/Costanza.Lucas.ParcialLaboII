@@ -44,12 +44,7 @@ namespace Entidades.PPLabII
             this.cantidadAsientosNormales = cantidadAsientosNormales;
             this.modeloAvion = modeloAvion;
         }
-        public void ActualizarAviones(Aviones avion)
-        {
-            this.cantidadAsientosNormales = cantidadAsientos - cantidadAsientosPremium;
-            BaseDeDatos<Aviones> firebaseAviones = new BaseDeDatos<Aviones>();
-            firebaseAviones.Actualizar(avion, "aviones", avion.matricula);
-        }
+
         #region Propiedades
         [XmlElement("matricula")]
         [JsonPropertyName("matricula")]
@@ -91,7 +86,7 @@ namespace Entidades.PPLabII
         }
         [XmlElement("servicio_comida")]
         [JsonPropertyName("servicio_comida")]
-
+        [FirestoreProperty]
         public bool ServicioComida
         {
             get { return servicioComida; }

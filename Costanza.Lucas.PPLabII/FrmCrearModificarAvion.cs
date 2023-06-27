@@ -1,10 +1,13 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Base_de_datos;
 using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,13 +19,13 @@ namespace Costanza.Lucas.PPLabII
     public partial class FrmCrearModificarAvion : Form
     {
         Aviones avion;
-        BaseDeDatos<Aviones> firebaseAviones;
+        Firebase<Aviones> firebaseAviones;
         public FrmCrearModificarAvion()
         {
             InitializeComponent();
             btnAceptar.Text = "Crear avion";
             avion = new Aviones();
-            firebaseAviones = new BaseDeDatos<Aviones>();
+            firebaseAviones = new Firebase<Aviones>();
         }
         /// <summary>
         /// Sobrecarga del constructor destinado a modificar aviones
@@ -90,6 +93,7 @@ namespace Costanza.Lucas.PPLabII
             asientosPremium = (int)Math.Round(asientos * 0.2);
             asientosNormales = asientos - asientosPremium;
             Aviones avionNuevo;
+            
 
             if (MiAerolinea.listaAviones is not null)
             {
@@ -109,34 +113,53 @@ namespace Costanza.Lucas.PPLabII
                         avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
                         MiAerolinea.listaAviones.Add(avionNuevo);
                         await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        AvionesDao.GuardarAviones(avionNuevo);
+                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
                     }
                     if (cbComida.Checked && cbInternet.CheckState == CheckState.Unchecked)
                     {
                         avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
                         MiAerolinea.listaAviones.Add(avionNuevo);
                         await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        AvionesDao.GuardarAviones(avionNuevo);
+                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
+
                     }
                     if (cbComida.CheckState == CheckState.Unchecked && cbInternet.Checked)
                     {
                         avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
                         MiAerolinea.listaAviones.Add(avionNuevo);
                         await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        AvionesDao.GuardarAviones(avionNuevo);
+                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
                     }
                     if (cbComida.CheckState == CheckState.Unchecked && cbInternet.CheckState == CheckState.Unchecked)
                     {
                         avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
                         MiAerolinea.listaAviones.Add(avionNuevo);
                         await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        AvionesDao.GuardarAviones(avionNuevo);
+                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
+
                     }
                     estado = true;
                 }
             }
 
             return estado;
+        }
+
+        private void GuardarAvion(string query, Aviones avionNuevo)
+        {
+            Sql<Aviones> sqlAviones = new Sql<Aviones>();
+            sqlAviones.Guardar("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo, (comando) =>
+            {
+                comando.Parameters.AddWithValue("@matricula", avionNuevo.Matricula);
+                comando.Parameters.AddWithValue("@servicio_comida", Convert.ToByte(avionNuevo.ServicioComida));
+                comando.Parameters.AddWithValue("@servicio_internet", Convert.ToByte(avionNuevo.ServicioInternet));
+                comando.Parameters.AddWithValue("@capacidad_bodega", avionNuevo.CapacidadBodega);
+                comando.Parameters.AddWithValue("@modelo", avionNuevo.ModeloAvion);
+                comando.Parameters.AddWithValue("@cantidad_asientos", avionNuevo.CantidadAsientos);
+                comando.Parameters.AddWithValue("@cantidad_asientos_premium", avionNuevo.CantidadAsientosPremium);
+                comando.Parameters.AddWithValue("@cantidad_asientos_normales", avionNuevo.CantidadAsientosNormales);
+                comando.ExecuteNonQuery();
+            });
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -210,7 +233,7 @@ namespace Costanza.Lucas.PPLabII
 
                 try
                 {
-                    AvionesDao.EditarAvion(avionEditar);
+                    EditarAvion("UPDATE aviones SET servicio_comida = @servicio_comida, servicio_internet = @servicio_internet, capacidad_bodega = @capacidad_bodega, modelo = @modelo, cantidad_asientos = @cantidad_asientos, cantidad_asientos_premium = @cantidad_asientos_premium, cantidad_asientos_normales = @cantidad_asientos_normales WHERE matricula = @matricula", avionEditar);
                 }
                 catch(ExcepcionBaseDatos exB)
                 {
@@ -223,13 +246,30 @@ namespace Costanza.Lucas.PPLabII
                 }
                 catch(Exception ex) 
                 {
-                                        GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
+                    GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
                     guardador.GuardarExcepcion(ex);
                 }
                 return true;
 
             }
             return false;
+        }
+
+        private void EditarAvion(string query, Aviones avionEditar)
+        {
+            Sql<Aviones> sqlAviones = new Sql<Aviones>();
+            sqlAviones.Editar(query, (comando) =>
+            {
+                comando.Parameters.AddWithValue("@servicio_comida", Convert.ToByte(avionEditar.ServicioComida));
+                comando.Parameters.AddWithValue("@servicio_internet", Convert.ToByte(avionEditar.ServicioInternet));
+                comando.Parameters.AddWithValue("@capacidad_bodega", avionEditar.CapacidadBodega);
+                comando.Parameters.AddWithValue("@modelo", avionEditar.ModeloAvion);
+                comando.Parameters.AddWithValue("@cantidad_asientos", avionEditar.CantidadAsientos);
+                comando.Parameters.AddWithValue("@cantidad_asientos_premium", avionEditar.CantidadAsientosPremium);
+                comando.Parameters.AddWithValue("@cantidad_asientos_normales", avionEditar.CantidadAsientosNormales);
+                comando.Parameters.AddWithValue("@matricula", avionEditar.Matricula);
+                comando.ExecuteNonQuery();
+            });
         }
     }
 }

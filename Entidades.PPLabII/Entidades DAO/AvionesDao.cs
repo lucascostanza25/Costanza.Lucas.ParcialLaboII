@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace Entidades.PPLabII.Entidades_DAO
             comando.CommandType = System.Data.CommandType.Text;
             comando.Connection = conexion;
         }
+
 
         public static List<Aviones> LeerAviones()
         {

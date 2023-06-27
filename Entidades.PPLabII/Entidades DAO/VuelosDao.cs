@@ -24,33 +24,61 @@ namespace Entidades.PPLabII.Entidades_DAO
 
         public static List<Vuelos> LeerVuelos()
         {
-            List<Vuelos> listaVuelos = new List<Vuelos>();
             List<Pasajeros> listaPasajerosVuelos = new List<Pasajeros>();
+            List<Vuelos> listaVuelos = new List<Vuelos>();
             try
             {
                 conexion.Open();
-                comando.CommandText = "SELECT * FROM vuelos";
+                comando.CommandText = "SELECT * FROM vuelos JOIN pasajeros ON vuelos.codigo = pasajeros.codigo_vuelo JOIN aviones ON vuelos.matricula_avion = aviones.matricula\r\n\r\nSELECT * FROM pasajeros WHERE nombre = 'Lilah'\r\n\r\nSELECT * FROM vuelos\r\n\r\nSELECT * FROM vuelos LEFT JOIN pasajeros ON vuelos.codigo = pasajeros.codigo_vuelo JOIN aviones ON vuelos.matricula_avion = aviones.matricula\r\n";
 
                 using (SqlDataReader reader = comando.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        listaPasajerosVuelos = MiAerolinea.listaPasajeros.Where(Pasajeros => Pasajeros.CodigoVuelo == reader["codigo"].ToString()).ToList();
-                        string origen = reader["origen"].ToString();
-                        string destino = reader["destino"].ToString();
-                        DestinosVuelos enumOrigen = (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), origen);
-                        DestinosVuelos enumDestino = (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), destino);
+                        Aviones avion = new Aviones{
+                            Matricula = reader["matricula"].ToString(),
+                            CantidadAsientos = Convert.ToInt32(reader["cantidad_asientos"]),
+                            ServicioInternet = Convert.ToBoolean(reader["servicio_internet"]),
+                            ServicioComida = Convert.ToBoolean(reader["servicio_comida"]),
+                            CapacidadBodega = Convert.ToDouble(reader["capacidad_bodega"]),
+                            ModeloAvion = reader["modelo"].ToString(),
+                            CantidadAsientosNormales = Convert.ToInt32(reader["cantidad_asientos_normales"]),
+                            CantidadAsientosPremium = Convert.ToInt32(reader["cantidad_asientos_premium"])
+                        };
 
-                        listaVuelos.Add(new Vuelos(
-                            Convert.ToDateTime(reader["fecha"]),
-                            reader["codigo"].ToString(),
-                            enumOrigen,
-                            enumDestino,
-                            Convert.ToInt32(reader["horas"]),
-                            Convert.ToDouble(reader["precio"]),
-                            reader["matricula_avion"].ToString(),
-                            listaPasajerosVuelos
-                            ));
+                        Pasajeros pasajero = new Pasajeros{
+
+                            Apellido = reader["apellido"].ToString(),
+                            Nombre = reader["nombre"].ToString(),
+                            Dni = Convert.ToInt32(reader["dni"]),
+                            Edad = Convert.ToInt32(reader["edad"]),
+                            Genero = reader["genero"].ToString(),
+                            AsientoPremium = Convert.ToBoolean(reader["asiento_premium"]),
+                            CodigoVuelo = reader["codigo_vuelo"].ToString(),
+                            CantidadEquipaje = Convert.ToInt32(reader["cantidad_equipaje"]),
+                            PesoEquipajeUno = Convert.ToDouble(reader["peso_uno"]),
+                            PesoEquipajeDos = Convert.ToDouble(reader["peso_dos"])
+                        };
+
+                        Vuelos vuelo = listaVuelos.FirstOrDefault(v => v.CodigoVuelo == reader["codigo"].ToString());
+                        if (vuelo is null)
+                        {
+                            vuelo = new Vuelos
+                            {
+
+                                FechaVuelo = Convert.ToDateTime(reader["fecha"]),
+                                CodigoVuelo = reader["codigo"].ToString(),
+                                Origen = (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), reader["origen"].ToString()),
+                                Destino = (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), reader["destino"].ToString()),
+                                HorasVuelo = Convert.ToInt32(reader["horas"]),
+                                PrecioVuelo = Convert.ToDouble(reader["precio"]),
+                                MatriculaAvionVuelo = reader["matricula_avion"].ToString(),
+                                ListaPasajeros = new List<Pasajeros>(),
+                                AvionVuelo = avion
+                            };
+                            listaVuelos.Add(vuelo);
+                        }
+                        vuelo.ListaPasajeros.Add(pasajero);
                     }
                 }
                 if (listaVuelos.Count == 0)

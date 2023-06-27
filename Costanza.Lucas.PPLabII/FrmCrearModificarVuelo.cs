@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Costanza.Lucas.PPLabII
     public partial class FrmCrearModificarVuelo : Form
     {
         Vuelos vuelo = new Vuelos();
-        BaseDeDatos<Vuelos> firebaseVuelo = new BaseDeDatos<Vuelos>();
+        Firebase<Vuelos> firebaseVuelo = new Firebase<Vuelos>();
         public FrmCrearModificarVuelo()
         {
             InitializeComponent();
@@ -163,21 +164,24 @@ namespace Costanza.Lucas.PPLabII
                     {
                         if (dtpFecha.Value >= DateTime.Now)
                         {
-                            foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
+                            if (MiAerolinea.listaVuelos is not null)
                             {
-                                if (vuelo.CodigoVuelo == txtCodigo.Text)
+                                foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
                                 {
-                                    vueloDuplicado = true;
-                                    break;
+                                    if (vuelo.CodigoVuelo == txtCodigo.Text)
+                                    {
+                                        vueloDuplicado = true;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (!vueloDuplicado)
-                            {
-                                Vuelos vueloNuevo = new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula);
-                                MiAerolinea.listaVuelos.Add(vueloNuevo);
-                                await firebaseVuelo.Agregar(vueloNuevo, "vuelos", vueloNuevo.CodigoVuelo);
-                                estado = true;
+                                if (!vueloDuplicado)
+                                {
+                                    Vuelos vueloNuevo = new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula);
+                                    MiAerolinea.listaVuelos.Add(vueloNuevo);
+                                    await firebaseVuelo.Agregar(vueloNuevo, "vuelos", vueloNuevo.CodigoVuelo);
+                                    estado = true;
 
+                                }
                             }
                         }
                     }
@@ -196,23 +200,37 @@ namespace Costanza.Lucas.PPLabII
         /// <param name="vuelo">vuelo a editar</param>
         private void PintarDatosVuelo(Vuelos vuelo)
         {
-            if (MiAerolinea.destinoPorVuelo[1].Contains(vuelo.Destino))
+            try
             {
-                rbNacional.Checked = true;
-                nudPrecio.Value = 50;
+                if (vuelo is not null)
+                {
+                    if (MiAerolinea.destinoPorVuelo[1].Contains(vuelo.Destino))
+                    {
+                        rbNacional.Checked = true;
+                        nudPrecio.Value = 50;
+                    }
+                    else if (MiAerolinea.destinoPorVuelo[2].Contains(vuelo.Destino))
+                    {
+                        rbInternacional.Checked = true;
+                        nudPrecio.Value = 100;
+                    }
+                    cmbOrigen.SelectedItem = vuelo.Origen.ToString().Replace("_", " ");
+                    cmbDestino.SelectedItem = vuelo.Destino.ToString().Replace("_", " ");
+                    dtpFecha.Value = vuelo.FechaVuelo;
+                    txtCodigo.Text = vuelo.CodigoVuelo;
+                    nudHoras.Value = vuelo.HorasVuelo;
+                    Aviones avionVuelo = vuelo.AvionVuelo;
+                    lblAvion.Text = $"El avion del vuelo es: {avionVuelo.ModeloAvion} - {avionVuelo.Matricula}";
+                }
+                else
+                {
+                    throw new MiExcepcion("Error al pintar los datos del vuelo");
+                }
             }
-            else if (MiAerolinea.destinoPorVuelo[2].Contains(vuelo.Destino))
+            catch(MiExcepcion ex)
             {
-                rbInternacional.Checked = true;
-                nudPrecio.Value = 100;
+                ex.GuardarMiExcepcion();
             }
-            cmbOrigen.SelectedItem = vuelo.Origen.ToString().Replace("_", " ");
-            cmbDestino.SelectedItem = vuelo.Destino.ToString().Replace("_", " ");
-            dtpFecha.Value = vuelo.FechaVuelo;
-            txtCodigo.Text = vuelo.CodigoVuelo;
-            nudHoras.Value = vuelo.HorasVuelo;
-            Aviones avionVuelo = vuelo.AvionVuelo;
-            lblAvion.Text = $"El avion del vuelo es: {avionVuelo.ModeloAvion} - {avionVuelo.Matricula}";
         }
 
         private async Task<bool> ModificarVuelo(Vuelos vueloModificar)
@@ -241,7 +259,7 @@ namespace Costanza.Lucas.PPLabII
                             vueloModificar.AvionVuelo = vueloAvion;
                             estado = true;
                             await firebaseVuelo.Actualizar(vueloModificar, "vuelos", vueloModificar.CodigoVuelo);
-                        }
+                            VuelosDao.ActualizarVuelo(vueloModificar);                        }
                     }
                 }
             }

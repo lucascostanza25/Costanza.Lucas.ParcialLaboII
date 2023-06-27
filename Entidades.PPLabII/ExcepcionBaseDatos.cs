@@ -12,7 +12,7 @@ namespace Entidades.PPLabII
         {
 
         }
-
+        //Agregar logica
         public ExcepcionBaseDatos(string mensaje) : base(mensaje)
         {
             mensaje = "No se pudo conectar a la base de datos";

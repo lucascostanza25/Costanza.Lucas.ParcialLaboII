@@ -144,7 +144,6 @@ namespace Costanza.Lucas.PPLabII
         private bool CrearCliente()
         {
             int dni, edad, dinero;
-            double pesoEquipajeUno, pesoEquipajeDos;
             dni = Convert.ToInt32(nudDni.Value);
             edad = Convert.ToInt32(nudEdad.Value);
             dinero = Convert.ToInt32(nudDineroDisponible.Value);
@@ -158,38 +157,44 @@ namespace Costanza.Lucas.PPLabII
             }
             else
             {
-                foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
+                if (MiAerolinea.listaVuelos is not null)
                 {
-                    foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
+                    foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
                     {
-                        if (pasajero.Dni == dni)
+                        foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
                         {
-                            pasajeroDuplicado = true;
-                            break;
+                            if (pasajero.Dni == dni)
+                            {
+                                pasajeroDuplicado = true;
+                                break;
 
+                            }
                         }
                     }
                 }
-                foreach (Cliente cliente in MiAerolinea.listaClientes)
+                if (MiAerolinea.listaClientes is not null)
                 {
-                    if (cliente.Dni == dni)
+                    foreach (Cliente cliente in MiAerolinea.listaClientes)
                     {
-                        clienteDuplicado = true;
-                        break;
+                        if (cliente.Dni == dni)
+                        {
+                            clienteDuplicado = true;
+                            break;
+                        }
                     }
-                }
-                if (!pasajeroDuplicado && !clienteDuplicado)
-                {
-                    if (cbAsientoPremium.Checked)
+                    if (!pasajeroDuplicado && !clienteDuplicado)
                     {
-                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), (double)nudPesoEquipajeUno.Value, (double)nudPesoEquipajeDos.Value));
+                        if (cbAsientoPremium.Checked)
+                        {
+                            MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), (double)nudPesoEquipajeUno.Value, (double)nudPesoEquipajeDos.Value));
+                        }
+                        else
+                        {
+                            MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, (double)nudPesoEquipajeUno.Value, 0));
+                        }
+                        MessageBox.Show("Cliente agregado correctamente");
+                        estado = true;
                     }
-                    else
-                    {
-                        MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, (double)nudPesoEquipajeUno.Value, 0));
-                    }
-                    MessageBox.Show("Cliente agregado correctamente");
-                    estado = true;
                 }
             }
 
@@ -227,6 +232,7 @@ namespace Costanza.Lucas.PPLabII
             estado = true;
 
             PasajerosDao.ActualizarPasajero(miPasajero);
+            //Falta implementar firebase
 
             return estado;
         }

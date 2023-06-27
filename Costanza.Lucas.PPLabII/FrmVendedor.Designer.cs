@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVendedor));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMenuEstadisticas = new System.Windows.Forms.Panel();
             this.btnVerEstadisticas = new System.Windows.Forms.Button();
@@ -306,6 +306,7 @@
             this.rbTemaRojo.TabStop = true;
             this.rbTemaRojo.Text = "Rojo";
             this.rbTemaRojo.UseVisualStyleBackColor = true;
+            this.rbTemaRojo.CheckedChanged += new System.EventHandler(this.rbTemaRojo_CheckedChanged);
             // 
             // rbTemaClaro
             // 
@@ -333,6 +334,7 @@
             this.rbTemaVerde.TabStop = true;
             this.rbTemaVerde.Text = "Verde";
             this.rbTemaVerde.UseVisualStyleBackColor = true;
+            this.rbTemaVerde.CheckedChanged += new System.EventHandler(this.rbTemaVerde_CheckedChanged);
             // 
             // rbTemaOscuro
             // 
@@ -894,9 +896,9 @@
             // 
             this.dgvPasajeros.AllowUserToResizeColumns = false;
             this.dgvPasajeros.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Gadugi", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.dgvPasajeros.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Gadugi", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.dgvPasajeros.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvPasajeros.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPasajeros.Location = new System.Drawing.Point(26, 322);
             this.dgvPasajeros.Name = "dgvPasajeros";
@@ -1146,7 +1148,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1664, 779);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTimerVuelo);
@@ -1272,9 +1274,9 @@
         private RadioButton rbTemaRojo;
         private RadioButton rbTemaVerde;
         protected Button btnVenderVueloLateral;
-        private Label lblTimerVuelo;
         private PictureBox pbFotoPerfil;
-        private System.Windows.Forms.Timer timerVuelo;
         private PictureBox pictureBox1;
+        public System.Windows.Forms.Timer timerVuelo;
+        public Label lblTimerVuelo;
     }
 }

@@ -30,9 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Supervisor));
             this.btnAgregarPasajero = new System.Windows.Forms.Button();
-            this.gbVerVuelos.SuspendLayout();
             this.panelMenu.SuspendLayout();
+            this.gbVerVuelos.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // btnVuelos
+            // 
+            this.btnVuelos.FlatAppearance.BorderSize = 0;
             // 
             // gbVerVuelos
             // 
@@ -42,10 +46,6 @@
             // btnVenderVueloLateral
             // 
             this.btnVenderVueloLateral.FlatAppearance.BorderSize = 0;
-            // 
-            // btnVuelos
-            // 
-            this.btnVuelos.FlatAppearance.BorderSize = 0;
             // 
             // btnAgregarPasajero
             // 
@@ -63,16 +63,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1903, 1041);
+            this.ClientSize = new System.Drawing.Size(1664, 779);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Supervisor";
             this.Text = "Supervisor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Supervisor_FormClosing);
+            this.panelMenu.ResumeLayout(false);
             this.gbVerVuelos.ResumeLayout(false);
             this.gbVerVuelos.PerformLayout();
-            this.panelMenu.ResumeLayout(false);
-            this.panelMenu.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

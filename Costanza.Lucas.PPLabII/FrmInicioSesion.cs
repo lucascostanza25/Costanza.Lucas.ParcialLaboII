@@ -7,28 +7,21 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmInicioSesion : Form
     {
-        TimeSpan tiempoRestante;   
+
         public FrmInicioSesion()
         {
             InitializeComponent();
-            MiAerolinea.DeserializarUsuarios("usuarios.json");
             lblMail.Visible = false;
             lblContrasenia.Visible = false;
             txtContrasenia.Visible = false;
             txtMail.Visible = false;
             btnLogearse.Visible = false;
-            //MiAerolinea.DeserializarAvionesJson("aviones.json");
-            //MiAerolinea.DeserializarVuelosXml();
 
-            ////MiAerolinea.CargarPasajerosXml("NuevosPasajeros.xml");
-            //MiAerolinea.listaPasajeros = PasajerosDao.LeerPasajeros();
-            //MiAerolinea.listaAviones = AvionesDao.LeerAviones();
-            //MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
-
-
+            Serializadora<Usuarios> serializadora = new Serializadora<Usuarios>();
+            MiAerolinea.listaUsuarios = serializadora.Deserializar<List<Usuarios>>("usuarios.json");
         }
 
-        private async void btnIniciarSesion_Click(object sender, EventArgs e)
+        private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
             pbFotoAvion.Image = System.Drawing.Image.FromFile("FotoAvionEditada.png");
 
@@ -54,43 +47,45 @@ namespace Costanza.Lucas.PPLabII
                 string fechaSinHora = fecha.ToString("dd/MM/yyyy");
                 string rutaArchivo = "logUsuarios.txt";
                 bool usuarioEncontrado = false;
-
-                foreach (Usuarios miUsuario in MiAerolinea.listaUsuarios)
+                if(MiAerolinea.listaUsuarios is not null)
                 {
-                    if (miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
+                    foreach (Usuarios miUsuario in MiAerolinea.listaUsuarios)
                     {
-                        usuarioEncontrado = true;
-                        using (StreamWriter archivo = new StreamWriter(rutaArchivo, true))
+                        if (miUsuario.Correo == txtMail.Text && miUsuario.Clave == txtContrasenia.Text)
                         {
-                            switch (miUsuario.Perfil)
+                            usuarioEncontrado = true;
+                            using (StreamWriter archivo = new StreamWriter(rutaArchivo, true))
                             {
-                                case "vendedor":
-                                    archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
-                                    this.Hide();
-                                    FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil, tiempoRestante);
-                                    formMenu.ShowDialog();
-                                    this.Show();
-                                    break;
+                                switch (miUsuario.Perfil)
+                                {
+                                    case "vendedor":
+                                        archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
+                                        this.Hide();
+                                        FrmVendedor formMenu = new FrmVendedor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                        formMenu.ShowDialog();
+                                        this.Show();
+                                        break;
 
-                                case "supervisor":
-                                    archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
-                                    this.Hide();
-                                    Supervisor formSupervisor = new Supervisor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
-                                    formSupervisor.ShowDialog();
-                                    this.Show();
-                                    break;
+                                    case "supervisor":
+                                        archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
+                                        this.Hide();
+                                        Supervisor formSupervisor = new Supervisor(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                        formSupervisor.ShowDialog();
+                                        this.Show();
+                                        break;
 
-                                case "administrador":
-                                    archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
-                                    this.Hide();
-                                    FrmAdministrador formAdministrador = new FrmAdministrador(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
-                                    formAdministrador.ShowDialog();
-                                    this.Show();
-                                    break;
+                                    case "administrador":
+                                        archivo.WriteLine($"{fecha} -> INICIO SESION: {miUsuario.Nombre} {miUsuario.Apellido} - {miUsuario.Perfil}");
+                                        this.Hide();
+                                        FrmAdministrador formAdministrador = new FrmAdministrador(miUsuario.Nombre, miUsuario.Apellido, fechaSinHora, miUsuario.Perfil);
+                                        formAdministrador.ShowDialog();
+                                        this.Show();
+                                        break;
+                                }
+                                this.txtContrasenia.Text = null;
+                                this.txtMail.Text = null;
+                                archivo.Flush();
                             }
-                            this.txtContrasenia.Text = null;
-                            this.txtMail.Text = null;
-                            archivo.Flush();
                         }
                     }
                 }

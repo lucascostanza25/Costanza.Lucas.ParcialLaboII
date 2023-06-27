@@ -24,7 +24,8 @@ namespace Costanza.Lucas.PPLabII
             lblInformacionTrabajador.Text = $"¡Bienvenido {cargo}!\n" +
                 $"¡{nombre} {apellido}!\n" +
                 $"Fecha: {fecha}";
-
+            FrmAdministrador form = new FrmAdministrador();
+            form.Enviar += Recibir;
         }
 
         private void btnAgregarPasajero_Click(object sender, EventArgs e)
