@@ -45,16 +45,13 @@ namespace Entidades.PPLabII
             this.horasVuelo = horas;
             this.precioVuelo = precio;
             this.matriculaAvionVuelo = matriculaAvion;
-            //this.avionVuelo = BuscarAvion(matriculaAvionVuelo);
+            this.avionVuelo = BuscarAvion(matriculaAvion);
+            this.listaPasajeros = MiAerolinea.listaPasajeros.Where(Pasajeros => Pasajeros.CodigoVuelo == this.codigoVuelo).ToList();
             if (avionVuelo is not null)
             {
                 this.capacidadTotalBodega = avionVuelo.CapacidadBodega;
             }
-        }
 
-        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros, Aviones avion) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
-        {
-            this.listaPasajeros = listaPasajeros;
             double pesoTotal = 0;
             if (avionVuelo is not null)
             {
@@ -73,8 +70,13 @@ namespace Entidades.PPLabII
                 this.asientosPremium = (int)avionVuelo.CantidadAsientosPremium - asientosPremiumOcupados;
                 this.asientosNormales = asientosDisponiblesTotal - asientosPremium;
                 this.capacidadDisponibleBodega = capacidadDisponibleBodega - pesoTotal;
-                this.avionVuelo = avion;
             }
+        }
+
+        public Vuelos(DateTime fecha, string codigo, DestinosVuelos origen, DestinosVuelos destino, int horas, double precio, string matriculaAvion, List<Pasajeros> listaPasajeros, Aviones avion) : this(fecha, codigo, origen, destino, horas, precio, matriculaAvion)
+        {
+            this.listaPasajeros = listaPasajeros;
+            this.avionVuelo = avion;
         }
 
         public static Aviones BuscarAvion(string matricula)
@@ -87,6 +89,7 @@ namespace Entidades.PPLabII
                     if (avion.Matricula == matricula)
                     {
                         avionBuscado = avion;
+                        break;
                     }
                 }
             }

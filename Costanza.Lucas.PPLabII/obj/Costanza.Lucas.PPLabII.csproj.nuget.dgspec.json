@@ -49,9 +49,17 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "dependencies": {
+            "Aspose.PDF": {
+              "target": "Package",
+              "version": "[23.6.0, )"
+            },
             "Google.Cloud.Firestore": {
               "target": "Package",
               "version": "[3.3.0, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.3, )"
             }
           },
           "imports": [
@@ -118,6 +126,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Aspose.PDF": {
+              "target": "Package",
+              "version": "[23.6.0, )"
+            },
             "Google.Cloud.Firestore": {
               "target": "Package",
               "version": "[3.3.0, )"
@@ -125,6 +137,10 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.5, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.3, )"
             }
           },
           "imports": [

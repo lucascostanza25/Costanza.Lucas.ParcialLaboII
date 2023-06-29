@@ -16,14 +16,15 @@ namespace Costanza.Lucas.PPLabII
     {
         private bool solicitudCierre = false;
         private Firebase<Vuelos> firebaseVuelos;
-        private List<Panel> paneles;
+        protected List<Panel> paneles;
         TimeSpan tiempoRestante;
         Vuelos vueloMasCercano;
         Serializadora<ConfigAPP> jsonConfig;
-
         private string temaActual;
-        Color colorPrimario;
-        Color colorSecundario;
+
+        public delegate void FirebaseClientes();
+        public event FirebaseClientes ClientesCargados;
+
         public FrmVendedor()
         {
             InitializeComponent();
@@ -47,8 +48,7 @@ namespace Costanza.Lucas.PPLabII
                 $"Fecha: {fecha}";
             lblInformacionTrabajador.BackColor = Color.Transparent;
 
-            FrmAdministrador form = new FrmAdministrador();
-            form.Enviar += Recibir;
+            
 
         }
         #region Menu lateral
@@ -237,8 +237,6 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmMenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(MiAerolinea.listaVuelos is not null)
-                MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
             if (!solicitudCierre)
             {
                 DialogResult resultado = MessageBox.Show("¿Seguro que desea salir del programa?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -402,9 +400,10 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
-        private void FrmMenuPrincipal_Load(object sender, EventArgs e)
+        protected void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
-            timerVuelo.Start();
+            FrmAdministrador form = new FrmAdministrador();
+            form.Enviar += Recibir;
             ConfigAPP nuevaConfig = jsonConfig.Deserializar<ConfigAPP>("config.json");
             this.temaActual = nuevaConfig.Tema;
 
@@ -452,6 +451,8 @@ namespace Costanza.Lucas.PPLabII
                                 else
                                     MessageBox.Show("¡El vuelo de ida fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 break;
+
+
                             }
                         }
                         catch (Exception ex)
@@ -513,7 +514,24 @@ namespace Costanza.Lucas.PPLabII
 
         private async void btnCrearCliente_Click(object sender, EventArgs e)
         {
-            await GeneradorClientes.GenerarClientes();
+            Task<bool> respuesta = CargarClientes();
+            bool resultado = await respuesta;
+            if(resultado)
+            {
+                MessageBox.Show("Clientes cargados", "Clientes cargados", MessageBoxButtons.OK);
+            }
+        }
+
+        private async Task<bool> CargarClientes()
+        {
+            Firebase<Cliente> firebase = new Firebase<Cliente>();
+            MiAerolinea.listaClientes = await firebase.Traer("clientes");
+            if(MiAerolinea.listaClientes is not null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void btnEditarPasajero_Click(object sender, EventArgs e)
@@ -595,7 +613,7 @@ namespace Costanza.Lucas.PPLabII
         }
 
 
-        private void CambiarTema(Color primario, Color secundario, Color terciario, Color colorLabel)
+        protected void CambiarTema(Color primario, Color secundario, Color terciario, Color colorLabel)
         {
             foreach (Panel p in paneles)
             {
@@ -624,50 +642,46 @@ namespace Costanza.Lucas.PPLabII
                 }
             }
         }
-        private void rbTemaOscuro_CheckedChanged(object sender, EventArgs e)
+        protected void rbTemaOscuro_CheckedChanged(object sender, EventArgs e)
         {
             TemaOscuro();
         }
 
-        private void rbTemaClaro_CheckedChanged(object sender, EventArgs e)
+        protected void rbTemaClaro_CheckedChanged(object sender, EventArgs e)
         {
             TemaClaro();
         }
 
-        protected void Recibir(TimeSpan tiempo, Vuelos vuelo)
+        private void Recibir(TimeSpan tiempo, Vuelos vuelo)
         {
             tiempoRestante = tiempo;
             vueloMasCercano = vuelo;
 
-            if (MiAerolinea.listaVuelos.Count > 0)
-            {
-                timerVuelo.Start();
-            }
+            timerVuelo.Start();
         }
 
         private void timerVuelo_Tick(object sender, EventArgs e)
         {
-            if(MiAerolinea.listaVuelos.Count > 0)
-            { 
-                StringBuilder sb = new StringBuilder();
-                sb.Append($"El proximo vuelo {vueloMasCercano.CodigoVuelo}, con destino a {vueloMasCercano.Destino.ToString().Replace("_", " ")} sale en: ");
-                sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
-                lblTimerVuelo.Text = sb.ToString();
-            }
+            Vuelos vuelo = vueloMasCercano;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"El proximo vuelo {vuelo.CodigoVuelo}, con destino a {vuelo.Destino.ToString().Replace("_", " ")} sale en: ");
+            sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
+            lblTimerVuelo.Text = sb.ToString();
         }
 
-        private void rbTemaRojo_CheckedChanged(object sender, EventArgs e)
+        protected void rbTemaRojo_CheckedChanged(object sender, EventArgs e)
         {
             TemaRojo();
         }
 
-        private void rbTemaVerde_CheckedChanged(object sender, EventArgs e)
+        protected void rbTemaVerde_CheckedChanged(object sender, EventArgs e)
         {
             TemaVerde();
 
         }
 
-        private void TemaRojo()
+        protected void TemaRojo()
         {
             Color primario = Color.FromArgb(243, 139, 139);
             Color secundario = Color.FromArgb(194, 95, 95);
@@ -676,7 +690,7 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
-        private void TemaOscuro()
+        protected void TemaOscuro()
         {
             Color primario = Color.FromArgb(60, 60, 60);
             Color secundario = Color.FromArgb(84, 84, 84);
@@ -685,7 +699,7 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.White);
         }
 
-        private void TemaVerde()
+        protected void TemaVerde()
         {
             this.temaActual = "Verde";
             Color primario = Color.FromArgb(193, 231, 170);
@@ -694,7 +708,7 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
-        private void TemaClaro()
+        protected void TemaClaro()
         {
             this.temaActual = "Claro";
             Color primario = Color.FromArgb(239, 247, 255);

@@ -1276,7 +1276,7 @@
         protected Button btnVenderVueloLateral;
         private PictureBox pbFotoPerfil;
         private PictureBox pictureBox1;
-        public System.Windows.Forms.Timer timerVuelo;
         public Label lblTimerVuelo;
+        private System.Windows.Forms.Timer timerVuelo;
     }
 }

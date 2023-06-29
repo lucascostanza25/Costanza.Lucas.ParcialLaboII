@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Costanza.Lucas.PPLabII
 {
@@ -20,6 +21,8 @@ namespace Costanza.Lucas.PPLabII
         private bool solicitudCierre = false;
         Firebase<Aviones> firebaseAviones;
         Firebase<Vuelos> firebaseVuelos;
+        Sql<Vuelos> sqlVuelos;
+        Sql<Pasajeros> sqlPasajeros;
 
         TimeSpan tiempoRestante;
 
@@ -38,6 +41,8 @@ namespace Costanza.Lucas.PPLabII
             firebaseAviones = new Firebase<Aviones>();
             firebaseVuelos = new Firebase<Vuelos>();
             jsonConfig = new Serializadora<ConfigAPP>();
+            sqlVuelos = new Sql<Vuelos>();
+            sqlPasajeros = new Sql<Pasajeros>();
         }
         /// <summary>
         /// Constructor del form
@@ -263,11 +268,6 @@ namespace Costanza.Lucas.PPLabII
 
         private void FrmAdministrador_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MiAerolinea.listaAviones is not null && MiAerolinea.listaVuelos is not null)
-            {
-                MiAerolinea.SerializarAvionesJson(MiAerolinea.listaAviones);
-                MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
-            }
             if (!solicitudCierre)
             {
                 DialogResult resultado = MessageBox.Show("¿Seguro que desea salir del programa?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -377,7 +377,6 @@ namespace Costanza.Lucas.PPLabII
             sqlAviones.Eliminar(query, (comando) =>
             {
                 comando.Parameters.AddWithValue("@matricula", avionEliminar.Matricula);
-                comando.ExecuteNonQuery();
             });
         }
 
@@ -393,6 +392,7 @@ namespace Costanza.Lucas.PPLabII
             {
                 MessageBox.Show($"No se elminó el vuelo seleccionado", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            
         }
 
         private async Task<bool> ElimiarVuelo()
@@ -408,6 +408,10 @@ namespace Costanza.Lucas.PPLabII
                     {
                         MiAerolinea.listaVuelos.Remove(vuelo);
                         await firebaseVuelos.Eliminar("vuelos", vuelo.CodigoVuelo);
+                        sqlVuelos.Eliminar("DELETE FROM vuelos WHERE codigo = @codigo", (comando) =>
+                        {
+                            comando.Parameters.AddWithValue("@codigo", vuelo.CodigoVuelo);
+                        });
                     }
                     return true;
                 }
@@ -423,34 +427,18 @@ namespace Costanza.Lucas.PPLabII
             return false;
         }
 
-        private void btnSql_Click(object sender, EventArgs e)
+        private async void btnSql_Click(object sender, EventArgs e)
         {
             LimpiarDatos();
             Sql<Aviones> sqlAvion = new Sql<Aviones>();
-            Sql<Vuelos> sqlVuelos = new Sql<Vuelos>();
-            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
+            
+            
             List<Pasajeros> listaPasajerosVuelos = new List<Pasajeros>();
 
             try
             {
                 baseSeleccionada = "SQL Server";
                 lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
-                //MiAerolinea.listaPasajeros = sqlPasajeros.Leer("SELECT * FROM pasajeros", (reader) =>
-                //{
-                //    return new Pasajeros
-                //    {
-                //        Apellido = reader["apellido"].ToString(),
-                //        Nombre = reader["nombre"].ToString(),
-                //        Dni = Convert.ToInt32(reader["dni"]),
-                //        Edad = Convert.ToInt32(reader["edad"]),
-                //        Genero = reader["genero"].ToString(),
-                //        AsientoPremium = Convert.ToBoolean(reader["asiento_premium"]),
-                //        CodigoVuelo = reader["codigo_vuelo"].ToString(),
-                //        CantidadEquipaje = Convert.ToInt32(reader["cantidad_equipaje"]),
-                //        PesoEquipajeUno = Convert.ToDouble(reader["peso_uno"]),
-                //        PesoEquipajeDos = Convert.ToDouble(reader["peso_dos"])
-                //    };
-                //});
 
                 MiAerolinea.listaAviones = sqlAvion.Leer("SELECT * FROM aviones", (reader) =>
                 {
@@ -466,12 +454,46 @@ namespace Costanza.Lucas.PPLabII
                         CantidadAsientosPremium = Convert.ToInt32(reader["cantidad_asientos_premium"])
                     };
                 });
-                MiAerolinea.listaVuelos = VuelosDao.LeerVuelos();
+                LeerPasajeros();
+                LeerVuelos();
+
+                await MiAerolinea.BuscarVueloMasCercano();
+                timerVueloAdmin.Start();
+
             }
             catch (ExcepcionBaseDatos exB)
             {
                 MessageBox.Show(exB.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void LeerPasajeros()
+        {
+            MiAerolinea.listaPasajeros = sqlPasajeros.Leer("SELECT * FROM pasajeros", (reader) =>
+            {
+                return new Pasajeros
+                {
+                    Apellido = reader["apellido"].ToString(),
+                    Nombre = reader["nombre"].ToString(),
+                    Dni = Convert.ToInt32(reader["dni"]),
+                    Edad = Convert.ToInt32(reader["edad"]),
+                    Genero = reader["genero"].ToString(),
+                    AsientoPremium = Convert.ToBoolean(reader["asiento_premium"]),
+                    CodigoVuelo = reader["codigo_vuelo"].ToString(),
+                    CantidadEquipaje = Convert.ToInt32(reader["cantidad_equipaje"]),
+                    PesoEquipajeUno = Convert.ToDouble(reader["peso_uno"]),
+                    PesoEquipajeDos = Convert.ToDouble(reader["peso_dos"])
+                };
+            });
+        }
+
+        private void LeerVuelos()
+        {
+            MiAerolinea.listaVuelos = sqlVuelos.Leer("SELECT * FROM vuelos", (reader) =>
+            {
+                return new Vuelos(Convert.ToDateTime(reader["fecha"]), reader["codigo"].ToString(), (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), reader["origen"].ToString()),
+                    (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), reader["destino"].ToString()), Convert.ToInt32(reader["horas"]), Convert.ToDouble(reader["precio"]), reader["matricula_avion"].ToString());
+            });
         }
 
         private void btnBaseDatos_Click(object sender, EventArgs e)
@@ -490,6 +512,7 @@ namespace Costanza.Lucas.PPLabII
                 MiAerolinea.listaPasajeros.Clear();
                 MiAerolinea.listaVuelos.Clear();
             }
+            timerVueloAdmin.Stop();
         }
 
         private async void btnFirebase_Click(object sender, EventArgs e)
@@ -503,16 +526,7 @@ namespace Costanza.Lucas.PPLabII
                 MiAerolinea.listaAviones = await firebaseAviones.Traer("aviones");
                 Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
                 MiAerolinea.listaVuelos = await firebaseVuelos.Traer("vuelos");
-            
-                //foreach(Aviones a in MiAerolinea.listaAviones)
-                //{
-                //    a.ActualizarAviones(a);
-                //}
-
-                //foreach(Vuelos v in MiAerolinea.listaVuelos)
-                //{
-                //    v.ActualizarDatosVuelo(v);
-                //}
+                await MiAerolinea.BuscarVueloMasCercano();
                 timerVueloAdmin.Start();
             }
             catch(ExcepcionBaseDatos exB)
@@ -527,26 +541,15 @@ namespace Costanza.Lucas.PPLabII
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// Timer que setea el tiempo del vuelo mas cercano
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void timer1_Tick(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
-            List<Vuelos> lista = new List<Vuelos>();
-            if (MiAerolinea.listaVuelos is not null)
-            {
-                lista = MiAerolinea.listaVuelos;
-            }
-            Vuelos vuelo = lista[0];
-            foreach(Vuelos v in lista)
-            {
-                if (v.FechaVuelo > DateTime.Now)
-                {
-                    if (v.FechaVuelo < vuelo.FechaVuelo)
-                    {
-                        vuelo = v;
-                    }
-
-                }
-            }
+            Vuelos vuelo = await MiAerolinea.BuscarVueloMasCercano();
             tiempoRestante = vuelo.FechaVuelo - DateTime.Now;
             sb.Append($"El proximo vuelo {vuelo.CodigoVuelo}, con destino a {vuelo.Destino.ToString().Replace("_", " ")} sale en: ");
             sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
@@ -560,6 +563,9 @@ namespace Costanza.Lucas.PPLabII
             MostrarMenu(panelTema);
         }
 
+        /// <summary>
+        /// Metodo tema rojo
+        /// </summary>
         private void TemaRojo()
         {
             Color primario = Color.FromArgb(243, 139, 139);
@@ -569,6 +575,9 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
+        /// <summary>
+        /// Metodo tema oscuro
+        /// </summary>
         private void TemaOscuro()
         {
             Color primario = Color.FromArgb(60, 60, 60);
@@ -578,6 +587,9 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.White);
         }
 
+        /// <summary>
+        /// Metodo tema verde
+        /// </summary>
         private void TemaVerde()
         {
             this.temaActual = "Verde";
@@ -587,6 +599,9 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
+        /// <summary>
+        /// Metodo tema claro
+        /// </summary>
         private void TemaClaro()
         {
             this.temaActual = "Claro";
@@ -596,6 +611,13 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
+        /// <summary>
+        /// Metodo que cambia de color el tema de la aplicación
+        /// </summary>
+        /// <param name="primario"></param>
+        /// <param name="secundario"></param>
+        /// <param name="terciario"></param>
+        /// <param name="colorLabel"></param>
         private void CambiarTema(Color primario, Color secundario, Color terciario, Color colorLabel)
         {
             List<Panel> paneles = new List<Panel> { panelTema, panelMenuVuelos };
@@ -641,6 +663,22 @@ namespace Costanza.Lucas.PPLabII
         private void rbTemaVerde_CheckedChanged(object sender, EventArgs e)
         {
             TemaVerde();
+        }
+
+        private async void btnCopiaSeguridadVuelos_Click(object sender, EventArgs e)
+        {
+            Task taskSerializadora = Task.Run(() =>
+            {
+                if(MiAerolinea.listaVuelos is not null)
+                    MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos, "copiaSeguridadVuelo.xml");
+            });
+
+            await taskSerializadora;
+        }
+
+        private void gbAdministrarVuelos_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

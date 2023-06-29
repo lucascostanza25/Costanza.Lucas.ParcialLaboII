@@ -2,12 +2,14 @@ using Entidades.PPLabII;
 using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using Google.Cloud.Firestore.V1;
+using System.Windows.Forms;
 
 namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmInicioSesion : Form
     {
-
+        private string temaActual;
+        Serializadora<ConfigAPP> jsonConfig;
         public FrmInicioSesion()
         {
             InitializeComponent();
@@ -19,6 +21,7 @@ namespace Costanza.Lucas.PPLabII
 
             Serializadora<Usuarios> serializadora = new Serializadora<Usuarios>();
             MiAerolinea.listaUsuarios = serializadora.Deserializar<List<Usuarios>>("usuarios.json");
+            jsonConfig = new Serializadora<ConfigAPP>();
         }
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
@@ -111,6 +114,29 @@ namespace Costanza.Lucas.PPLabII
                 Application.Exit();
         }
 
-        
+        private void FrmInicioSesion_Load(object sender, EventArgs e)
+        {
+            ConfigAPP config = jsonConfig.Deserializar<ConfigAPP>("config.json");
+            this.temaActual = config.Tema;
+
+            switch (this.temaActual)
+            {
+                case "Oscuro":
+                    this.panelMenu.BackColor = Color.FromArgb(84, 84, 84);
+                    break;
+
+                case "Claro":
+                    this.panelMenu.BackColor = Color.SteelBlue;
+                    break;
+
+                case "Verde":
+                    this.panelMenu.BackColor = Color.FromArgb(109, 143, 88);
+                    break;
+
+                case "Rojo":
+                    this.panelMenu.BackColor = Color.FromArgb(194, 95, 95);
+                    break;
+            }
+        }
     }
 }

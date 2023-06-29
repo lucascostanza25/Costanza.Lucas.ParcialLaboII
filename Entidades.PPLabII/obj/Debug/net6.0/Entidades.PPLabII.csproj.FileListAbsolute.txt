@@ -10,6 +10,9 @@ D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Entidades.PPLabII\obj\De
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Entidades.PPLabII\obj\Debug\net6.0\refint\Entidades.PPLabII.dll
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Entidades.PPLabII\obj\Debug\net6.0\Entidades.PPLabII.pdb
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.PPLabII\Entidades.PPLabII\obj\Debug\net6.0\ref\Entidades.PPLabII.dll
+D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\bin\Debug\net6.0\Entidades.PPLabII.deps.json
+D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\bin\Debug\net6.0\Entidades.PPLabII.dll
+D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\bin\Debug\net6.0\Entidades.PPLabII.pdb
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\Entidades.PPLabII.csproj.AssemblyReference.cache
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\Entidades.PPLabII.GeneratedMSBuildEditorConfig.editorconfig
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\Entidades.PPLabII.AssemblyInfoInputs.cache
@@ -18,7 +21,4 @@ D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\Entidades.PPLabII.dll
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\refint\Entidades.PPLabII.dll
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\Entidades.PPLabII.pdb
-D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\bin\Debug\net6.0\Entidades.PPLabII.deps.json
-D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\bin\Debug\net6.0\Entidades.PPLabII.dll
-D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\bin\Debug\net6.0\Entidades.PPLabII.pdb
 D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Entidades.PPLabII\obj\Debug\net6.0\ref\Entidades.PPLabII.dll

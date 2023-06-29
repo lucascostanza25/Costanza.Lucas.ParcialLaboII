@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Base_de_datos;
 using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
@@ -17,6 +18,7 @@ namespace Costanza.Lucas.PPLabII
     {
         Vuelos vuelo = new Vuelos();
         Firebase<Vuelos> firebaseVuelo = new Firebase<Vuelos>();
+        Sql<Vuelos> sqlVuelos = new Sql<Vuelos>();
         public FrmCrearModificarVuelo()
         {
             InitializeComponent();
@@ -150,8 +152,7 @@ namespace Costanza.Lucas.PPLabII
 
             try
             {
-                string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
-                //Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
+                string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString(); 
 
                 DestinosVuelos origen, destino;
                 double precio = Convert.ToDouble(nudPrecio.Value);
@@ -179,6 +180,17 @@ namespace Costanza.Lucas.PPLabII
                                     Vuelos vueloNuevo = new Vuelos(dtpFecha.Value, txtCodigo.Text, origen, destino, (int)nudHoras.Value, precio, matricula);
                                     MiAerolinea.listaVuelos.Add(vueloNuevo);
                                     await firebaseVuelo.Agregar(vueloNuevo, "vuelos", vueloNuevo.CodigoVuelo);
+                                    sqlVuelos.Guardar("INSERT INTO vuelos (fecha, codigo, origen, destino, horas, precio, matricula_avion) VALUES (@fecha, @codigo, @origen, @destino, @horas, @precio, @matricula_avion)", vueloNuevo,
+                                       (comando) =>
+                                       {
+                                           comando.Parameters.AddWithValue("@fecha", vueloNuevo.FechaVuelo);
+                                           comando.Parameters.AddWithValue("@codigo", vueloNuevo.CodigoVuelo);
+                                           comando.Parameters.AddWithValue("@origen", origen);
+                                           comando.Parameters.AddWithValue("@destino", destino);
+                                           comando.Parameters.AddWithValue("@horas", vueloNuevo.HorasVuelo);
+                                           comando.Parameters.AddWithValue("@precio", vueloNuevo.PrecioVuelo);
+                                           comando.Parameters.AddWithValue("@matricula_avion", vueloNuevo.AvionVuelo.Matricula);
+                                       });
                                     estado = true;
 
                                 }
@@ -236,6 +248,7 @@ namespace Costanza.Lucas.PPLabII
         private async Task<bool> ModificarVuelo(Vuelos vueloModificar)
         {
             bool estado = false;
+            
 
             try
             {
@@ -257,9 +270,20 @@ namespace Costanza.Lucas.PPLabII
                             vueloModificar.CodigoVuelo = txtCodigo.Text;
                             vueloModificar.PrecioVuelo = precio * (double)nudHoras.Value;
                             vueloModificar.AvionVuelo = vueloAvion;
+                            vueloModificar.FechaVuelo = DateTime.SpecifyKind(dtpFecha.Value, DateTimeKind.Utc);
                             estado = true;
                             await firebaseVuelo.Actualizar(vueloModificar, "vuelos", vueloModificar.CodigoVuelo);
-                            VuelosDao.ActualizarVuelo(vueloModificar);                        }
+                            sqlVuelos.Actualizar("UPDATE vuelos SET fecha = @fecha, origen = @origen, destino = @destino, horas = @horas, precio = @precio, matricula_avion =  @matricula_avion WHERE codigo = @codigo", (comando) =>
+                            {
+                                comando.Parameters.AddWithValue("@fecha", vueloModificar.FechaVuelo);
+                                comando.Parameters.AddWithValue("@codigo", vueloModificar.CodigoVuelo);
+                                comando.Parameters.AddWithValue("@origen", origen);
+                                comando.Parameters.AddWithValue("@destino", destino);
+                                comando.Parameters.AddWithValue("@horas", vueloModificar.HorasVuelo);
+                                comando.Parameters.AddWithValue("@precio", vueloModificar.PrecioVuelo);
+                                comando.Parameters.AddWithValue("@matricula_avion", vueloModificar.AvionVuelo.Matricula);
+                            });
+                        }
                     }
                 }
             }
@@ -269,6 +293,11 @@ namespace Costanza.Lucas.PPLabII
             }
 
             return estado;
+        }
+
+        private void ActuralizarVueloSql(Vuelos vueloActualizado)
+        {
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

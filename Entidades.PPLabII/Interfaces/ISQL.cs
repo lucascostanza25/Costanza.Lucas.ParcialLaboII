@@ -16,6 +16,6 @@ namespace Entidades.PPLabII.Interfaces
 
         void Eliminar(string query, Action<SqlCommand> datosObjeto);
 
-        void Editar(string query, Action<SqlCommand> datosObjeto);
+        void Actualizar(string query, Action<SqlCommand> datosObjeto);
     }
 }

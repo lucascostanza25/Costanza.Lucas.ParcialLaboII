@@ -158,7 +158,6 @@ namespace Costanza.Lucas.PPLabII
                 comando.Parameters.AddWithValue("@cantidad_asientos", avionNuevo.CantidadAsientos);
                 comando.Parameters.AddWithValue("@cantidad_asientos_premium", avionNuevo.CantidadAsientosPremium);
                 comando.Parameters.AddWithValue("@cantidad_asientos_normales", avionNuevo.CantidadAsientosNormales);
-                comando.ExecuteNonQuery();
             });
         }
 
@@ -258,7 +257,7 @@ namespace Costanza.Lucas.PPLabII
         private void EditarAvion(string query, Aviones avionEditar)
         {
             Sql<Aviones> sqlAviones = new Sql<Aviones>();
-            sqlAviones.Editar(query, (comando) =>
+            sqlAviones.Actualizar(query, (comando) =>
             {
                 comando.Parameters.AddWithValue("@servicio_comida", Convert.ToByte(avionEditar.ServicioComida));
                 comando.Parameters.AddWithValue("@servicio_internet", Convert.ToByte(avionEditar.ServicioInternet));

@@ -52,6 +52,7 @@
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.lblTimerVuelo = new System.Windows.Forms.Label();
             this.gbAdministrarVuelos = new System.Windows.Forms.GroupBox();
+            this.btnCopiaSeguridadVuelos = new System.Windows.Forms.Button();
             this.lblInformacionVuelo = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCrearVuelo = new System.Windows.Forms.Button();
@@ -368,6 +369,7 @@
             // gbAdministrarVuelos
             // 
             this.gbAdministrarVuelos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(255)))));
+            this.gbAdministrarVuelos.Controls.Add(this.btnCopiaSeguridadVuelos);
             this.gbAdministrarVuelos.Controls.Add(this.lblInformacionVuelo);
             this.gbAdministrarVuelos.Controls.Add(this.label1);
             this.gbAdministrarVuelos.Controls.Add(this.btnCrearVuelo);
@@ -381,6 +383,20 @@
             this.gbAdministrarVuelos.TabIndex = 22;
             this.gbAdministrarVuelos.TabStop = false;
             this.gbAdministrarVuelos.Visible = false;
+            this.gbAdministrarVuelos.Enter += new System.EventHandler(this.gbAdministrarVuelos_Enter);
+            // 
+            // btnCopiaSeguridadVuelos
+            // 
+            this.btnCopiaSeguridadVuelos.BackColor = System.Drawing.Color.Bisque;
+            this.btnCopiaSeguridadVuelos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCopiaSeguridadVuelos.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnCopiaSeguridadVuelos.Location = new System.Drawing.Point(901, 483);
+            this.btnCopiaSeguridadVuelos.Name = "btnCopiaSeguridadVuelos";
+            this.btnCopiaSeguridadVuelos.Size = new System.Drawing.Size(417, 37);
+            this.btnCopiaSeguridadVuelos.TabIndex = 34;
+            this.btnCopiaSeguridadVuelos.Text = "Crear copia de seguridad";
+            this.btnCopiaSeguridadVuelos.UseVisualStyleBackColor = false;
+            this.btnCopiaSeguridadVuelos.Click += new System.EventHandler(this.btnCopiaSeguridadVuelos_Click);
             // 
             // lblInformacionVuelo
             // 
@@ -757,5 +773,6 @@
         private Button btnTema;
         private PictureBox pictureBox1;
         public System.Windows.Forms.Timer timerVueloAdmin;
+        private Button btnCopiaSeguridadVuelos;
     }
 }

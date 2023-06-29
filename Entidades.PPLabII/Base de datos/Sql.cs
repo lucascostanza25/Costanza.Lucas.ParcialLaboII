@@ -50,6 +50,7 @@ namespace Entidades.PPLabII.Base_de_datos
 
             return listaObjeto;
         }
+
         public void Guardar(string query, T objeto, Action<SqlCommand> datosObjeto)
         {
             try
@@ -57,6 +58,7 @@ namespace Entidades.PPLabII.Base_de_datos
                 conexion.Open();
                 comando.CommandText = query;
                 datosObjeto(comando);
+                comando.ExecuteNonQuery();
             }
             finally
             {
@@ -71,6 +73,7 @@ namespace Entidades.PPLabII.Base_de_datos
                 conexion.Open();
                 comando.CommandText = query;
                 datosObjeto(comando);
+                comando.ExecuteNonQuery();
             }
             finally
             {
@@ -78,13 +81,14 @@ namespace Entidades.PPLabII.Base_de_datos
             }
         }
 
-        public void Editar(string query, Action<SqlCommand> datosObjeto)
+        public void Actualizar(string query, Action<SqlCommand> datosObjeto)
         {
             try
             {
                 conexion.Open();
                 comando.CommandText = query;
                 datosObjeto(comando);
+                comando.ExecuteNonQuery();  
             }
             finally
             {

@@ -1,5 +1,7 @@
-﻿using Entidades.PPLabII.Entidades_DAO;
+﻿using Entidades.PPLabII.Base_de_datos;
+using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
+using Org.BouncyCastle.Asn1.Crmf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -185,11 +187,11 @@ namespace Entidades.PPLabII
         /// Metodo que serializa los vuelos en archivo xml
         /// </summary>
         /// <param name="listaVuelos">lista de los vuelos</param>
-        public static void SerializarVuelosXml(List<Vuelos> listaVuelos)
+        public static void SerializarVuelosXml(List<Vuelos> listaVuelos, string path)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Vuelos>));
 
-            using (StreamWriter streamWriter = new StreamWriter("vuelos.xml"))
+            using (StreamWriter streamWriter = new StreamWriter(path))
             {
                 serializer.Serialize(streamWriter, listaVuelos);
             }
@@ -342,6 +344,7 @@ namespace Entidades.PPLabII
         public static async Task<bool> VenderVuelo(Vuelos vuelo, Cliente miCliente)
         {
             Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
+            Firebase<Cliente> firebaseCliente = new Firebase<Cliente>();
             bool estadoVenta = false;
             double precioDelPasaje;
             if (miCliente.AsientoPremium)
@@ -376,7 +379,8 @@ namespace Entidades.PPLabII
                     vuelo.CapacidadDisponibleBodega = vuelo.CapacidadDisponibleBodega - (miCliente.PesoEquipajeUno + miCliente.PesoEquipajeDos);
                     estadoVenta = true;
                     await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
-                    PasajerosDao.GuardarPasajeros(pasajeroNuevo);
+                    GuardarPasajero(pasajeroNuevo);
+                    await firebaseCliente.Eliminar("clientes", miCliente.Dni.ToString());
                 }
                 else
                 {
@@ -386,32 +390,26 @@ namespace Entidades.PPLabII
 
             return estadoVenta;
         }
-        /// <summary>
-        /// Metodo que despacha el equipaje de todos los pasajeros
-        /// </summary>
-        public static void DespacharEquipajeDePasajerosHechos(List<Pasajeros> lista)
-        {
-            Random equipaje = new Random();
-            double pesoTotal = 0;
-            foreach (Pasajeros miPasajero in lista)
-            {
-                if (miPasajero.AsientoPremium)
-                {
-                    miPasajero.PesoEquipajeUno = equipaje.Next(0, 21);
-                    miPasajero.PesoEquipajeDos = equipaje.Next(0, 21);
-                    miPasajero.CantidadEquipaje = 2;
-                    pesoTotal += miPasajero.PesoEquipajeUno + miPasajero.PesoEquipajeDos;
-                    //miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
-                }
-                else
-                {
-                    miPasajero.PesoEquipajeUno = equipaje.Next(0, 25);
-                    miPasajero.CantidadEquipaje = 1;
-                    pesoTotal += miPasajero.PesoEquipajeUno;
-                    //miVuelo.CapacidadDisponibleBodega = miVuelo.AvionVuelo.CapacidadBodega - pesoTotal;
-                }
-            }
 
+        private static void GuardarPasajero(Pasajeros pasajeroNuevo)
+        {
+            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
+            sqlPasajeros.Guardar("INSERT INTO pasajeros VALUES (@nombre, @apellido, @dni, @genero, @asiento_premium, @cantidad_equipaje, @peso_uno, @peso_dos, @codigo_vuelo, @edad)", pasajeroNuevo, (comando) =>
+            {
+                comando.Parameters.AddWithValue("@nombre", pasajeroNuevo.Nombre);
+                comando.Parameters.AddWithValue("@apellido", pasajeroNuevo.Apellido);
+                comando.Parameters.AddWithValue("@dni", pasajeroNuevo.Dni);
+                comando.Parameters.AddWithValue("@genero", pasajeroNuevo.Genero);
+                if (pasajeroNuevo.AsientoPremium)
+                    comando.Parameters.AddWithValue("@asiento_premium", 1);
+                else
+                    comando.Parameters.AddWithValue("@asiento_premium", 0);
+                comando.Parameters.AddWithValue("@cantidad_equipaje", (int)pasajeroNuevo.CantidadEquipaje);
+                comando.Parameters.AddWithValue("@peso_uno", (float)pasajeroNuevo.PesoEquipajeUno);
+                comando.Parameters.AddWithValue("@peso_dos", (float)pasajeroNuevo.PesoEquipajeDos);
+                comando.Parameters.AddWithValue("@codigo_vuelo", pasajeroNuevo.CodigoVuelo);
+                comando.Parameters.AddWithValue("@edad", pasajeroNuevo.Edad);
+            });
         }
         /// <summary>
         /// Metodo que genera las estadisticas del vuelo con mas pasajeros
@@ -551,6 +549,35 @@ namespace Entidades.PPLabII
             }
 
             return avionBuscado;
+        }
+
+        public static async Task<Vuelos> BuscarVueloMasCercano()
+        {
+            List<Vuelos> lista = new List<Vuelos>();
+            if (listaVuelos is not null)
+            {
+                lista = listaVuelos;
+            }
+            Vuelos vuelo = lista[0];
+            Task taskVuelo = Task.Run(() =>
+            {
+                foreach (Vuelos v in lista)
+                {
+                    if (v.FechaVuelo > DateTime.Now)
+                    {
+                        if (v.FechaVuelo < vuelo.FechaVuelo)
+                        {
+                            vuelo = v;
+                        }
+
+                    }
+                }
+                return vuelo;
+
+            });
+
+            await taskVuelo;
+            return vuelo;
         }
     }
 }

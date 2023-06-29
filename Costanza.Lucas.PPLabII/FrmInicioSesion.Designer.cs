@@ -182,6 +182,7 @@
             this.Name = "FrmInicioSesion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bienvenido";
+            this.Load += new System.EventHandler(this.FrmInicioSesion_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbFotoAvion)).EndInit();
             this.panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();

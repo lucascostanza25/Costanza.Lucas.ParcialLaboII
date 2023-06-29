@@ -53,3 +53,7 @@ Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo n
 Excepción interna: 
 Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 95
 ----------------------------------------
+Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+Excepción interna: 
+Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 98
+----------------------------------------

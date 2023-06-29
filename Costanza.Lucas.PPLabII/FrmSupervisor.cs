@@ -1,19 +1,16 @@
-﻿using Entidades.PPLabII;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using Aspose.Pdf;
+using Entidades.PPLabII;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Costanza.Lucas.PPLabII
 {
     public partial class Supervisor : FrmVendedor
     {
         Vuelos vuelo;
+        private string temaActual;
+        Serializadora<ConfigAPP> jsonConfig;
+        TimeSpan tiempoRestante;
+        Vuelos vueloMasCercano;
         public Supervisor(string nombre, string apellido, string fecha, string cargo)
         {
             InitializeComponent();
@@ -24,8 +21,6 @@ namespace Costanza.Lucas.PPLabII
             lblInformacionTrabajador.Text = $"¡Bienvenido {cargo}!\n" +
                 $"¡{nombre} {apellido}!\n" +
                 $"Fecha: {fecha}";
-            FrmAdministrador form = new FrmAdministrador();
-            form.Enviar += Recibir;
         }
 
         private void btnAgregarPasajero_Click(object sender, EventArgs e)
@@ -33,16 +28,37 @@ namespace Costanza.Lucas.PPLabII
 
             FrmCrearModificarPersonas formAgregarPasajero = new FrmCrearModificarPersonas("Crear pasajero SUPERVISOR", 0, vuelo);
             formAgregarPasajero.ShowDialog();
-            if(MiAerolinea.listaVuelos is not null)
+            if (MiAerolinea.listaVuelos is not null)
                 CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
             dgvPasajeros.Rows.Clear();
-            
+
         }
 
         private void Supervisor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(MiAerolinea.listaVuelos is not null)
-                MiAerolinea.SerializarVuelosXml(MiAerolinea.listaVuelos);
+        }
+
+        private void pbGuardarPdf_Click(object sender, EventArgs e)
+        {
+            List<string> lista = new List<string>();
+            lista.Add(MiAerolinea.EstadisticaVueloMasPasajeros());
+            lista.Add(MiAerolinea.EstadisticaRecaudacionTotalVuelos());
+            lista.Add(MiAerolinea.EstadisticaVueloMasRecaudo());
+            lista.Add(MiAerolinea.EstadisticaRecaudacionTodosLosVuelo());
+            GuardarPdf(lista);
+        }
+
+        private void GuardarPdf(List<string> lineas)
+        {
+            Document documento = new Document();
+            Page pagina = documento.Pages.Add();
+
+            foreach(string texto in lineas)
+            {
+                pagina.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(texto));
+            }
+
+            documento.Save("estadisticas.pdf");
         }
     }
 }
