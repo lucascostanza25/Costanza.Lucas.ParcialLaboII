@@ -215,3 +215,6 @@
 29/6/2023 22:56:44 -> INICIO SESION: Michael Jordan - administrador
 29/6/2023 22:57:09 -> INICIO SESION: Corey Gorgen - vendedor
 29/6/2023 23:02:57 -> INICIO SESION: Michael Jordan - administrador
+30/6/2023 00:03:42 -> INICIO SESION: Michael Jordan - administrador
+30/6/2023 00:05:30 -> INICIO SESION: Corey Gorgen - vendedor
+30/6/2023 00:07:47 -> INICIO SESION: Michael Jordan - administrador

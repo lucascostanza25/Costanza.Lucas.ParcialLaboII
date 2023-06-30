@@ -326,14 +326,6 @@ namespace Costanza.Lucas.PPLabII
                     {
                         listaFiltradaIda = MiAerolinea.FiltrarVuelos(origen, destino, dtpFechaIda.Value.Date, servicio);
                         CrearDataGridViewVuelos(dgvVenderVuelosIda, listaFiltradaIda);
-                        if (!cbSoloIda.Checked)
-                        {
-                            listaFiltradaVuelta = MiAerolinea.FiltrarVuelos(destino, origen, dtpFechaVuelta.Value.Date, servicio);
-                            if (listaFiltradaVuelta.Count == 0)
-                                throw new Exception("No se encontraron vuelos de vuelta");
-                            else
-                                CrearDataGridViewVuelos(dgvVenderVuelosVuelta, listaFiltradaVuelta);
-                        }
                     }
                 }
 
@@ -378,26 +370,6 @@ namespace Costanza.Lucas.PPLabII
             CargarDestinos(2);
         }
 
-        private void cbSoloIda_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbSoloIda.Checked)
-            {
-                dtpFechaVuelta.Enabled = false;
-                dgvVenderVuelosVuelta.Hide();
-                dgvVenderVuelosVuelta.Enabled = false;
-                lblViajeVuelta.Enabled = false;
-                lblInformacionVueloVuelta.Enabled = false;
-            }
-            else
-            {
-                dtpFechaVuelta.Enabled = true;
-                dgvVenderVuelosVuelta.Show();
-                dgvVenderVuelosVuelta.Enabled = true;
-                lblViajeVuelta.Enabled = true;
-                lblInformacionVueloVuelta.Enabled = true;
-            }
-        }
-
         protected void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
             FrmAdministrador form = new FrmAdministrador();
@@ -440,17 +412,7 @@ namespace Costanza.Lucas.PPLabII
                             bool respuesta = await resultado;
                             if (respuesta)
                             {
-                                if (lblViajeVuelta.Enabled)
-                                {
-                                    Vuelos vueloAVenderVuelta = BuscarVuelo(BuscarCodigoDgv(dgvVenderVuelosVuelta));
-                                    await MiAerolinea.VenderVuelo(vueloAVenderVuelta, cliente);
-                                    MessageBox.Show("¡El vuelo de ida y vuelta fueron vendidos exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
-                                else
-                                    MessageBox.Show("¡El vuelo de ida fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                break;
-
-
+                                    MessageBox.Show("¡El vuelo fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
                         catch (Exception ex)
@@ -467,7 +429,6 @@ namespace Costanza.Lucas.PPLabII
             }
             lblInformacionCliente.Text = "Llame a un cliente";
             dgvVenderVuelosIda.Rows.Clear();
-            dgvVenderVuelosVuelta.Rows.Clear();
         }
 
         private void dgvVenderVuelosIda_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -486,11 +447,6 @@ namespace Costanza.Lucas.PPLabII
             return dgv.SelectedRows[0].Cells["codigo"].Value.ToString();
         }
 
-        private void dgvVenderVuelosVuelta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            Vuelos vueloVuelta = BuscarVuelo(BuscarCodigoDgv(dgvVenderVuelosVuelta));
-            lblInformacionVueloVuelta.Text = MiAerolinea.RetornarDatosVuelo(vueloVuelta);
-        }
 
         private void btnLlamarCliente_Click(object sender, EventArgs e)
         {
@@ -572,6 +528,7 @@ namespace Costanza.Lucas.PPLabII
         {
             Task<bool> respuesta = EliminarPasajero();
             bool resultado = await respuesta;
+            txtDniPasajero.Text = "";
         }
 
         private async Task<bool> EliminarPasajero()
