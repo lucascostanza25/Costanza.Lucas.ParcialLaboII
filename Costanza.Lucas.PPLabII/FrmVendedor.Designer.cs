@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVendedor));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelMenuEstadisticas = new System.Windows.Forms.Panel();
             this.btnVerEstadisticas = new System.Windows.Forms.Button();
@@ -472,7 +472,7 @@
             this.btnCrearCliente.Name = "btnCrearCliente";
             this.btnCrearCliente.Size = new System.Drawing.Size(120, 37);
             this.btnCrearCliente.TabIndex = 64;
-            this.btnCrearCliente.Text = "Crear cliente";
+            this.btnCrearCliente.Text = "Llamar clientes";
             this.btnCrearCliente.UseVisualStyleBackColor = true;
             this.btnCrearCliente.Click += new System.EventHandler(this.btnCrearCliente_Click);
             // 
@@ -896,9 +896,9 @@
             // 
             this.dgvPasajeros.AllowUserToResizeColumns = false;
             this.dgvPasajeros.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Gadugi", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.dgvPasajeros.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Gadugi", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.dgvPasajeros.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvPasajeros.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPasajeros.Location = new System.Drawing.Point(26, 322);
             this.dgvPasajeros.Name = "dgvPasajeros";

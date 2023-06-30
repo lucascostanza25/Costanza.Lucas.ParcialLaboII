@@ -13,8 +13,8 @@ namespace Entidades.PPLabII
     [FirestoreData]
     public abstract class Persona
     {
-        private string nombre;
-        private string apellido;
+        private string? nombre;
+        private string? apellido;
 
         public Persona()
         {
@@ -22,7 +22,7 @@ namespace Entidades.PPLabII
             apellido = "";
         }
 
-        public Persona(string apellido, string nombre)
+        public Persona(string? apellido, string? nombre)
         {
             this.nombre = nombre;
             this.apellido = apellido;
@@ -33,7 +33,7 @@ namespace Entidades.PPLabII
         [XmlElement("apellido")]
         [JsonPropertyName("apellido")]
         [FirestoreProperty]
-        public string Apellido
+        public string? Apellido
         {
             get { return this.apellido; }
             set { this.apellido = value; }
@@ -41,7 +41,7 @@ namespace Entidades.PPLabII
         [XmlElement("nombre")]
         [JsonPropertyName("nombre")]
         [FirestoreProperty]
-        public string Nombre
+        public string? Nombre
         {
             get { return this.nombre; }
             set { this.nombre = value; }

@@ -1,6 +1,6 @@
-﻿using Entidades.PPLabII;
+﻿using Aspose.Pdf.Operators;
+using Entidades.PPLabII;
 using Entidades.PPLabII.Base_de_datos;
-using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Costanza.Lucas.PPLabII
         public FrmCrearModificarVuelo()
         {
             InitializeComponent();
-            CrearDataGridViewVuelos(MiAerolinea.listaAviones);
+            CrearDataGridViewAviones(MiAerolinea.listaAviones);
             dtpFecha.CustomFormat = "yyyy/MM/dd HH:mm";
             btnAceptar.Text = "Crear vuelo";
         }
@@ -35,7 +35,11 @@ namespace Costanza.Lucas.PPLabII
             vuelo = vueloModificar;
         }
 
-        protected void CrearDataGridViewVuelos(List<Aviones> listaAviones)
+        /// <summary>
+        /// Metodo que crea un data grid view de los vuelos
+        /// </summary>
+        /// <param name="listaAviones"></param>
+        protected void CrearDataGridViewAviones(List<Aviones> listaAviones)
         {
             dgvAviones.Rows.Clear();
             dgvAviones.Columns.Clear();
@@ -101,6 +105,10 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
+        /// <summary>
+        /// Metodo que carga los destinos en los combo box
+        /// </summary>
+        /// <param name="tipoVuelo">Entero que hace referencia al tipo de vuelo, 1 nacionales, 2 internacionales</param>
         private void CargarDestinos(int tipoVuelo)
         {
             cmbDestino.Items.Clear();
@@ -138,9 +146,16 @@ namespace Costanza.Lucas.PPLabII
 
         private void dgvAviones_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
-            Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
-            lblAvion.Text = $"Avion seleccionado: {vueloAvion.ModeloAvion} - {vueloAvion.Matricula}";
+            try
+            {
+                    string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
+                    Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
+                    lblAvion.Text = $"Avion seleccionado: {vueloAvion.ModeloAvion} - {vueloAvion.Matricula}";
+            }
+            catch(System.ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Seleccione correctamente un avión");
+            }
         }
         /// <summary>
         /// Metodo que crea un vuelo con los datos deseados
@@ -242,62 +257,76 @@ namespace Costanza.Lucas.PPLabII
             catch(MiExcepcion ex)
             {
                 ex.GuardarMiExcepcion();
+
             }
         }
 
+        private void Recibir(string mensaje, DateTime timpo)
+        {
+            
+        }
+
+        /// <summary>
+        /// Metodo que modifica un vuelo existente
+        /// </summary>
+        /// <param name="vueloModificar">Vuelo a modificar</param>
+        /// <returns>Retorna true si se pudo realizar la tarea</returns>
         private async Task<bool> ModificarVuelo(Vuelos vueloModificar)
         {
             bool estado = false;
-            
+
 
             try
             {
-                string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
-                Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
-
-                DestinosVuelos origen, destino;
-                double precio = Convert.ToDouble(nudPrecio.Value);
-
-                if (Enum.TryParse(cmbOrigen.Text.Replace(" ", "_"), out origen))
+                try
                 {
-                    if (Enum.TryParse(cmbDestino.Text.Replace(" ", "_"), out destino))
+                    string? matricula = dgvAviones.SelectedRows[0].Cells["matricula"].Value.ToString();
+                    Aviones vueloAvion = MiAerolinea.BuscarUnAvion(matricula);
+
+
+                    DestinosVuelos origen, destino;
+                    double precio = Convert.ToDouble(nudPrecio.Value);
+
+                    if (Enum.TryParse(cmbOrigen.Text.Replace(" ", "_"), out origen))
                     {
-                        if (dtpFecha.Value >= DateTime.Now)
+                        if (Enum.TryParse(cmbDestino.Text.Replace(" ", "_"), out destino))
                         {
-                            vueloModificar.Origen = origen;
-                            vueloModificar.Destino = destino;
-                            vueloModificar.HorasVuelo = (int)nudHoras.Value;
-                            vueloModificar.CodigoVuelo = txtCodigo.Text;
-                            vueloModificar.PrecioVuelo = precio * (double)nudHoras.Value;
-                            vueloModificar.AvionVuelo = vueloAvion;
-                            vueloModificar.FechaVuelo = DateTime.SpecifyKind(dtpFecha.Value, DateTimeKind.Utc);
-                            estado = true;
-                            await firebaseVuelo.Actualizar(vueloModificar, "vuelos", vueloModificar.CodigoVuelo);
-                            sqlVuelos.Actualizar("UPDATE vuelos SET fecha = @fecha, origen = @origen, destino = @destino, horas = @horas, precio = @precio, matricula_avion =  @matricula_avion WHERE codigo = @codigo", (comando) =>
+                            if (dtpFecha.Value >= DateTime.Now)
                             {
-                                comando.Parameters.AddWithValue("@fecha", vueloModificar.FechaVuelo);
-                                comando.Parameters.AddWithValue("@codigo", vueloModificar.CodigoVuelo);
-                                comando.Parameters.AddWithValue("@origen", origen);
-                                comando.Parameters.AddWithValue("@destino", destino);
-                                comando.Parameters.AddWithValue("@horas", vueloModificar.HorasVuelo);
-                                comando.Parameters.AddWithValue("@precio", vueloModificar.PrecioVuelo);
-                                comando.Parameters.AddWithValue("@matricula_avion", vueloModificar.AvionVuelo.Matricula);
-                            });
+                                vueloModificar.Origen = origen;
+                                vueloModificar.Destino = destino;
+                                vueloModificar.HorasVuelo = (int)nudHoras.Value;
+                                vueloModificar.CodigoVuelo = txtCodigo.Text;
+                                vueloModificar.PrecioVuelo = precio * (double)nudHoras.Value;
+                                vueloModificar.AvionVuelo = vueloAvion;
+                                vueloModificar.FechaVuelo = DateTime.SpecifyKind(dtpFecha.Value, DateTimeKind.Utc);
+                                estado = true;
+                                await firebaseVuelo.Actualizar(vueloModificar, "vuelos", vueloModificar.CodigoVuelo);
+                                sqlVuelos.Actualizar("UPDATE vuelos SET fecha = @fecha, origen = @origen, destino = @destino, horas = @horas, precio = @precio, matricula_avion =  @matricula_avion WHERE codigo = @codigo", (comando) =>
+                                {
+                                    comando.Parameters.AddWithValue("@fecha", vueloModificar.FechaVuelo);
+                                    comando.Parameters.AddWithValue("@codigo", vueloModificar.CodigoVuelo);
+                                    comando.Parameters.AddWithValue("@origen", origen);
+                                    comando.Parameters.AddWithValue("@destino", destino);
+                                    comando.Parameters.AddWithValue("@horas", vueloModificar.HorasVuelo);
+                                    comando.Parameters.AddWithValue("@precio", vueloModificar.PrecioVuelo);
+                                    comando.Parameters.AddWithValue("@matricula_avion", vueloModificar.AvionVuelo.Matricula);
+                                });
+                            }
                         }
                     }
                 }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show("Seleccione un avion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception)
+            catch (MiExcepcion ex)
             {
                 MessageBox.Show("Seleccione un avion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return estado;
-        }
-
-        private void ActuralizarVueloSql(Vuelos vueloActualizado)
-        {
-            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

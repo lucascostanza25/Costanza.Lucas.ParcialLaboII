@@ -14,7 +14,7 @@ namespace Entidades.PPLabII
         int dni;
         int edad;
         bool asientoPremium;
-        string genero;
+        string? genero;
         int cantidadEquipaje;
         double pesoEquipajeUno;
         double pesoEquipajeDos;

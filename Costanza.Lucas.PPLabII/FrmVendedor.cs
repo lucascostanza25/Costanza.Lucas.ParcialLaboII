@@ -1,4 +1,5 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Base_de_datos;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,9 @@ namespace Costanza.Lucas.PPLabII
         private Firebase<Vuelos> firebaseVuelos;
         protected List<Panel> paneles;
         TimeSpan tiempoRestante;
-        Vuelos vueloMasCercano;
+        Vuelos? vueloMasCercano;
         Serializadora<ConfigAPP> jsonConfig;
-        private string temaActual;
-
-        public delegate void FirebaseClientes();
-        public event FirebaseClientes ClientesCargados;
+        private string? temaActual;
 
         public FrmVendedor()
         {
@@ -120,14 +118,14 @@ namespace Costanza.Lucas.PPLabII
 
             foreach (Vuelos miVuelo in listaVuelos)
             {
-                dgv.Rows.Add(miVuelo.CodigoVuelo,
-                    miVuelo.Origen.ToString().Replace("_", " "),
-                    miVuelo.Destino.ToString().Replace("_", " "),
-                    miVuelo.FechaVuelo,
-                    miVuelo.PrecioVuelo,
-                    miVuelo.AsientosDisponibles,
-                    miVuelo.AsientosOcupados,
-                    miVuelo.AvionVuelo.ModeloAvion);
+                    dgv.Rows.Add(miVuelo.CodigoVuelo,
+                        miVuelo.Origen.ToString().Replace("_", " "),
+                        miVuelo.Destino.ToString().Replace("_", " "),
+                        miVuelo.FechaVuelo,
+                        miVuelo.PrecioVuelo,
+                        miVuelo.AsientosDisponibles,
+                        miVuelo.AsientosOcupados,
+                        miVuelo.AvionVuelo.ModeloAvion);
             }
         }
 
@@ -545,16 +543,15 @@ namespace Costanza.Lucas.PPLabII
             {
                 if (String.IsNullOrEmpty(MiAerolinea.BuscarUnPasajero(int.Parse(txtDniPasajero.Text))))
                 {
-                    throw new Exception("No se encontró el pasajero en el sistema");
+                    throw new MiExcepcion("No se encontró el pasajero en el sistema");
                 }
                 FrmCrearModificarPersonas formEditarPasajero = new FrmCrearModificarPersonas("Editar pasajero", int.Parse(txtDniPasajero.Text));
                 formEditarPasajero.ShowDialog();
             }
-            catch (Exception ex)
+            catch (MiExcepcion ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
-                guardador.GuardarExcepcion(ex);
+                ex.GuardarMiExcepcion();
             }
 
         }
@@ -579,25 +576,32 @@ namespace Costanza.Lucas.PPLabII
 
         private async Task<bool> EliminarPasajero()
         {
+            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
             Pasajeros pasajero = MiAerolinea.RetornarUnPasajero(int.Parse(txtDniPasajero.Text));
-            Vuelos vuelo = MiAerolinea.listaVuelos.FirstOrDefault(v => v.CodigoVuelo == pasajero.CodigoVuelo);
-            DialogResult resultado = MessageBox.Show("¿Seguro que desea eliminar al pasajero?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (resultado == DialogResult.Yes)
+            if (MiAerolinea.listaVuelos is not null)
             {
-                if (MiAerolinea.EliminarPasajero(int.Parse(txtDniPasajero.Text)))
+                Vuelos? vuelo = MiAerolinea.listaVuelos.FirstOrDefault(v => v.CodigoVuelo == pasajero.CodigoVuelo);
+                DialogResult resultado = MessageBox.Show("¿Seguro que desea eliminar al pasajero?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (resultado == DialogResult.Yes)
                 {
-                    if (vuelo is not null)
-                        await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
-                    PasajerosDao.EliminarPasajero(pasajero);
-                    MessageBox.Show("Pasajero eliminado");
-                    CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
-                    dgvPasajeros.Rows.Clear();
-                    return true;
+                    if (MiAerolinea.EliminarPasajero(int.Parse(txtDniPasajero.Text)))
+                    {
+                        if (vuelo is not null)
+                            await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
+                        sqlPasajeros.Eliminar("DELETE FROM pasajeros WHERE dni = @dni", (comando) =>
+                        {
+                            comando.Parameters.AddWithValue("@dni", pasajero.Dni);
+                        });
+                        MessageBox.Show("Pasajero eliminado");
+                        CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
+                        dgvPasajeros.Rows.Clear();
+                        return true;
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Se canceló la eliminación del pasajero");
+                else
+                {
+                    MessageBox.Show("Se canceló la eliminación del pasajero");
+                }
             }
             return false;
         }
@@ -662,12 +666,14 @@ namespace Costanza.Lucas.PPLabII
 
         private void timerVuelo_Tick(object sender, EventArgs e)
         {
-            Vuelos vuelo = vueloMasCercano;
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"El proximo vuelo {vuelo.CodigoVuelo}, con destino a {vuelo.Destino.ToString().Replace("_", " ")} sale en: ");
-            sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
-            lblTimerVuelo.Text = sb.ToString();
+            Vuelos? vuelo = vueloMasCercano;
+            if (vuelo is not null)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"El proximo vuelo {vuelo.CodigoVuelo}, con destino a {vuelo.Destino.ToString().Replace("_", " ")} sale en: ");
+                sb.Append(tiempoRestante.ToString(@"d\d\,\ h\h\,\ m\m\,\ s\s"));
+                lblTimerVuelo.Text = sb.ToString();
+            }
         }
 
         protected void rbTemaRojo_CheckedChanged(object sender, EventArgs e)

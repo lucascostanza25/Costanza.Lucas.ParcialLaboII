@@ -4,14 +4,95 @@
     "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj": {}
   },
   "projects": {
-    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj": {
+    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Costanza.Lucas.PPLabII\\Costanza.Lucas.PPLabII.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj",
-        "projectName": "TestProject1",
-        "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj",
+        "projectUniqueName": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Costanza.Lucas.PPLabII\\Costanza.Lucas.PPLabII.csproj",
+        "projectName": "Costanza.Lucas.PPLabII",
+        "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Costanza.Lucas.PPLabII\\Costanza.Lucas.PPLabII.csproj",
         "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-        "outputPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\obj\\",
+        "outputPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Costanza.Lucas.PPLabII\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {
+              "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {
+                "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "Aspose.PDF": {
+              "target": "Package",
+              "version": "[23.6.0, )"
+            },
+            "Google.Cloud.Firestore": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj",
+        "projectName": "Entidades.PPLabII",
+        "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj",
+        "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
+        "outputPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -49,21 +130,13 @@
               "target": "Package",
               "version": "[23.6.0, )"
             },
-            "MSTest.TestAdapter": {
+            "Google.Cloud.Firestore": {
               "target": "Package",
-              "version": "[2.2.8, )"
+              "version": "[3.3.0, )"
             },
-            "MSTest.TestFramework": {
+            "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[2.2.8, )"
-            },
-            "Microsoft.NET.Test.Sdk": {
-              "target": "Package",
-              "version": "[17.1.0, )"
-            },
-            "coverlet.collector": {
-              "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[4.8.5, )"
             },
             "iTextSharp": {
               "target": "Package",
@@ -86,6 +159,68 @@
               "privateAssets": "all"
             }
           },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj",
+        "projectName": "TestProject1",
+        "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\TestProject1.csproj",
+        "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
+        "outputPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\TestProject1\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Costanza.Lucas.PPLabII\\Costanza.Lucas.PPLabII.csproj": {
+                "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Costanza.Lucas.PPLabII\\Costanza.Lucas.PPLabII.csproj"
+              },
+              "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj": {
+                "projectPath": "D:\\Programacion\\C#\\UTN\\Parciales\\Costanza.Lucas.ParcialLaboII\\Entidades.PPLabII\\Entidades.PPLabII.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }

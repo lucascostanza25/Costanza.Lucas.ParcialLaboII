@@ -75,6 +75,7 @@
             this.btnSql = new System.Windows.Forms.Button();
             this.lblTextoDb = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.pbFotoBaseDatos = new System.Windows.Forms.PictureBox();
             this.timerVueloAdmin = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelMenu.SuspendLayout();
@@ -92,6 +93,7 @@
             this.gbBaseDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFotoBaseDatos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -472,7 +474,6 @@
             // 
             // dgvDatosVuelos
             // 
-            this.dgvDatosVuelos.AllowUserToOrderColumns = true;
             this.dgvDatosVuelos.AllowUserToResizeColumns = false;
             this.dgvDatosVuelos.AllowUserToResizeRows = false;
             this.dgvDatosVuelos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -575,7 +576,6 @@
             // 
             // dgvDatosAviones
             // 
-            this.dgvDatosAviones.AllowUserToOrderColumns = true;
             this.dgvDatosAviones.AllowUserToResizeColumns = false;
             this.dgvDatosAviones.AllowUserToResizeRows = false;
             this.dgvDatosAviones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -596,6 +596,7 @@
             this.gbBaseDatos.Controls.Add(this.btnSql);
             this.gbBaseDatos.Controls.Add(this.lblTextoDb);
             this.gbBaseDatos.Controls.Add(this.label6);
+            this.gbBaseDatos.Controls.Add(this.pbFotoBaseDatos);
             this.gbBaseDatos.Location = new System.Drawing.Point(233, 0);
             this.gbBaseDatos.Name = "gbBaseDatos";
             this.gbBaseDatos.Size = new System.Drawing.Size(1437, 723);
@@ -666,6 +667,15 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "BASE DE DATOS";
             // 
+            // pbFotoBaseDatos
+            // 
+            this.pbFotoBaseDatos.Location = new System.Drawing.Point(23, 294);
+            this.pbFotoBaseDatos.Name = "pbFotoBaseDatos";
+            this.pbFotoBaseDatos.Size = new System.Drawing.Size(604, 242);
+            this.pbFotoBaseDatos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbFotoBaseDatos.TabIndex = 34;
+            this.pbFotoBaseDatos.TabStop = false;
+            // 
             // timerVueloAdmin
             // 
             this.timerVueloAdmin.Tick += new System.EventHandler(this.timer1_Tick);
@@ -720,6 +730,7 @@
             this.gbBaseDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFotoBaseDatos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -774,5 +785,6 @@
         private PictureBox pictureBox1;
         public System.Windows.Forms.Timer timerVueloAdmin;
         private Button btnCopiaSeguridadVuelos;
+        private PictureBox pbFotoBaseDatos;
     }
 }

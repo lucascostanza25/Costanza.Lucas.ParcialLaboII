@@ -7,10 +7,6 @@ namespace Costanza.Lucas.PPLabII
     public partial class Supervisor : FrmVendedor
     {
         Vuelos vuelo;
-        private string temaActual;
-        Serializadora<ConfigAPP> jsonConfig;
-        TimeSpan tiempoRestante;
-        Vuelos vueloMasCercano;
         public Supervisor(string nombre, string apellido, string fecha, string cargo)
         {
             InitializeComponent();

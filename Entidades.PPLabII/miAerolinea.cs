@@ -1,5 +1,4 @@
 ﻿using Entidades.PPLabII.Base_de_datos;
-using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using Org.BouncyCastle.Asn1.Crmf;
 using System;
@@ -28,39 +27,6 @@ namespace Entidades.PPLabII
             DestinosVuelos.Puerto_Madryn, DestinosVuelos.Ushuaia}},
             {2, new DestinosVuelos[] {DestinosVuelos.Buenos_aires, DestinosVuelos.Recife, DestinosVuelos.Roma, DestinosVuelos.Acapulco, DestinosVuelos.Miami} }
         };
-        /// <summary>
-        /// Metodo que deserializa la el archivo json  de usuarios
-        /// </summary>
-        /// <param name="archivo">nombre del archivo</param>
-        public static void DeserializarUsuarios(string archivo)
-        {
-            string jsonString = File.ReadAllText(archivo);
-            listaUsuarios = JsonSerializer.Deserialize<List<Usuarios>>(jsonString);
-        }
-        /// <summary>
-        /// Metodo que deserializa pasajeros de un archivo xml
-        /// No utilizdo, ya que los pasajeros se encuentran dentro de vuelos.xml
-        /// </summary>
-        /// <param name="path">archivo</param>
-        /// <returns>retorna la lista de pasajeros</returns>
-        public static List<Pasajeros> CargarPasajerosXml(string path)
-        {
-            List<Pasajeros>? listaPasajerosXml = new List<Pasajeros>();
-            XmlSerializer? xmlSerializer = new XmlSerializer(typeof(ListaPasajerosXml));
-
-            using (StreamReader streamReader = new StreamReader(path))
-            {
-                ListaPasajerosXml lista = (ListaPasajerosXml)xmlSerializer.Deserialize(streamReader);
-                if(lista is not null)
-                    listaPasajerosXml = lista.Pasajeros;
-            }
-            if (listaPasajeros is not null)
-            {
-                if(listaPasajerosXml is not null)
-                    listaPasajeros.AddRange(listaPasajerosXml);
-            }
-            return listaPasajerosXml;
-        }
         /// <summary>
         /// Metodo que filtra a los pasajeros de un vuelo buscado
         /// </summary>
@@ -332,7 +298,6 @@ namespace Entidades.PPLabII
             if (listaFiltrada.Count == 0)
                 throw new Exception("No se encontraron vuelos con las caracteristicas buscadas");
             return listaFiltrada;
-            //Implementar lambda
         }
         /// <summary>
         /// Metodo que vende un vuelo y lo agrega a la lista de los pasajeros del vuelo
@@ -421,13 +386,16 @@ namespace Entidades.PPLabII
             StringBuilder sb = new StringBuilder();
             int maxPasajeros = 0;
             int cantidadPasajeros = 0;
-            foreach (Vuelos vuelo in listaVuelos)
+            if (listaVuelos is not null)
             {
-                cantidadPasajeros = vuelo.ListaPasajeros.Count;
-                if (cantidadPasajeros > maxPasajeros)
+                foreach (Vuelos vuelo in listaVuelos)
                 {
-                    maxPasajeros = cantidadPasajeros;
-                    vueloMasPasajeros = vuelo;
+                    cantidadPasajeros = vuelo.ListaPasajeros.Count;
+                    if (cantidadPasajeros > maxPasajeros)
+                    {
+                        maxPasajeros = cantidadPasajeros;
+                        vueloMasPasajeros = vuelo;
+                    }
                 }
             }
 
@@ -518,7 +486,6 @@ namespace Entidades.PPLabII
                         if (pasajero.Dni == dni)
                         {
                             vuelo.ListaPasajeros.Remove(pasajero);
-                            //uelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
                             return true;
                         }
                     }
@@ -551,6 +518,10 @@ namespace Entidades.PPLabII
             return avionBuscado;
         }
 
+        /// <summary>
+        /// Metodo asincronico que busca constantemente el vuelo mas cercano
+        /// </summary>
+        /// <returns>Retorna el vuelo mas cercano</returns>
         public static async Task<Vuelos> BuscarVueloMasCercano()
         {
             List<Vuelos> lista = new List<Vuelos>();

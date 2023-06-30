@@ -8,6 +8,7 @@ namespace Entidades.PPLabII
 {
     public class MiExcepcion : Exception
     {
+
         public MiExcepcion()
         {
                

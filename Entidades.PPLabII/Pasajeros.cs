@@ -14,12 +14,12 @@ namespace Entidades.PPLabII
     {
         private int dni;
         private int edad;
-        private string genero;
+        private string? genero;
         private bool asientoPremium;
         private int cantidadEquipajes;
         private double pesoEquipajeUno;
         private double pesoEquipajeDos;
-        private string codigoVuelo;
+        private string? codigoVuelo;
 
 
         public Pasajeros()
@@ -27,7 +27,7 @@ namespace Entidades.PPLabII
 
         }
 
-        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, string codigo) : base(apellido, nombre)
+        public Pasajeros(string? apellido, string? nombre, int dni, int edad, string? genero, bool asientoPremium, string? codigo) : base(apellido, nombre)
         {
             this.dni = dni;
             this.edad = edad;
@@ -36,7 +36,7 @@ namespace Entidades.PPLabII
             this.codigoVuelo = codigo;
         }
 
-        public Pasajeros(string apellido, string nombre, int dni, int edad, string genero, bool asientoPremium, string codigo, int cantidadEquipaje, double pesoUno, double pesoDos) : this(apellido, nombre, dni, edad, genero, asientoPremium, codigo)
+        public Pasajeros(string? apellido, string? nombre, int dni, int edad, string? genero, bool asientoPremium, string? codigo, int cantidadEquipaje, double pesoUno, double pesoDos) : this(apellido, nombre, dni, edad, genero, asientoPremium, codigo)
         {
             this.cantidadEquipajes = cantidadEquipaje;
             this.pesoEquipajeUno = pesoUno;
@@ -120,7 +120,7 @@ namespace Entidades.PPLabII
         }
         [FirestoreProperty]
         [XmlElement("genero")]
-        public string Genero
+        public string? Genero
         {
             get { return genero; }
             set { genero = value; }
@@ -155,7 +155,7 @@ namespace Entidades.PPLabII
         }
         [FirestoreProperty]
         [XmlElement("codigo_vuelo")]
-        public string CodigoVuelo
+        public string? CodigoVuelo
         {
             get { return codigoVuelo; }
             set { codigoVuelo = value; }

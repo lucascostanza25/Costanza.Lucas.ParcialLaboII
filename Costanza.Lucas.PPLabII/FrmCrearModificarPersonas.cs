@@ -1,4 +1,6 @@
 ﻿using Entidades.PPLabII;
+using Entidades.PPLabII.Base_de_datos;
+using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +16,6 @@ namespace Costanza.Lucas.PPLabII
 {
     public partial class FrmCrearModificarPersonas : Form
     {
-        private int tipo = -1;
         Pasajeros miPasajero;
         Vuelos vueloPasajero;
 
@@ -102,24 +103,13 @@ namespace Costanza.Lucas.PPLabII
 
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
-
-            if (btnAceptar.Text == "Crear cliente")
+            if (btnAceptar.Text == "Editar pasajero")
             {
-                if (CrearCliente())
-                {
-                    MessageBox.Show("Cliente creado correctamente");
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo crear al cliente");
-                }
-            }
-            else if (btnAceptar.Text == "Editar pasajero")
-            {
-
-                if (ActualizarPasajero())
+                Task<bool> respuesta = ActualizarPasajero();
+                bool resultado = await respuesta;
+                if (resultado)
                 {
                     MessageBox.Show("Pasajero actualizado correctamente");
                 }
@@ -128,77 +118,9 @@ namespace Costanza.Lucas.PPLabII
                     MessageBox.Show("No se pudo actualizar al pasajero");
                 }
             }
-            else if (btnAceptar.Text == "Crear pasajero SUPERVISOR")
-            {
-                SupervisorAgregarPasajero(vueloPasajero);
-            }
-
 
             this.Close();
 
-        }
-        /// <summary>
-        /// Metodo que crea un cliente
-        /// </summary>
-        /// <returns>Retorna true si lo pudo crear, false si no</returns>
-        private bool CrearCliente()
-        {
-            int dni, edad, dinero;
-            dni = Convert.ToInt32(nudDni.Value);
-            edad = Convert.ToInt32(nudEdad.Value);
-            dinero = Convert.ToInt32(nudDineroDisponible.Value);
-            bool clienteDuplicado = false;
-            bool estado = false;
-            bool pasajeroDuplicado = false;
-
-            if (String.IsNullOrEmpty(txtApellido.Text) && String.IsNullOrEmpty(txtNombre.Text) && dni <= 1000 && edad <= 0)
-            {
-                MessageBox.Show("Por favor, verifique los campos");
-            }
-            else
-            {
-                if (MiAerolinea.listaVuelos is not null)
-                {
-                    foreach (Vuelos vuelo in MiAerolinea.listaVuelos)
-                    {
-                        foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
-                        {
-                            if (pasajero.Dni == dni)
-                            {
-                                pasajeroDuplicado = true;
-                                break;
-
-                            }
-                        }
-                    }
-                }
-                if (MiAerolinea.listaClientes is not null)
-                {
-                    foreach (Cliente cliente in MiAerolinea.listaClientes)
-                    {
-                        if (cliente.Dni == dni)
-                        {
-                            clienteDuplicado = true;
-                            break;
-                        }
-                    }
-                    if (!pasajeroDuplicado && !clienteDuplicado)
-                    {
-                        if (cbAsientoPremium.Checked)
-                        {
-                            MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, true, cmbGenero.Text, int.Parse(cmbCantidadEquipajes.Text), (double)nudPesoEquipajeUno.Value, (double)nudPesoEquipajeDos.Value));
-                        }
-                        else
-                        {
-                            MiAerolinea.listaClientes.Add(new Cliente(txtApellido.Text, txtNombre.Text, dinero, dni, edad, false, cmbGenero.Text, 1, (double)nudPesoEquipajeUno.Value, 0));
-                        }
-                        MessageBox.Show("Cliente agregado correctamente");
-                        estado = true;
-                    }
-                }
-            }
-
-            return estado;
         }
 
         private void cmbCantidadEquipajes_SelectedIndexChanged(object sender, EventArgs e)
@@ -214,8 +136,9 @@ namespace Costanza.Lucas.PPLabII
         /// Metodo que actualiza un pasajero
         /// </summary>
         /// <returns>retorna tru si lo pudo modificar, false si no</returns>
-        private bool ActualizarPasajero()
+        private async Task<bool> ActualizarPasajero()
         {
+            Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
             bool estado = false;
             miPasajero.Apellido = txtApellido.Text;
             miPasajero.Nombre = txtNombre.Text;
@@ -231,45 +154,41 @@ namespace Costanza.Lucas.PPLabII
             }
             estado = true;
 
-            PasajerosDao.ActualizarPasajero(miPasajero);
-            //Falta implementar firebase
-
-            return estado;
-        }
-        /// <summary>
-        /// Metodo que agrega un pasajero para el supervisor
-        /// </summary>
-        /// <param name="vuelo">Vuelo a agregar el pasajero</param>
-        /// <returns>Retoran true si lo pudo agregar, false si no</returns>
-        public bool SupervisorAgregarPasajero(Vuelos vuelo)
-        {
-            int dni, edad;
-            double pesoEquipajeUno, pesoEquipajeDos;
-            dni = Convert.ToInt32(nudDni.Value);
-            edad = Convert.ToInt32(nudEdad.Value);
-            pesoEquipajeUno = Convert.ToDouble(nudPesoEquipajeUno.Value);
-            pesoEquipajeDos = Convert.ToDouble(nudPesoEquipajeDos.Value);
-            foreach (Pasajeros pasajero in vuelo.ListaPasajeros)
+            ActualizarPasajeroSql(miPasajero);
+            if (MiAerolinea.listaVuelos is not null )
             {
-                if (pasajero.Dni != dni)
+                Vuelos? vuelo = MiAerolinea.listaVuelos.FirstOrDefault((Vuelos) => Vuelos.CodigoVuelo == miPasajero.CodigoVuelo);
+                if(vuelo is not null && vuelo.CodigoVuelo is not null)
                 {
-                    if (this.tipo == 3)
-                    {
-                        if (cbAsientoPremium.Checked)
-                        {
-                            //vuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, true, int.Parse(cmbCantidadEquipajes.Text), pesoEquipajeUno, pesoEquipajeDos));
-                        }
-                        else
-                        {
-                            //svuelo.ListaPasajeros.Add(new Pasajeros(txtApellido.Text, txtNombre.Text, dni, edad, cmbGenero.Text, false, 1, pesoEquipajeUno, pesoEquipajeDos));
-                        }
-                        MessageBox.Show("Pasajero agregado correctamente");
-                        //vuelo.ActualizarDatosVuelo(vuelo.ListaPasajeros);
-                        return true;
-                    }
+                    await firebaseVuelos.Actualizar(vuelo, "vuelos", vuelo.CodigoVuelo);
                 }
             }
-            return false;
+            return estado;
+        }
+
+        /// <summary>
+        /// Metodo que actualiza un pasajero de sql
+        /// </summary>
+        /// <param name="pasajero">Pasajero a editar</param>
+        private void ActualizarPasajeroSql(Pasajeros pasajero)
+        {
+            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
+            sqlPasajeros.Actualizar("UPDATE pasajeros SET nombre = @nombre, apellido = @apellido, genero = @genero, asiento_premium = @asiento_premium, cantidad_equipaje = @cantidad_equipaje, peso_uno = @peso_uno, peso_dos = @peso_dos, edad = @edad WHERE dni = @dni",
+                (comando) =>
+                {
+                    comando.Parameters.AddWithValue("@nombre", pasajero.Nombre);
+                    comando.Parameters.AddWithValue("@apellido", pasajero.Apellido);
+                    comando.Parameters.AddWithValue("@genero", pasajero.Genero);
+                    if (pasajero.AsientoPremium)
+                        comando.Parameters.AddWithValue("@asiento_premium", 1);
+                    else
+                        comando.Parameters.AddWithValue("@asiento_premium", 0);
+                    comando.Parameters.AddWithValue("@cantidad_equipaje", (int)pasajero.CantidadEquipaje);
+                    comando.Parameters.AddWithValue("@peso_uno", (float)pasajero.PesoEquipajeUno);
+                    comando.Parameters.AddWithValue("@peso_dos", (float)pasajero.PesoEquipajeDos);
+                    comando.Parameters.AddWithValue("@edad", pasajero.Edad);
+                    comando.Parameters.AddWithValue("@dni", pasajero.Dni);
+                });
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

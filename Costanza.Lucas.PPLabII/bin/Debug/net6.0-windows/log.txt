@@ -57,3 +57,12 @@ Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo n
 Excepción interna: 
 Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 98
 ----------------------------------------
+29/6/2023 22:35:00 - Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+29/6/2023 22:35:00 - Excepción interna: 
+29/6/2023 22:35:00 - Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 103
+29/6/2023 22:57:24 - Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+29/6/2023 22:57:24 - Excepción interna: 
+29/6/2023 22:57:24 - Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 103
+29/6/2023 22:57:25 - Mensaje de excepción: Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.
+29/6/2023 22:57:25 - Excepción interna: 
+29/6/2023 22:57:25 - Stack trace:    at Costanza.Lucas.PPLabII.FrmInicioSesion.IniciarSesion() in D:\Programacion\C#\UTN\Parciales\Costanza.Lucas.ParcialLaboII\Costanza.Lucas.PPLabII\FrmInicioSesion.cs:line 103

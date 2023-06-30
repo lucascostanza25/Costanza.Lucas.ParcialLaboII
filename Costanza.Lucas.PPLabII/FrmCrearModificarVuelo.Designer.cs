@@ -104,6 +104,8 @@
             // 
             // dgvAviones
             // 
+            this.dgvAviones.AllowUserToResizeColumns = false;
+            this.dgvAviones.AllowUserToResizeRows = false;
             this.dgvAviones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAviones.Location = new System.Drawing.Point(436, 179);
             this.dgvAviones.Name = "dgvAviones";

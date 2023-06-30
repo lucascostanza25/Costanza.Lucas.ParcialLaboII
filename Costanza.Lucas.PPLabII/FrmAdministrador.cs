@@ -1,7 +1,8 @@
 ﻿using Entidades.PPLabII;
 using Entidades.PPLabII.Base_de_datos;
-using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
+using Entidades.PPLabII.Interfaces;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,14 +28,14 @@ namespace Costanza.Lucas.PPLabII
         TimeSpan tiempoRestante;
 
         public delegate void DelegadoTiempo(TimeSpan tiempo, Vuelos vuelo);
-        public event DelegadoTiempo Enviar;
+        public event DelegadoTiempo? Enviar;
 
-        private string temaActual;
+        private string? temaActual;
         Serializadora<ConfigAPP> jsonConfig;
         public FrmAdministrador() 
         {
             InitializeComponent();
-            if(MiAerolinea.listaVuelos.Count() > 0)
+            if(MiAerolinea.listaVuelos?.Count() > 0)
             {
                 timerVueloAdmin.Start();
             }
@@ -60,6 +61,13 @@ namespace Costanza.Lucas.PPLabII
             lblInformacionTrabajador.Text = $"¡Bienvenido {cargo}!\n" +
                 $"¡{nombre} {apellido}!\n" +
                 $"Fecha: {fecha}";
+
+#pragma warning disable CS8622 // La nulabilidad de los tipos de referencia del tipo de parámetro no coincide con el delegado de destino (posiblemente debido a los atributos de nulabilidad).
+            btnFirebase.Click += new EventHandler(CargarFotoFirebase);
+#pragma warning restore CS8622 // La nulabilidad de los tipos de referencia del tipo de parámetro no coincide con el delegado de destino (posiblemente debido a los atributos de nulabilidad).
+#pragma warning disable CS8622 // La nulabilidad de los tipos de referencia del tipo de parámetro no coincide con el delegado de destino (posiblemente debido a los atributos de nulabilidad).
+            btnSql.Click += new EventHandler(CargarFotoSql);
+#pragma warning restore CS8622 // La nulabilidad de los tipos de referencia del tipo de parámetro no coincide con el delegado de destino (posiblemente debido a los atributos de nulabilidad).
         }
 
         private void FrmAdministrador_Load(object sender, EventArgs e)
@@ -177,14 +185,17 @@ namespace Costanza.Lucas.PPLabII
             {
                 if (miVuelo.FechaVuelo >= DateTime.Now)
                 {
-                    dgv.Rows.Add(miVuelo.CodigoVuelo,
-                        miVuelo.Origen.ToString().Replace("_", " "),
-                        miVuelo.Destino.ToString().Replace("_", " "),
-                        miVuelo.FechaVuelo,
-                        miVuelo.PrecioVuelo,
-                        miVuelo.AsientosDisponibles,
-                        miVuelo.AsientosOcupados,
-                        miVuelo.AvionVuelo.ModeloAvion);
+                    if (miVuelo.AvionVuelo is not null)
+                    {
+                        dgv.Rows.Add(miVuelo.CodigoVuelo,
+                            miVuelo.Origen.ToString().Replace("_", " "),
+                            miVuelo.Destino.ToString().Replace("_", " "),
+                            miVuelo.FechaVuelo,
+                            miVuelo.PrecioVuelo,
+                            miVuelo.AsientosDisponibles,
+                            miVuelo.AsientosOcupados,
+                            miVuelo.AvionVuelo.ModeloAvion);
+                    }
                 }
             }
         }
@@ -340,6 +351,10 @@ namespace Costanza.Lucas.PPLabII
             await ElimiarAvion();
         }
 
+        /// <summary>
+        /// Metodo que elimina un avion
+        /// </summary>
+        /// <returns>Retorna true si lo pudo eliminar o false si no pudo</returns>
         private async Task<bool> ElimiarAvion()
         {
             try
@@ -353,8 +368,11 @@ namespace Costanza.Lucas.PPLabII
                     if(MiAerolinea.listaAviones is not null)
                         MiAerolinea.listaAviones.Remove(avionSeleccionado);
                     EliminarAvionSql("DELETE FROM aviones WHERE matricula = @matricula", avionSeleccionado);
-                    Task<bool> respuesta = firebaseAviones.Eliminar("aviones", avionSeleccionado.Matricula);
-                    bool resultadoRespuesta = await respuesta;
+                    if (avionSeleccionado.Matricula is not null)
+                    {
+                        Task<bool> respuesta = firebaseAviones.Eliminar("aviones", avionSeleccionado.Matricula);
+                        bool resultadoRespuesta = await respuesta;
+                    }
                     return true;
                 }
                 else
@@ -371,6 +389,11 @@ namespace Costanza.Lucas.PPLabII
             return false;
         }
 
+        /// <summary>
+        /// Metodo que elimina aviones de sql
+        /// </summary>
+        /// <param name="query">Query de la base de datos</param>
+        /// <param name="avionEliminar">Avion a eliminar</param>
         private void EliminarAvionSql(string query, Aviones avionEliminar)
         {
             Sql<Aviones> sqlAviones = new Sql<Aviones>();
@@ -387,6 +410,8 @@ namespace Costanza.Lucas.PPLabII
             if(respuesta)
             {
                 MessageBox.Show($"Se elminó el vuelo seleccionado exitosamente", "Eliminar vuelo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if(MiAerolinea.listaVuelos is not null)
+                    CrearDataGridViewVuelos(dgvDatosVuelos, MiAerolinea.listaVuelos);
             }
             else
             {
@@ -395,8 +420,13 @@ namespace Costanza.Lucas.PPLabII
             
         }
 
+        /// <summary>
+        /// Metodo que elimina un vuelo
+        /// </summary>
+        /// <returns>Retorna true si lo pudo eliminar o false si no pudo</returns>
         private async Task<bool> ElimiarVuelo()
         {
+            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
             try
             {
                 string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
@@ -407,7 +437,14 @@ namespace Costanza.Lucas.PPLabII
                     if (MiAerolinea.listaVuelos is not null)
                     {
                         MiAerolinea.listaVuelos.Remove(vuelo);
-                        await firebaseVuelos.Eliminar("vuelos", vuelo.CodigoVuelo);
+                        if (vuelo.CodigoVuelo is not null)
+                        {
+                            await firebaseVuelos.Eliminar("vuelos", vuelo.CodigoVuelo);
+                        }
+                        sqlPasajeros.Eliminar("DELETE FROM pasajeros WHERE codigo_vuelo = @codigoVuelo", (comando) =>
+                        {
+                            comando.Parameters.AddWithValue("@codigoVuelo", vuelo.CodigoVuelo);
+                        });
                         sqlVuelos.Eliminar("DELETE FROM vuelos WHERE codigo = @codigo", (comando) =>
                         {
                             comando.Parameters.AddWithValue("@codigo", vuelo.CodigoVuelo);
@@ -442,17 +479,9 @@ namespace Costanza.Lucas.PPLabII
 
                 MiAerolinea.listaAviones = sqlAvion.Leer("SELECT * FROM aviones", (reader) =>
                 {
-                    return new Aviones
-                    {
-                        Matricula = reader["matricula"].ToString(),
-                        CantidadAsientos = Convert.ToInt32(reader["cantidad_asientos"]),
-                        ServicioInternet = Convert.ToBoolean(reader["servicio_internet"]),
-                        ServicioComida = Convert.ToBoolean(reader["servicio_comida"]),
-                        CapacidadBodega = Convert.ToDouble(reader["capacidad_bodega"]),
-                        ModeloAvion = reader["modelo"].ToString(),
-                        CantidadAsientosNormales = Convert.ToInt32(reader["cantidad_asientos_normales"]),
-                        CantidadAsientosPremium = Convert.ToInt32(reader["cantidad_asientos_premium"])
-                    };
+                    return new Aviones(reader["matricula"].ToString(), Convert.ToInt32(reader["cantidad_asientos"]), Convert.ToBoolean(reader["servicio_internet"]),
+                        Convert.ToBoolean(reader["servicio_comida"]), Convert.ToDouble(reader["capacidad_bodega"]), reader["modelo"].ToString(),
+                        Convert.ToInt32(reader["cantidad_asientos_normales"]), Convert.ToInt32(reader["cantidad_asientos_premium"]));
                 });
                 LeerPasajeros();
                 LeerVuelos();
@@ -467,32 +496,30 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
+        /// <summary>
+        /// Metodo que lee pasajeros de sql
+        /// </summary>
         private void LeerPasajeros()
         {
             MiAerolinea.listaPasajeros = sqlPasajeros.Leer("SELECT * FROM pasajeros", (reader) =>
             {
-                return new Pasajeros
-                {
-                    Apellido = reader["apellido"].ToString(),
-                    Nombre = reader["nombre"].ToString(),
-                    Dni = Convert.ToInt32(reader["dni"]),
-                    Edad = Convert.ToInt32(reader["edad"]),
-                    Genero = reader["genero"].ToString(),
-                    AsientoPremium = Convert.ToBoolean(reader["asiento_premium"]),
-                    CodigoVuelo = reader["codigo_vuelo"].ToString(),
-                    CantidadEquipaje = Convert.ToInt32(reader["cantidad_equipaje"]),
-                    PesoEquipajeUno = Convert.ToDouble(reader["peso_uno"]),
-                    PesoEquipajeDos = Convert.ToDouble(reader["peso_dos"])
-                };
+                return new Pasajeros(reader["apellido"].ToString(), reader["nombre"].ToString(), Convert.ToInt32(reader["dni"]), Convert.ToInt32(reader["edad"]),
+                    reader["genero"].ToString(), Convert.ToBoolean(reader["asiento_premium"]), reader["codigo_vuelo"].ToString(), Convert.ToInt32(reader["cantidad_equipaje"]),
+                    Convert.ToDouble(reader["peso_uno"]), Convert.ToDouble(reader["peso_dos"]));
             });
         }
 
+        /// <summary>
+        /// Metodo que lee vuelos de sql
+        /// </summary>
         private void LeerVuelos()
         {
             MiAerolinea.listaVuelos = sqlVuelos.Leer("SELECT * FROM vuelos", (reader) =>
             {
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
                 return new Vuelos(Convert.ToDateTime(reader["fecha"]), reader["codigo"].ToString(), (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), reader["origen"].ToString()),
                     (DestinosVuelos)Enum.Parse(typeof(DestinosVuelos), reader["destino"].ToString()), Convert.ToInt32(reader["horas"]), Convert.ToDouble(reader["precio"]), reader["matricula_avion"].ToString());
+#pragma warning restore CS8604 // Posible argumento de referencia nulo
             });
         }
 
@@ -504,6 +531,9 @@ namespace Costanza.Lucas.PPLabII
             this.gbBaseDatos.Visible = true;
         }
 
+        /// <summary>
+        /// Metodo que limpia los datos locales
+        /// </summary>
         private void LimpiarDatos()
         {
             if (MiAerolinea.listaAviones is not null && MiAerolinea.listaPasajeros is not null && MiAerolinea.listaVuelos is not null)
@@ -535,6 +565,15 @@ namespace Costanza.Lucas.PPLabII
             }
         }
 
+        private void CargarFotoFirebase(Object sender, EventArgs e)
+        {
+            pbFotoBaseDatos.Image = System.Drawing.Image.FromFile("firebase.png");
+        }
+
+        private void CargarFotoSql(object sender, EventArgs e)
+        {
+            pbFotoBaseDatos.Image = System.Drawing.Image.FromFile("microsoft-sql-server-logo.png");
+        }
 
         private void gbBaseDatos_Enter(object sender, EventArgs e)
         {

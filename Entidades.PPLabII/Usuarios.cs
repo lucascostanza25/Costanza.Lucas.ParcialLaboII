@@ -10,9 +10,9 @@ namespace Entidades.PPLabII
     public class Usuarios : Persona
     {
         private int? legajo;
-        private string correo;
-        private string clave;
-        private string perfil;
+        private string? correo;
+        private string? clave;
+        private string? perfil;
 
         public Usuarios() : base()
         {
@@ -22,7 +22,7 @@ namespace Entidades.PPLabII
             this.perfil = "";
         }
         [JsonConstructor]
-        public Usuarios(string apellido, string nombre, int? legajo, string correo, string clave, string perfil) : base(apellido, nombre)
+        public Usuarios(string? apellido, string? nombre, int? legajo, string? correo, string? clave, string? perfil) : base(apellido, nombre)
         {
             this.legajo = legajo;
             this.correo = correo;
@@ -44,21 +44,21 @@ namespace Entidades.PPLabII
         }
 
         [JsonPropertyName("correo")]
-        public string Correo
+        public string? Correo
         {
             get { return correo; }
             set { this.correo = value; }
         }
 
         [JsonPropertyName("clave")]
-        public string Clave
+        public string? Clave
         {
             get { return clave; }
             set { this.clave = value; }
         }
 
         [JsonPropertyName("perfil")]
-        public string Perfil
+        public string? Perfil
         {
             get { return perfil; }
             set { this.perfil = value; }

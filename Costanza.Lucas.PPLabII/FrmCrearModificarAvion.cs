@@ -1,6 +1,5 @@
 ﻿using Entidades.PPLabII;
 using Entidades.PPLabII.Base_de_datos;
-using Entidades.PPLabII.Entidades_DAO;
 using Entidades.PPLabII.Firebase;
 using System;
 using System.Collections.Generic;
@@ -108,36 +107,37 @@ namespace Costanza.Lucas.PPLabII
 
                 if (!avionRepetido)
                 {
-                    if (cbComida.Checked && cbInternet.Checked)
-                    {
-                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                        MiAerolinea.listaAviones.Add(avionNuevo);
-                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
-                    }
-                    if (cbComida.Checked && cbInternet.CheckState == CheckState.Unchecked)
-                    {
-                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                        MiAerolinea.listaAviones.Add(avionNuevo);
-                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
+                    
+                        if (cbComida.Checked && cbInternet.Checked)
+                        {
+                            avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                            MiAerolinea.listaAviones.Add(avionNuevo);
+                            await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                            GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
+                        }
+                        if (cbComida.Checked && cbInternet.CheckState == CheckState.Unchecked)
+                        {
+                            avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, true, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                            MiAerolinea.listaAviones.Add(avionNuevo);
+                            await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                            GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
 
-                    }
-                    if (cbComida.CheckState == CheckState.Unchecked && cbInternet.Checked)
-                    {
-                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                        MiAerolinea.listaAviones.Add(avionNuevo);
-                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
-                    }
-                    if (cbComida.CheckState == CheckState.Unchecked && cbInternet.CheckState == CheckState.Unchecked)
-                    {
-                        avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
-                        MiAerolinea.listaAviones.Add(avionNuevo);
-                        await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
-                        GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
+                        }
+                        if (cbComida.CheckState == CheckState.Unchecked && cbInternet.Checked)
+                        {
+                            avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, true, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                            MiAerolinea.listaAviones.Add(avionNuevo);
+                            await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                            GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
+                        }
+                        if (cbComida.CheckState == CheckState.Unchecked && cbInternet.CheckState == CheckState.Unchecked)
+                        {
+                            avionNuevo = new Aviones(txtMatricula.Text, (int)asientos, false, false, bodega, txtMarcaModelo.Text, (int)asientosNormales, (int)asientosPremium);
+                            MiAerolinea.listaAviones.Add(avionNuevo);
+                            await firebaseAviones.Agregar(avionNuevo, "aviones", avionNuevo.Matricula);
+                            GuardarAvion("INSERT INTO aviones VALUES (@matricula, @servicio_comida, @servicio_internet, @capacidad_bodega, @modelo, @cantidad_asientos, @cantidad_asientos_premium, @cantidad_asientos_normales)", avionNuevo);
 
-                    }
+                        }
                     estado = true;
                 }
             }
@@ -229,24 +229,14 @@ namespace Costanza.Lucas.PPLabII
                     avionEditar.ServicioInternet = false;
                     avionEditar.ServicioComida = false;
                 }
-
                 try
                 {
                     EditarAvion("UPDATE aviones SET servicio_comida = @servicio_comida, servicio_internet = @servicio_internet, capacidad_bodega = @capacidad_bodega, modelo = @modelo, cantidad_asientos = @cantidad_asientos, cantidad_asientos_premium = @cantidad_asientos_premium, cantidad_asientos_normales = @cantidad_asientos_normales WHERE matricula = @matricula", avionEditar);
-                }
-                catch(ExcepcionBaseDatos exB)
-                {
-                    GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
-                    guardador.GuardarExcepcion(exB);
-                }
-                try
-                {
                     await firebaseAviones.Actualizar(avionEditar, "aviones", avionEditar.Matricula);
                 }
-                catch(Exception ex) 
+                catch(MiExcepcion ex) 
                 {
-                    GuardadorExcepciones guardador = new GuardadorExcepciones("log.txt");
-                    guardador.GuardarExcepcion(ex);
+                    ex.GuardarMiExcepcion();
                 }
                 return true;
 
