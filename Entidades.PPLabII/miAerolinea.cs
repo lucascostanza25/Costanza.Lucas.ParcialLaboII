@@ -337,7 +337,7 @@ namespace Entidades.PPLabII
                 }
                 else
                 {
-                    throw new Exception("El cliente no tiene dinero suficiente");
+                    throw new MiExcepcion("El cliente no tiene dinero suficiente");
                 }
             }
 

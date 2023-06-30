@@ -415,9 +415,10 @@ namespace Costanza.Lucas.PPLabII
                                     MessageBox.Show("¡El vuelo fue vendido exitosamente!", "Vuelo vendido", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
-                        catch (Exception ex)
+                        catch (MiExcepcion ex)
                         {
                             MessageBox.Show(ex.Message);
+                            ex.GuardarMiExcepcion();
                         }
                         break;
                     }

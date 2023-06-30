@@ -481,13 +481,18 @@ namespace Costanza.Lucas.PPLabII
                 LeerPasajeros();
                 LeerVuelos();
 
+                if(MiAerolinea.listaVuelos is null && MiAerolinea.listaClientes is null && MiAerolinea.listaAviones is null)
+                {
+                    throw new MiExcepcion("Error al conectarse con sql");
+                }
                 await MiAerolinea.BuscarVueloMasCercano();
                 timerVueloAdmin.Start();
 
             }
-            catch (ExcepcionBaseDatos exB)
+            catch (MiExcepcion exB)
             {
                 MessageBox.Show(exB.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                exB.GuardarMiExcepcion();
             }
         }
 
