@@ -24,6 +24,7 @@ namespace Costanza.Lucas.PPLabII
         Firebase<Vuelos> firebaseVuelos;
         Sql<Vuelos> sqlVuelos;
         Sql<Pasajeros> sqlPasajeros;
+        Sql<Aviones> sqlAviones;
 
         TimeSpan tiempoRestante;
 
@@ -44,6 +45,7 @@ namespace Costanza.Lucas.PPLabII
             jsonConfig = new Serializadora<ConfigAPP>();
             sqlVuelos = new Sql<Vuelos>();
             sqlPasajeros = new Sql<Pasajeros>();
+            sqlAviones = new Sql<Aviones>();
         }
         /// <summary>
         /// Constructor del form
@@ -396,7 +398,6 @@ namespace Costanza.Lucas.PPLabII
         /// <param name="avionEliminar">Avion a eliminar</param>
         private void EliminarAvionSql(string query, Aviones avionEliminar)
         {
-            Sql<Aviones> sqlAviones = new Sql<Aviones>();
             sqlAviones.Eliminar(query, (comando) =>
             {
                 comando.Parameters.AddWithValue("@matricula", avionEliminar.Matricula);
@@ -426,7 +427,6 @@ namespace Costanza.Lucas.PPLabII
         /// <returns>Retorna true si lo pudo eliminar o false si no pudo</returns>
         private async Task<bool> ElimiarVuelo()
         {
-            Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
             try
             {
                 string? codigoVueloSeleccionado = dgvDatosVuelos.SelectedRows[0].Cells["codigo"].Value.ToString();
@@ -477,12 +477,7 @@ namespace Costanza.Lucas.PPLabII
                 baseSeleccionada = "SQL Server";
                 lblTextoDb.Text = $"Base de datos seleccioanda: {baseSeleccionada}";
 
-                MiAerolinea.listaAviones = sqlAvion.Leer("SELECT * FROM aviones", (reader) =>
-                {
-                    return new Aviones(reader["matricula"].ToString(), Convert.ToInt32(reader["cantidad_asientos"]), Convert.ToBoolean(reader["servicio_internet"]),
-                        Convert.ToBoolean(reader["servicio_comida"]), Convert.ToDouble(reader["capacidad_bodega"]), reader["modelo"].ToString(),
-                        Convert.ToInt32(reader["cantidad_asientos_normales"]), Convert.ToInt32(reader["cantidad_asientos_premium"]));
-                });
+                LeerAviones();
                 LeerPasajeros();
                 LeerVuelos();
 
@@ -494,6 +489,19 @@ namespace Costanza.Lucas.PPLabII
             {
                 MessageBox.Show(exB.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Metodo que lee aviones de sql
+        /// </summary>
+        private void LeerAviones()
+        {
+            MiAerolinea.listaAviones = sqlAviones.Leer("SELECT * FROM aviones", (reader) =>
+            {
+                return new Aviones(reader["matricula"].ToString(), Convert.ToInt32(reader["cantidad_asientos"]), Convert.ToBoolean(reader["servicio_internet"]),
+                    Convert.ToBoolean(reader["servicio_comida"]), Convert.ToDouble(reader["capacidad_bodega"]), reader["modelo"].ToString(),
+                    Convert.ToInt32(reader["cantidad_asientos_normales"]), Convert.ToInt32(reader["cantidad_asientos_premium"]));
+            });
         }
 
         /// <summary>
@@ -556,10 +564,16 @@ namespace Costanza.Lucas.PPLabII
                 MiAerolinea.listaAviones = await firebaseAviones.Traer("aviones");
                 Firebase<Vuelos> firebaseVuelos = new Firebase<Vuelos>();
                 MiAerolinea.listaVuelos = await firebaseVuelos.Traer("vuelos");
+
+                if(MiAerolinea.listaAviones is null && MiAerolinea.listaVuelos is null)
+                {
+                    throw new MiExcepcion("No se pudo conectar a la base de datos");
+                }
+
                 await MiAerolinea.BuscarVueloMasCercano();
                 timerVueloAdmin.Start();
             }
-            catch(ExcepcionBaseDatos exB)
+            catch(MiExcepcion exB)
             {
                 MessageBox.Show(exB.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

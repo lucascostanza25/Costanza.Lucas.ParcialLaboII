@@ -218,3 +218,10 @@
 30/6/2023 00:03:42 -> INICIO SESION: Michael Jordan - administrador
 30/6/2023 00:05:30 -> INICIO SESION: Corey Gorgen - vendedor
 30/6/2023 00:07:47 -> INICIO SESION: Michael Jordan - administrador
+30/6/2023 12:39:14 -> INICIO SESION: Michael Jordan - administrador
+30/6/2023 12:51:31 -> INICIO SESION: Michael Jordan - administrador
+30/6/2023 12:52:32 -> INICIO SESION: Tilda Robinson - supervisor
+30/6/2023 12:53:26 -> INICIO SESION: Michael Jordan - administrador
+30/6/2023 12:53:37 -> INICIO SESION: Tilda Robinson - supervisor
+30/6/2023 12:55:59 -> INICIO SESION: Tilda Robinson - supervisor
+30/6/2023 13:33:00 -> INICIO SESION: Michael Jordan - administrador

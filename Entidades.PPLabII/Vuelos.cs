@@ -13,7 +13,7 @@ namespace Entidades.PPLabII
     public class Vuelos
     {
         private List<Pasajeros> listaPasajeros = new List<Pasajeros>();
-        private Aviones avionVuelo;
+        private Aviones avionVuelo = new Aviones();
         private DateTime fechaVuelo;
         private int asientosDisponiblesTotal;
         private int asientosOcupadosTotal;

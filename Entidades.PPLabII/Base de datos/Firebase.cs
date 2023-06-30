@@ -25,7 +25,7 @@ namespace Entidades.PPLabII.Firebase
             return true;
         }
 
-        public async Task<bool> Actualizar(T objeto, string coleccion, string documento)
+        public async Task<bool> Actualizar(T objeto, string coleccion, string? documento)
         {
             var projectKey = "prog-2-ab04c";
             FirestoreDb db = FirestoreDb.Create(projectKey);

@@ -174,7 +174,7 @@ namespace Costanza.Lucas.PPLabII
             MostrarMenu(panelMenuVuelos);
         }
 
-        private async void btnVerVuelos_Click(object sender, EventArgs e)
+        private void btnVerVuelos_Click(object sender, EventArgs e)
         {
 
             this.gbEstadisticas.Visible = false;
@@ -509,7 +509,7 @@ namespace Costanza.Lucas.PPLabII
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ex.GuardarMiExcepcion();
             }
-
+            
         }
 
         private void btnVerEstadisticas_Click(object sender, EventArgs e)
@@ -531,6 +531,10 @@ namespace Costanza.Lucas.PPLabII
             txtDniPasajero.Text = "";
         }
 
+        /// <summary>
+        /// Metodo que elimina un pasajero
+        /// </summary>
+        /// <returns>Retorna true si lo pudo eliminar o false si no</returns>
         private async Task<bool> EliminarPasajero()
         {
             Sql<Pasajeros> sqlPasajeros = new Sql<Pasajeros>();
@@ -573,7 +577,13 @@ namespace Costanza.Lucas.PPLabII
             MostrarMenu(panelTema);
         }
 
-
+        /// <summary>
+        /// Metodo que cambia de tema
+        /// </summary>
+        /// <param name="primario">Color primario</param>
+        /// <param name="secundario">Color secundario</param>
+        /// <param name="terciario">Color terciario</param>
+        /// <param name="colorLabel">Color label</param>
         protected void CambiarTema(Color primario, Color secundario, Color terciario, Color colorLabel)
         {
             foreach (Panel p in paneles)
@@ -613,6 +623,11 @@ namespace Costanza.Lucas.PPLabII
             TemaClaro();
         }
 
+        /// <summary>
+        /// Metodo que recibe los datos del evento
+        /// </summary>
+        /// <param name="tiempo">Tiempo restante</param>
+        /// <param name="vuelo">Vuelo mas cercano</param>
         private void Recibir(TimeSpan tiempo, Vuelos vuelo)
         {
             tiempoRestante = tiempo;
@@ -644,6 +659,9 @@ namespace Costanza.Lucas.PPLabII
 
         }
 
+        /// <summary>
+        /// Metodo para cambiar al tema rojo
+        /// </summary>
         protected void TemaRojo()
         {
             Color primario = Color.FromArgb(243, 139, 139);
@@ -653,6 +671,9 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
+        /// <summary>
+        /// Metodo para cambiar al tema oscuro
+        /// </summary>
         protected void TemaOscuro()
         {
             Color primario = Color.FromArgb(60, 60, 60);
@@ -662,6 +683,9 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.White);
         }
 
+        /// <summary>
+        /// Metodo para cambiar al tema verde
+        /// </summary>
         protected void TemaVerde()
         {
             this.temaActual = "Verde";
@@ -671,6 +695,9 @@ namespace Costanza.Lucas.PPLabII
             CambiarTema(primario, secundario, terciario, Color.Black);
         }
 
+        /// <summary>
+        /// Metodo para cambiar al tema claro
+        /// </summary>
         protected void TemaClaro()
         {
             this.temaActual = "Claro";

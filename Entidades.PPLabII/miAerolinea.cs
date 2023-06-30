@@ -175,18 +175,6 @@ namespace Entidades.PPLabII
             }
         }
         /// <summary>
-        /// Metodo que serializa los pasajeros xml,
-        /// no utilizado ya que los pasajeros se encuentran en la lista de vuelos
-        /// </summary>
-        public static void SerializarPasajerosXml()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Pasajeros>));
-            using (FileStream fileStream = new FileStream("pasajeros.xml", FileMode.Open))
-            {
-                listaPasajeros = (List<Pasajeros>)serializer.Deserialize(fileStream);
-            }
-        }
-        /// <summary>
         /// Metodo que busca un vuelo
         /// </summary>
         /// <param name="codigoVuelo"></param>

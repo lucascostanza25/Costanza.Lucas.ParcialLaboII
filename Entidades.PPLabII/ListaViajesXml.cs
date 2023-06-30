@@ -11,6 +11,6 @@ namespace Entidades.PPLabII
     public class ListaViajesXml
     {
         [XmlElement("MiVuelo")]
-        public List<Vuelos> Vuelos { get; set; }
+        public List<Vuelos>? Vuelos { get; set; }
     }
 }

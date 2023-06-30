@@ -70,7 +70,7 @@ namespace Entidades.PPLabII
         }
 
         [FirestoreProperty]
-        public string Genero
+        public string? Genero
         {
             get { return genero; }
             set { genero = value; }

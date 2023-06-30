@@ -24,8 +24,13 @@ namespace Entidades.PPLabII.Base_de_datos
             comando.Connection = conexion;
         }
 
-
-        public List<T> Leer(string query, Func<IDataRecord, T> datosObjeto)
+        /// <summary>
+        /// Metodo que lee y trae todos los datos de un objeto
+        /// </summary>
+        /// <param name="query">Query del select</param>
+        /// <param name="datosObjeto">Delegado action que recibe un SqlDataReader y devuelve T</param>
+        /// <returns></returns>
+        public List<T> Leer(string query, Func<SqlDataReader, T> datosObjeto)
         {
             List<T> listaObjeto = new List<T>();
 
@@ -51,6 +56,12 @@ namespace Entidades.PPLabII.Base_de_datos
             return listaObjeto;
         }
 
+        /// <summary>
+        /// Metodo que guarda un objeto en sql
+        /// </summary>
+        /// <param name="query">Query del insert</param>
+        /// <param name="objeto">Objeto a agregar</param>
+        /// <param name="datosObjeto">Delegado action con los datos del objeto</param>
         public void Guardar(string query, T objeto, Action<SqlCommand> datosObjeto)
         {
             try
@@ -66,6 +77,11 @@ namespace Entidades.PPLabII.Base_de_datos
             }
         }
 
+        /// <summary>
+        /// Metodo que elimina un objeto de sql
+        /// </summary>
+        /// <param name="query">Query del delete</param>
+        /// <param name="datosObjeto">Delegado action con los datos del objeto</param>
         public void Eliminar(string query, Action<SqlCommand> datosObjeto)
         {
             try
@@ -81,6 +97,11 @@ namespace Entidades.PPLabII.Base_de_datos
             }
         }
 
+        /// <summary>
+        /// Metodo que actualiza un objeto de sql
+        /// </summary>
+        /// <param name="query">Query del update</param>
+        /// <param name="datosObjeto">Delegado action con los datos del objeto</param>
         public void Actualizar(string query, Action<SqlCommand> datosObjeto)
         {
             try

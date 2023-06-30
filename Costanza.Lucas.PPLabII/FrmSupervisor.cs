@@ -44,6 +44,10 @@ namespace Costanza.Lucas.PPLabII
             GuardarPdf(lista);
         }
 
+        /// <summary>
+        /// Metodo que guarda un pfd con las estadisticas
+        /// </summary>
+        /// <param name="lineas">Lista con los datos a guardar</param>
         private void GuardarPdf(List<string> lineas)
         {
             Document documento = new Document();

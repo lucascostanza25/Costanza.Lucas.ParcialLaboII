@@ -13,6 +13,15 @@ Soy Lucas Costanza y vengo programando en c# hace un tiempo. Considero que el pa
 ![Inicio de sesion](https://github.com/lucascostanza25/Costanza.Lucas.PrimerParcial/blob/master/Fotos_GitHub/FrmInicioSesion.png)
 <br>
 Primero que nada, hay que iniciar sesión en el programa. Utilizando la deserialización Json, se procede a obtener una lista de usarios, que permitirá al empleado en cuestión ingresar al programa.
+Datos del administrador: 
+Mail: admin@admin.com
+Contraseña: 12345678
+Datos del supervisor:  
+Mail: trobinson@super.com
+Contraseña: 12345678
+Datos del vendedor:  
+Mail: cgorgen@vendedor.com
+Contraseña: 123abc45
 <br>
 <br>
 # Vendedor

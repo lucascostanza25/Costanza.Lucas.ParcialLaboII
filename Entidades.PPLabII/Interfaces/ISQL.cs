@@ -10,7 +10,7 @@ namespace Entidades.PPLabII.Interfaces
 {
     public interface ISQL<T>
     {
-        List<T> Leer(string query, Func<IDataRecord, T> datosObjeto);
+        List<T> Leer(string query, Func<SqlDataReader, T> datosObjeto);
 
         void Guardar(string query, T objeto, Action<SqlCommand> datosObjeto);
 
